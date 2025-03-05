@@ -1,19 +1,5 @@
-class sideBar extends HTMLElement{
+import { HeaderComponent } from "./header.js";
+import { SideBarComponent } from "./sidebar.js";
 
-    constructor(){
-        super()
-
-        const shadow = this.attachShadow({mode:'closed'})
-
-        const aside = document.createElement('aside')
-        header.setAttribute('id', 'aside')
-
-        const sidebar = document.createElement('header')
-        sidebar.setAttribute('id', 'header')
-
-        // const header = document.createElement('header')
-        // header.setAttribute('id', 'header')
-
-
-    }
-}
+customElements.define('header-component', HeaderComponent);
+customElements.define('sidebar-component', SideBarComponent);

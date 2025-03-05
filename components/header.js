@@ -7,20 +7,20 @@ class HeaderComponente extends HTMLElement {
       header.id = 'header';
       header.innerHTML = `
         <div id="logo">
-          <img src="#" alt="Logo">
+          <img src="../images/financeiro.png" alt="Logo">
           <h1 id="title">NEO GESTÃO</h1>
         </div>
         <div id="user-info">
-          <h1 id="usuario"></h1>
-          <img src="#" alt="User Avatar">
+          <h1 id="usuario">Nome usuário</h1>
+          <img src="../images/perfil.png" alt="User Avatar">
         </div>
       `;
   
       style.textContent = `
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
-  
+        @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
         #header {
-          width: 100%;
+          width: 100vw;
           height: 80px;
           background-color: #042940;
           display: flex;
@@ -28,6 +28,8 @@ class HeaderComponente extends HTMLElement {
           justify-content: space-between;
           padding: 0 30px;
           box-sizing: border-box;
+          font-family: "Cabin", sans-serif;
+          font-size: 22px;
         }
         #logo {
           display: flex;
@@ -35,12 +37,17 @@ class HeaderComponente extends HTMLElement {
         }
         #logo img {
           height: 60px;
-          margin-right: 70px;
+          margin-right: 35px;
+          margin-left: 15px;
         }
         #title {
-          color: #ffffff;
+          color:rgb(226, 215, 60);
           margin: 0;
         }
+        #usuario{
+          color:rgb(226, 215, 60);
+          margin: 0;
+          }
         #user-info {
           display: flex;
           align-items: center;
@@ -51,6 +58,7 @@ class HeaderComponente extends HTMLElement {
         }
         #user-info img {
           height: 60px;
+          margin-left:35px;
         }
       `;
 

@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="../CSS/style.css">
     <script type="module" src="../components/sidebar.js"></script>
     <script type="module" src="../components/header.js"></script>
     <title>NPL Quadras</title>
+
 </head>
 <body>
+
     <header-componente></header-componente>
-    <meu-componente></meu-componente>
+    <sidebar-componente></sidebar-componente>
 
     <!-- start main -->
     <main>
@@ -28,10 +28,10 @@
 </body>
 </html>
 
-<!-- <?php
+<?php 
 session_start();
 if(!isset($_SESSION['nome'])){
     header('Location: index.php');
     exit();
 }
-?> -->
+?>

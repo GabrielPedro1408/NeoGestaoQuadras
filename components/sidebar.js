@@ -7,8 +7,9 @@ class MeuComponente extends HTMLElement {
       const style = document.createElement('style');
       style.textContent = `
       @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
- 
-   /* Estilos do componente */
+      @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+
+  
       #sidebar {
         width: 80px;
         height: calc(100vh - 80px); 
@@ -19,7 +20,10 @@ class MeuComponente extends HTMLElement {
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition: width 1s; /* Transição suave para a largura */
+        transition: width 1s; 
+        font-family: "Cabin", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
       }
       #sidebar.expanded {
         width: 140px; /* Largura expandida do sidebar */
@@ -92,10 +96,14 @@ class MeuComponente extends HTMLElement {
       <nav id="sidebar">
         <div id="sidebar-content">
           <ul id="side-items">
+
             <div class="menu-image">
               <li class="side-item active">
+              <button id="open-btn">
+                <a href="#"><i class="fas fa-bars fa-2xl"></i></a>
+              </button>
                 <div id="menu-image">
-                  <a href="#"><i class="fas fa-bars fa-2xl"></i></a>
+                  
                 </div>
               </li>
             </div>
@@ -109,7 +117,7 @@ class MeuComponente extends HTMLElement {
             </li>
             <li class="side-item">
               <a href="Financeiro.php">
-                <i class="fas fa-person-walking-luggage"></i>
+                <i class="fa-solid fa-dollar-sign"></i>
                 <span class="item-description">
                   Financeiro
                 </span>
@@ -141,9 +149,7 @@ class MeuComponente extends HTMLElement {
             </li>
           </ul>
 
-          <button id="open-btn">
-            <i id="open-btn-icon" class="fas fa-chevron-right"></i>
-          </button>
+
         </div>
 
         <div id="logout">
@@ -172,4 +178,4 @@ class MeuComponente extends HTMLElement {
 }
 
 // Definir o novo elemento
-customElements.define('meu-componente', MeuComponente);
+customElements.define('sidebar-componente', MeuComponente);
