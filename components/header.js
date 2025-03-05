@@ -11,8 +11,8 @@ class HeaderComponente extends HTMLElement {
           <h1 id="title">NEO GESTÃO</h1>
         </div>
         <div id="user-info">
-          <h1 id="usuario">Nome usuário</h1>
-          <img src="../images/perfil.png" alt="User Avatar">
+          <h1 id="usuario">Nome Usuário</h1>
+          <img src="../images/perfil (2).png" alt="User Avatar">
         </div>
       `;
   
@@ -30,6 +30,7 @@ class HeaderComponente extends HTMLElement {
           box-sizing: border-box;
           font-family: "Cabin", sans-serif;
           font-size: 22px;
+          border-bottom: 2px solid black;
         }
         #logo {
           display: flex;
@@ -43,6 +44,7 @@ class HeaderComponente extends HTMLElement {
         #title {
           color:rgb(226, 215, 60);
           margin: 0;
+          text-shadow: 1px 1px 2px white;
         }
         #usuario{
           color:rgb(226, 215, 60);

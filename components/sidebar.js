@@ -40,7 +40,10 @@ class MeuComponente extends HTMLElement {
         width: 100%;
         text-align: center;
         margin: 10px 0;
-        margin-bottom: 100px; /* Espaçamento adicional de 50px entre os itens */
+        margin-bottom: 75px; /* Espaçamento adicional de 50px entre os itens */
+      }
+      .menu-image{
+        margin-top:50px;
       }
       .side-item a {
         text-decoration: none;
@@ -77,7 +80,7 @@ class MeuComponente extends HTMLElement {
         color: #ffffff;
         padding: 10px 0;
         cursor: pointer;
-        margin-bottom: 10px;
+        margin-bottom: 30px;
       }
       #open-btn {
         background: none;
@@ -98,18 +101,17 @@ class MeuComponente extends HTMLElement {
           <ul id="side-items">
 
             <div class="menu-image">
+            <div id="menu-image">
               <li class="side-item active">
               <button id="open-btn">
                 <a href="#"><i class="fas fa-bars fa-2xl"></i></a>
               </button>
-                <div id="menu-image">
-                  
-                </div>
+              </div>
               </li>
             </div>
             <li class="side-item active">
               <a href="Dashboard.php">
-                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-chart-line fa-xl"></i>
                 <span class="item-description">
                   Dashboard
                 </span>
@@ -117,7 +119,7 @@ class MeuComponente extends HTMLElement {
             </li>
             <li class="side-item">
               <a href="Financeiro.php">
-                <i class="fa-solid fa-dollar-sign"></i>
+                <i class="fa-solid fa-dollar-sign fa-xl"></i>
                 <span class="item-description">
                   Financeiro
                 </span>
@@ -125,7 +127,7 @@ class MeuComponente extends HTMLElement {
             </li>
             <li class="side-item">
               <a href="Serviço.php">
-                <i class="fas fa-person-walking-luggage"></i>
+                <i class="fas fa-person-walking-luggage fa-xl"></i>
                 <span class="item-description">
                   Serviços
                 </span>
@@ -133,7 +135,7 @@ class MeuComponente extends HTMLElement {
             </li>
             <li class="side-item">
               <a href="Vendas.php">
-                <i class="fas fa-bag-shopping"></i>
+                <i class="fas fa-bag-shopping fa-xl"></i>
                 <span class="item-description">
                   Vendas
                 </span>
@@ -141,7 +143,7 @@ class MeuComponente extends HTMLElement {
             </li>
             <li class="side-item">
               <a href="Clientes.php">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user fa-xl"></i>
                 <span class="item-description">
                   Clientes
                 </span>
@@ -155,10 +157,7 @@ class MeuComponente extends HTMLElement {
         <div id="logout">
           <a href="logout.php" style="text-decoration:none">
             <button class="side-item" id="logout-btn">
-              <i class="fas fa-arrow-right-from-bracket"></i>
-              <span class="item-description">
-                Logout
-              </span>
+              <i class="fas fa-arrow-right-from-bracket fa-xl" alt="sair"></i>
             </button>
           </a>
         </div>

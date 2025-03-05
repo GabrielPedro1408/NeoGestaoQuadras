@@ -17,9 +17,7 @@
 
     <!-- start main -->
     <main>
-        <div class="titulo">
-            <h1>SEJA BEM VINDO </h1>
-        </div>
+
     </main>
     <!-- end main -->
 
@@ -30,11 +28,3 @@
     <!-- end footer -->
 </body>
 </html>
-
-<?php 
-session_start();
-if(!isset($_SESSION['nome'])){
-    header('Location: index.php');
-    exit();
-}
-?>
