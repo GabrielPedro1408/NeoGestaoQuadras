@@ -30,7 +30,7 @@
             <div class="conta-fixa">
 
             </div>
-        </section>
+        </section>      
         <!-- end conteúdo de cima-->
 
         <!-- conteúdo de baixo -->
@@ -55,11 +55,3 @@
     <!-- end footer -->
 </body>
 </html>
-
-<?php 
-session_start();
-if(!isset($_SESSION['nome'])){
-    header('Location: index.php');
-    exit();
-}
-?>
