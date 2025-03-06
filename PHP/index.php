@@ -18,8 +18,33 @@
     <!-- start main -->
     <main>
         <div class="titulo">
-            <h1>SEJA BEM VINDO </h1>
+            <h1>SEJA BEM VINDO <strong>NOME DO USUÁRIO</strong></h1>
         </div>
+        
+        <!-- sconteúdo de cima -->
+        <section class="conteud-de-cima">
+            <div class="conta-diaria">
+                
+            </div>
+            <!-- divisão -->
+            <div class="conta-fixa">
+
+            </div>
+        </section>
+        <!-- end conteúdo de cima-->
+
+        <!-- conteúdo de baixo -->
+        <section class="conteud-de-baixo">
+            <div class="horarios">
+
+            </div>
+            <!-- divisão -->
+            <div class="vendas">
+
+            </div>
+        </section>
+        <!-- end conteúdo de baixo -->
+
     </main>
     <!-- end main -->
 
