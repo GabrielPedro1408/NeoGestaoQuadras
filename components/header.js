@@ -7,7 +7,7 @@ class HeaderComponente extends HTMLElement {
       header.id = 'header';
       header.innerHTML = `
         <div id="logo">
-          <img src="../images/financeiro.png" alt="Logo">
+          <a><img src="../images/financeiro.png" alt="Logo"></a>
           <h1 id="title">VITÃO BAITOLA</h1>
         </div>
         <div id="user-info">
@@ -29,7 +29,7 @@ class HeaderComponente extends HTMLElement {
           padding: 0 30px;
           box-sizing: border-box;
           font-family: "Cabin", sans-serif;
-          font-size: 22px;
+          font-size: 20px;
           border-bottom: 2px solid black;
         }
         #logo {

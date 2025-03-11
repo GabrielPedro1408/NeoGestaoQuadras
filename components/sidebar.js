@@ -23,7 +23,7 @@ class MeuComponente extends HTMLElement {
         transition: width 1s; 
         font-family: "Cabin", sans-serif;
         font-weight: 400;
-        font-size: 16px;
+        font-size: 14px;
       }
       #sidebar.expanded {
         width: 140px; /* Largura expandida do sidebar */
