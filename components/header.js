@@ -8,7 +8,7 @@ class HeaderComponente extends HTMLElement {
       header.innerHTML = `
         <div id="logo">
           <img src="../images/financeiro.png" alt="Logo">
-          <h1 id="title">NEO GESTÃO</h1>
+          <h1 id="title">VITÃO BAITOLA</h1>
         </div>
         <div id="user-info">
           <h1 id="usuario">Nome Usuário</h1>
