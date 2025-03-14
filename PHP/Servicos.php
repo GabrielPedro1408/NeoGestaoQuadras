@@ -12,8 +12,10 @@
 </head>
 <body>
     
-    <header-componente></header-componente>
-    <sidebar-componente></sidebar-componente>
+    <?php
+     require '../components/header.php';
+     require '../components/sidebar.php';
+    ?>
 
     <!-- start main -->
     <main>
