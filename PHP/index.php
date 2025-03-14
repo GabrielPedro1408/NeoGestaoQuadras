@@ -7,13 +7,17 @@
     <script type="module" src="../components/sidebar.js"></script>
     <script type="module" src="../components/header.js"></script>
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
+    <link rel="stylesheet" href="sty.css">
     <title>NPL Quadras</title>
 
 </head>
 <body>
+    <?php  
+        require '../components/sidebar.php';
+        require '../components/header.php' ;
+    ?>
     
-    <header-componente></header-componente>
-    <sidebar-componente></sidebar-componente>
+    
 
     <!-- start main -->
     <main>

@@ -44,7 +44,6 @@ class HeaderComponente extends HTMLElement {
         #title {
           color:rgb(226, 215, 60);
           margin: 0;
-          text-shadow: 1px 1px 2px white;
         }
         #usuario{
           color:rgb(226, 215, 60);

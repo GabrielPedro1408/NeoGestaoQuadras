@@ -1,0 +1,110 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+
+
+#sidebar {
+  width: 80px;
+  height: calc(100% - 80px); 
+  background-color: #042940;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: width 1s; 
+  font-family: "Cabin", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+#sidebar.expanded {
+  width: 140px; /* Largura expandida do sidebar */
+}
+#sidebar-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* Esconde o conteúdo que não cabe */
+}
+.side-item {
+  list-style: none;
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+  margin-bottom: 75px; /* Espaçamento adicional de 50px entre os itens */
+}
+.menu-image{
+  margin-top:50px;
+}
+.side-item a {
+  text-decoration: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  transition: opacity 1s; /* Transição suave para a opacidade */
+}
+.side-item a .item-description {
+  display: none; /* Esconde o texto inicialmente */
+  opacity: 0; /* Torna o texto invisível inicialmente */
+  margin-left: 10px;
+}
+.side-item a button .item-description  {
+  display: none; /* Esconde o texto inicialmente */
+  opacity: 0; /* Torna o texto invisível inicialmente */
+  margin-left: 10px;
+}
+#sidebar.expanded .side-item a .item-description {
+  display: inline; /* Mostra o texto quando expandido */
+  opacity: 1; /* Torna o texto visível quando expandido */
+}
+#logout {
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+}
+#logout-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ffffff;
+  padding: 10px 0;
+  cursor: pointer;
+}
+#open-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+#sidebar-content > * {
+  padding: 0px 0;
+
+}
+.open-sidebar #open-btn-icon {
+    transform: rotate(180deg);
+}
+
+.item-description {
+    width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    transition: width .6s;
+}
+
+#sidebar.open-sidebar {
+    min-width: 15%;
+}
+
+#sidebar.open-sidebar .item-description {
+    width: 150px;
+}
+
+#sidebar.open-sidebar .side-item a {
+    justify-content: flex-start;
+    gap: 14px;
+}

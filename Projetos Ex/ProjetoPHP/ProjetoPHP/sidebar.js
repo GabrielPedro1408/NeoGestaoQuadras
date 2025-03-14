@@ -1,3 +1,3 @@
 document.getElementById('open-btn').addEventListener('click', function () {
-  document.getElementById('sidebar').classList.toggle('open-sidebar');
+    document.getElementById('sidebar').classList.toggle('open-sidebar');
 });

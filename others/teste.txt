@@ -1,0 +1,56 @@
+<title>Sidebar + Header Layout</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .header {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        padding: 1em;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    .sidebar {
+        margin-top: 60px; /* Adjust this value to match the height of your header */
+        background-color: #333;
+        color: white;
+        padding: 15px;
+        width: 200px;
+        position: fixed;
+        height: calc(100% - 60px); /* Adjust this value to match the height of your header */
+        top: 60px;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .content {
+        margin-left: 220px; /* Adjust this value to match the width of your sidebar */
+        margin-top: 60px; /* Adjust this value to match the height of your header */
+        padding: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>Header</h1>
+</div>
+
+<div class="sidebar">
+    <h2>Sidebar</h2>
+    <p>Some sidebar content..</p>
+</div>
+
+<div class="content">
+    <h2>Main Content</h2>
+    <p>This is the main content area.</p>
+</div>
+</body>
+</html>
+
+faça um css simples que alinhe os itens na esquerda seus componentes dentro do sidebar estejam no centro, com uma margin-top de 100px, pois vais ter um cabeçalho a cima desse sidebar
