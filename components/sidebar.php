@@ -38,7 +38,7 @@
               </a>
             </li>
             <li class="side-item">
-              <a href="Serviços.php">
+              <a href="Servicos.php">
                 <i class="fas fa-person-walking-luggage fa-xl"></i>
                 <span class="item-description">
                   Serviços
