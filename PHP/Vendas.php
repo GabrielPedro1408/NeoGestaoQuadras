@@ -12,7 +12,21 @@
         require '../components/sidebar.php';
     ?>
 
+    <!-- start main -->
+    <main>
+        <!-- start title -->
+        <div class="titulo">
+            <h1><strong>Vendas</strong></h1>
+        </div>
+        <!-- end title -->
+    </main>
+    <!-- end main -->
+    
+    <!-- start footer -->
+    <footer>
 
+    </footer>
+    <!-- end footer -->
 
 </body>
 </html>

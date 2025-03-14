@@ -19,10 +19,14 @@
 
     <!-- start main -->
     <main>
-
+        <!-- start title -->
+        <div class="titulo">
+            <h1><strong>Serviços</strong></h1>
+        </div>
+        <!-- end title -->
     </main>
     <!-- end main -->
-
+    
     <!-- start footer -->
     <footer>
 

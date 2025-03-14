@@ -11,11 +11,20 @@
         require '../components/header.php';
         require '../components/sidebar.php';
     ?>
-
+    <!-- start main -->
     <main>
+        <!-- start title -->
         <div class="titulo">
             <h1><strong>Financeiro</strong></h1>
         </div>
+        <!-- end title -->
     </main>
+    <!-- end main -->
+    
+    <!-- start footer -->
+    <footer>
+
+    </footer>
+    <!-- end footer -->
 </body>
 </html>
