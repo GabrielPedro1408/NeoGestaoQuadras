@@ -67,11 +67,13 @@ main {
 
 .side-item.active {
     background-color: #4f46e5;
+
 }
 
 .side-item:hover:not(.active),
 #logout-btn:hover {
     background-color: #e3e9f7;
+    color: white;
 }
 
 .side-item a {
@@ -141,12 +143,9 @@ main {
     transition: width .6s;
 }
 
-#sidebar.open-sidebar {
-    min-width: 15%;
-}
 
 #sidebar.open-sidebar .item-description {
-    width: 150px;
+    width: 80px;
 }
 
 #sidebar.open-sidebar .side-item a {

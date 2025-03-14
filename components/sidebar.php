@@ -40,10 +40,10 @@
             </a>
         </li>
         <li class="side-item">
-            <a href="../PHP/Servicos.php">
+            <a href="../PHP/Quadras.php">
                 <i class="fas fa-person-walking-luggage fa-xl"></i>
                 <span class="item-description">
-                    Serviços
+                    Quadras
                 </span>
             </a>
         </li>
@@ -56,7 +56,7 @@
             </a>
         </li>
         <li class="side-item">
-            <a href="user.php">
+            <a href="../PHP/Clientes.php">
                 <i class="fas fa-user fa-xl"></i>
                 <span class="item-description">
                     Clientes
