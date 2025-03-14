@@ -13,17 +13,27 @@
 <body>
     
     <?php
-     require '../components/header.php';
-     require '../components/sidebar.php';
+        require '../components/header.php';
+        require '../components/sidebar.php';
     ?>
 
     <!-- start main -->
     <main>
         <!-- start title -->
         <div class="titulo">
-            <h1><strong>Serviços</strong></h1>
+            <h1><strong>Clientes</strong></h1>
         </div>
         <!-- end title -->
+        <!-- start forms cadastro --> 
+        <div class="formulario-cadastro">
+            <form action="#" method="post" id="cadastroClientes">
+                <div class="itemText">
+                    <label for="nomeCli">Nome</label>
+                    <input type="text" name="nomeCli" id="nomeCli">
+                </div>
+            </form>
+        </div>
+         <!-- end forms cadastro --> 
     </main>
     <!-- end main -->
     

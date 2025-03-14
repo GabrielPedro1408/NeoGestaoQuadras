@@ -178,3 +178,6 @@ class MeuComponente extends HTMLElement {
 
 // Definir o novo elemento
 customElements.define('sidebar-componente', MeuComponente);
+document.getElementById('open-btn').addEventListener('click', function () {
+  document.getElementById('sidebar').classList.toggle('open-sidebar');
+});

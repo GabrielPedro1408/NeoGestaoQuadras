@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/style.css">
-    <title>Vendas</title>
+    <title>Financeiro</title>
 </head>
 <body>
     <?php
         require '../components/header.php';
         require '../components/sidebar.php';
     ?>
-
     <!-- start main -->
     <main>
         <!-- start title -->
         <div class="titulo">
-            <h1><strong>Vendas</strong></h1>
+            <h1><strong>Financeiro</strong></h1>
         </div>
         <!-- end title -->
     </main>
@@ -27,6 +26,5 @@
 
     </footer>
     <!-- end footer -->
-
 </body>
 </html>
