@@ -12,11 +12,9 @@
 
 <div id="sidebar-content">
     <div id="user">
-        <img src="images/henderson_.jpeg" alt="Avatar" id="user-avatar">
-
         <p id="user-info">
             <span class="item-description">
-                Henderson Baitolão
+                <label for="Usuario">Usuario</label>
             </span>
             <span class="item-description">
                 Professor de Web
@@ -26,34 +24,42 @@
 
     <ul id="side-items">
         <li class="side-item active">
-            <a href="dashboard.php">
-                <i class="fa-solid fa-chart-line"></i>
+            <a href="../PHP/index.php">
+                <i class="fas fa-chart-line fa-xl"></i>
                 <span class="item-description">
                     Dashboard
                 </span>
             </a>
         </li>
         <li class="side-item">
-            <a href="Cliente.php">
-                <i class="fa-solid fa-person-walking-luggage"></i>
+            <a href="../PHP/Financeiro.php">
+                <i class="fa-solid fa-dollar-sign fa-xl"></i>
                 <span class="item-description">
-                    Clientes
+                    Financeiro
                 </span>
             </a>
         </li>
         <li class="side-item">
-            <a href="Produto.php">
-                <i class="fa-solid fa-bag-shopping"></i>
+            <a href="../PHP/Servicos.php">
+                <i class="fas fa-person-walking-luggage fa-xl"></i>
                 <span class="item-description">
-                    Produto
+                    Serviços
+                </span>
+            </a>
+        </li>
+        <li class="side-item">
+            <a href="../PHP/Vendas.php">
+                <i class="fas fa-bag-shopping fa-xl"></i>
+                <span class="item-description">
+                    Vendas
                 </span>
             </a>
         </li>
         <li class="side-item">
             <a href="user.php">
-                <i class="fa-solid fa-user"></i>
+                <i class="fas fa-user fa-xl"></i>
                 <span class="item-description">
-                    User
+                    Clientes
                 </span>
             </a>
         </li>
@@ -65,7 +71,7 @@
 </div>
 
 <div id="logout">
-    <a href="logout.php" style="text-decoration:none">
+    <a href="../PHP/logout.php" style="text-decoration:none">
         <button id="logout-btn">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span class="item-description">

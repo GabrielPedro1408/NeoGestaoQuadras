@@ -22,7 +22,7 @@ main {
     justify-content: space-between;
     background-color: #042940;
     height: 100vh;
-    border-radius: 0px 18px 18px 0px;
+    border-radius: 0px 5px 5px 0px;
     position: relative;
     transition: all .5s;
     min-width: 82px;
@@ -42,30 +42,23 @@ main {
     margin-bottom: 24px;
 }
 
-#user-avatar {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 20px;
-}
-
 #user-info {
     display: flex;
     flex-direction: column;
 }
 
 #user-info span:last-child {
-    color: #6b6b6b;
+    color: #fdfdfd;
     font-size: 12px;
 }
 
 #side-items {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 40px;
     list-style: none;
+    
 }
-
 .side-item {
     border-radius: 8px;
     padding: 14px;
@@ -128,6 +121,7 @@ main {
     height: 20px;
     border: none;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 #open-btn-icon {

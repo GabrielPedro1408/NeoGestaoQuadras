@@ -12,6 +12,7 @@
   font-family: "Cabin", sans-serif;
   font-size: 22px;
   border-bottom: 2px solid black;
+  position: absolute;
 }
 #logo {
   display: flex;
