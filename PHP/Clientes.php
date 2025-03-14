@@ -12,15 +12,21 @@
 </head>
 <body>
     
-    <header-componente></header-componente>
-    <sidebar-componente></sidebar-componente>
+    <?php
+        require '../components/header.php';
+        require '../components/sidebar.php';
+    ?>
 
     <!-- start main -->
     <main>
-
+        <!-- start title -->
+        <div class="titulo">
+            <h1><strong>Clientes</strong></h1>
+        </div>
+        <!-- end title -->
     </main>
     <!-- end main -->
-
+    
     <!-- start footer -->
     <footer>
 
