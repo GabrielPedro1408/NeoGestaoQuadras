@@ -8,8 +8,8 @@
 </head>
 <body>
     <?php
-        require 'header.php';
-        require 'sidebar.php';
+        require '../components/header.php';
+        require '../components/sidebar.php';
     ?>
 
     <main>
