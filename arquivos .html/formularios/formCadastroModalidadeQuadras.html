@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Modalidade de Quadras</title>
+    <style>
+        /* Estilos básicos para o corpo da página */
+        body {
+            font-family: Arial, sans-serif; /* Fonte utilizada */
+            margin: 20px; /* Margem ao redor do corpo */
+        }
+        /* Estilos para o formulário */
+        form {
+            max-width: 400px; /* Largura máxima do formulário */
+            margin: auto; /* Centraliza o formulário na página */
+            padding: 20px; /* Espaçamento interno do formulário */
+            border: 1px solid #ccc; /* Borda do formulário */
+            border-radius: 5px; /* Cantos arredondados */
+        }
+        /* Estilos para os rótulos dos campos */
+        label {
+            display: block; /* Faz o rótulo ocupar toda a largura */
+            margin-bottom: 8px; /* Espaçamento abaixo do rótulo */
+        }
+        /* Estilos para os campos de entrada */
+        input[type="text"], input[type="number"], textarea {
+            width: 100%; /* Largura total do campo */
+            padding: 8px; /* Espaçamento interno do campo */
+            margin-bottom: 15px; /* Espaçamento abaixo do campo */
+            border: 1px solid #ccc; /* Borda do campo */
+            border-radius: 4px; /* Cantos arredondados */
+        }
+        /* Estilos para o botão de envio */
+        input[type="submit"] {
+            background-color: #4CAF50; /* Cor de fundo do botão */
+            color: white; /* Cor do texto do botão */
+            padding: 10px 15px; /* Espaçamento interno do botão */
+            border: none; /* Remove a borda padrão */
+            border-radius: 4px; /* Cantos arredondados do botão */
+            cursor: pointer; /* Muda o cursor ao passar sobre o botão */
+        }
+        /* Estilos para o botão ao passar o mouse */
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Cor de fundo ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+
+<h2>Cadastro de Modalidade de Quadras</h2>
+
+<!-- Formulário para cadastro de modalidades -->
+<form action="/cadastrar_modalidade" method="POST">
+    <!-- Campo para o nome da modalidade -->
+    <label for="modalidade">Modalidade:</label>
+    <input type="text" id="modalidade" name="modalidade" required>
+
+    <!-- Campo para o valor da modalidade -->
+    <label for="valor">Valor:</label>
+    <input type="text" id="valor" name="valor" required>
+
+    <!-- Campo para a descrição da modalidade -->
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+    <!-- Botão para enviar o formulário -->
+    <input type="submit" value="Cadastrar">
+</form>
+
+</body>
+</html>
