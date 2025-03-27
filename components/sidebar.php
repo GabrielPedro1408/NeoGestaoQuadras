@@ -23,47 +23,47 @@
     </div>
 
     <ul id="side-items">
-        <li class="side-item active">
-            <a href="../PHP/index.php">
-                <i class="fas fa-chart-line fa-xl"></i>
-                <span class="item-description">
-                    Dashboard
-                </span>
-            </a>
-        </li>
-        <li class="side-item">
-            <a href="../PHP/Financeiro.php">
-                <i class="fa-solid fa-dollar-sign fa-xl"></i>
-                <span class="item-description">
-                    Financeiro
-                </span>
-            </a>
-        </li>
-        <li class="side-item">
-            <a href="../PHP/Quadras.php">
-                <i class="fas fa-person-walking-luggage fa-xl"></i>
-                <span class="item-description">
-                    Quadras
-                </span>
-            </a>
-        </li>
-        <li class="side-item">
-            <a href="../PHP/Vendas.php">
-                <i class="fas fa-bag-shopping fa-xl"></i>
-                <span class="item-description">
-                    Vendas
-                </span>
-            </a>
-        </li>
-        <li class="side-item">
-            <a href="../PHP/Clientes.php">
-                <i class="fas fa-user fa-xl"></i>
-                <span class="item-description">
-                    Clientes
-                </span>
-            </a>
-        </li>
-    </ul>
+    <li class="side-item" data-item="dashboard">
+        <a href="../PHP/index.php">
+            <i class="fas fa-chart-line fa-xl"></i>
+            <span class="item-description">
+                Dashboard
+            </span>
+        </a>
+    </li>
+    <li class="side-item" data-item="financeiro">
+        <a href="../PHP/Financeiro.php">
+            <i class="fa-solid fa-dollar-sign fa-xl"></i>
+            <span class="item-description">
+                Financeiro
+            </span>
+        </a>
+    </li>
+    <li class="side-item" data-item="quadras">
+        <a href="../PHP/Quadras.php">
+            <i class="fas fa-person-walking-luggage fa-xl"></i>
+            <span class="item-description">
+                Quadras
+            </span>
+        </a>
+    </li>
+    <li class="side-item" data-item="vendas">
+        <a href="../PHP/Vendas.php">
+            <i class="fas fa-bag-shopping fa-xl"></i>
+            <span class="item-description">
+                Vendas
+            </span>
+        </a>
+    </li>
+    <li class="side-item" data-item="clientes">
+        <a href="../PHP/Clientes.php">
+            <i class="fas fa-user fa-xl"></i>
+            <span class="item-description">
+                Clientes
+            </span>
+        </a>
+    </li>
+</ul>
 
     <button id="open-btn">
         <i id="open-btn-icon" class="fa-solid fa-chevron-right"></i>

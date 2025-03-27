@@ -32,7 +32,11 @@ main {
 }
 
 #sidebar-content {
-    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribui o conteúdo igualmente */
+    height: 100%; /* Garante que o conteúdo ocupe toda a altura do sidebar */
+    padding: 12px 0; /* Ajuste de espaçamento */
 }
 
 #user {
@@ -55,19 +59,27 @@ main {
 #side-items {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    justify-content: space-between; /* Distribui os itens igualmente */
+    flex-grow: 1; /* Faz com que a lista ocupe o espaço disponível */
     list-style: none;
-    
+    padding: 0;
+    margin: 0;
 }
+
 .side-item {
     border-radius: 8px;
     padding: 14px;
     cursor: pointer;
+    text-align: center; /* Centraliza o conteúdo */
 }
 
 .side-item.active {
-    background-color: #4f46e5;
+    background-color: #6a0dad; /* Cor roxa */
+    color: white;
+}
 
+.side-item.active a {
+    color: white; /* Garante que o texto do link fique branco */
 }
 
 .side-item:hover:not(.active),
@@ -142,7 +154,6 @@ main {
     font-size: 14px;
     transition: width .6s;
 }
-
 
 #sidebar.open-sidebar .item-description {
     width: 80px;
