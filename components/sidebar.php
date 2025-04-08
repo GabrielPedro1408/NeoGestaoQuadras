@@ -16,9 +16,6 @@
             <span class="item-description">
                 <label for="Usuario">Usuario</label>
             </span>
-            <span class="item-description">
-                Professor de Web
-            </span>
         </p>
     </div>
 
@@ -66,7 +63,7 @@
 </ul>
 
     <button id="open-btn">
-        <i id="open-btn-icon" class="fa-solid fa-chevron-right"></i>
+        <i id="open-btn-icon" class="fa-solid fa-chevron-right fa-xl"></i>
     </button>
 </div>
 

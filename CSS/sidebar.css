@@ -22,7 +22,7 @@ main {
     justify-content: space-between;
     background-color: #042940;
     height: 100vh;
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 0px 0px 5px 0px;
     position: relative;
     transition: all .5s;
     min-width: 82px;
@@ -34,36 +34,43 @@ main {
 #sidebar-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribui o conteúdo igualmente */
-    height: 100%; /* Garante que o conteúdo ocupe toda a altura do sidebar */
-    padding: 12px 0; /* Ajuste de espaçamento */
+    max-width: 80%;
+    justify-content: space-between; 
+    height: 80%;
+    padding: 12px 0;
 }
 
 #user {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 35px;
 }
 
 #user-info {
     display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items: center;
 }
 
-#user-info span:last-child {
+#user-info span {
     color: #fdfdfd;
-    font-size: 12px;
+    font-size: 16px;
+    margin-bottom: 15px;
 }
 
 #side-items {
     display: flex;
     flex-direction: column;
+    max-width: 80%;
+    height: 80%;
     justify-content: space-between; /* Distribui os itens igualmente */
     flex-grow: 1; /* Faz com que a lista ocupe o espaço disponível */
     list-style: none;
     padding: 0;
     margin: 0;
+    color: white;
 }
 
 .side-item {
@@ -74,7 +81,7 @@ main {
 }
 
 .side-item.active {
-    background-color: #6a0dad; /* Cor roxa */
+    background-color: #433ea5; /* Cor roxa */
     color: white;
 }
 
@@ -114,7 +121,7 @@ main {
 
 #logout-btn {
     border: none;
-    padding: 12px;
+    padding: 14px;
     font-size: 14px;
     display: flex;
     gap: 20px;
@@ -123,18 +130,20 @@ main {
     text-align: start;
     cursor: pointer;
     background-color: transparent;
+    margin-top: 35px;
 }
 
 #open-btn {
     position: absolute;
     top: 30px;
     right: -10px;
-    background-color: #4f46e5;
+    background-color: #433ea5;
     color: #e3e9f7;
     width: 20px;
     height: 20px;
     border: none;
     cursor: pointer;
+    
     border-radius: 8px;
 }
 

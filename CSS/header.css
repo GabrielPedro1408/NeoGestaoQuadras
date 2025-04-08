@@ -27,11 +27,11 @@
 }
 #title{
   display: flex;
-  color:rgb(226, 215, 60);
+  color:#ffe44d65;
   margin: 0;
 }
 #usuario{
-  color:rgb(226, 215, 60);
+  color:#ffe44d65;
   margin: 0;
   }
 #user-info {

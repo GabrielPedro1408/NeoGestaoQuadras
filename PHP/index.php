@@ -7,7 +7,6 @@
     <script type="module" src="../components/sidebar.js"></script>
     <script type="module" src="../components/header.js"></script>
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
-    <link rel="stylesheet" href="sty.css">
     <title>NPL Quadras</title>
 
 </head>
