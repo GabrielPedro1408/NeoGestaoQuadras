@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./sidebar.css">
-    <script type="module" src="./sidebar.js"></script>
+    <link rel="stylesheet" href="../components/sidebar.css">
+    <script type="module" src="../components/sidebar.js"></script>
     <title>Side-Bar</title>
 </head>
 <body>
 <nav id="sidebar">
-
 <div id="sidebar-content">
     <div id="user">
         <p id="user-info">
-            <span class="item-description">
-                <label for="Usuario">Usuario</label>
+            <span class="item-description first-item-description">
+                <label for="Usuario">Nome Usuario</label>
             </span>
         </p>
     </div>
-
     <ul id="side-items">
     <li class="side-item" data-item="dashboard">
         <a href="../PHP/index.php">
@@ -45,12 +43,12 @@
         </a>
     </li>
     <li class="side-item" data-item="vendas">
-        <a href="../PHP/Vendas.php">
+        <a href="../PHP/Vendas.php"> 
             <i class="fas fa-bag-shopping fa-xl"></i>
-            <span class="item-description">
-                Vendas
-            </span>
+            <span class="item-description"> Vendas </span>
         </a>
+        <i class="bi bi-caret-down"></i>
+
     </li>
     <li class="side-item" data-item="clientes">
         <a href="../PHP/Clientes.php">
@@ -60,23 +58,22 @@
             </span>
         </a>
     </li>
+    <div id="logout">
+    <li class="side-item" data-item="clientes">
+        <a href="../PHP/logout.php" style="text-decoration:none">
+            <button id="logout-btn">
+                <i class="fa-solid fa-arrow-right-from-bracket fas-xxxl"></i>
+                    <span class="item-description">Logout</span>
+            </button>
+        </a>
+    </li>
+</div>
 </ul>
-
     <button id="open-btn">
-        <i id="open-btn-icon" class="fa-solid fa-chevron-right fa-xl"></i>
+        <div class="button"><i id="open-btn-icon" class="fa-solid fa-chevron-right fa-xl"></i></div>
     </button>
 </div>
 
-<div id="logout">
-    <a href="../PHP/logout.php" style="text-decoration:none">
-        <button id="logout-btn">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            <span class="item-description">
-                Logout
-            </span>
-        </button>
-    </a>
-</div>
 
 </nav>
 </body>

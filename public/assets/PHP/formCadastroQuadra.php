@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Quadras</title>
     <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="public/assets/CSS/all.css">
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
 </head>
 
 <body>
@@ -19,6 +21,10 @@
          <div class="radio-group">
         <div class="formulario-cadastro"> 
             <form action="cadastrar-quadra" method="POST">
+            <label for="Descricao">Descrição da Quadra</label>
+            <input type="text" class="form-control" id="floatingInputValue" placeholder="Insira Descrição"  value="descricao" name="descricao" required>
+            </label>
+
             <div class="form-check">
             <input class="form-check-input" type="checkbox" value="disponivel" id="checkDefault">
             <label class="form-check-label" for="checkDefault">
@@ -47,9 +53,10 @@
 
                 <!-- Campo para o valor da quadra -->
                 <div class="valor">
-                    <label for="valor">Valor:</label>
+                    <label for="valor">Valor da Hora:</label>
                     <input type="text" id="valor" name="valor" required>
                 </div>
+                <label for=""></label>
                 <input type="submit" value="Cadastrar Quadra">
             </form>
         </div>    

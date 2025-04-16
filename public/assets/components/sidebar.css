@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    position: sticky;
+}
+
+body {
+    display: flex;
+    background-color: #afafaf;
+}
+
+main {
+    padding: 20px;
+}
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #042940;
+    height: 100vh;
+    position: fixed;
+    border-radius: 0px 0px 5px 0px;
+    top: 0px;
+    left: 0px; 
+    overflow: hidden;
+    min-width: 100px;
+    transition: all 0.5s ease;
+    align-items: center; /* Centraliza os itens horizontalmente */
+
+}
+
+#sidebar.open-sidebar {
+    min-width: 300px; /* Largura do sidebar aberto */
+    align-items: center; /* Mantém os itens centralizados horizontalmente */
+}
+
+#sidebar-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    justify-content: space-between;
+    height: 92%;
+    padding: 12px 0;
+}
+
+#user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 35px;
+    margin-top: 130px;
+    max-width: 100%;
+    width: 100%;
+}
+
+#user-info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#user-info span {
+    color: #fdfdfd;
+    font-size: 18px;
+    margin-bottom: 15px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    max-width: 100%;
+}
+
+#side-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens horizontalmente */
+    height: 80%;
+    justify-content: space-between;
+    flex-grow: 1;
+    list-style: none;
+    color: rgb(0, 0, 0);
+    padding: 0;
+}
+
+.side-item {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o conteúdo do item */
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.side-item.active {
+    background-color: #4b21ad;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-item.active a {
+    color: white;
+    text-decoration: none; /* Remove o sublinhado */
+}
+
+.side-item:hover:not(.active)
+ {
+    background-color: #4b21ad;
+    color: rgb(0, 0, 0);
+}
+
+.side-item a {
+    text-decoration: none; /* Remove o sublinhado */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o conteúdo do link */
+    gap: 10px; /* Espaçamento entre o ícone e o texto */
+    color: white; /* Garante que o texto fique branco */
+}
+
+#sidebar.open-sidebar .side-item a {
+    justify-content: flex-start; /* Ajusta o alinhamento quando o sidebar está aberto */
+    padding-left: 20px; /* Adiciona um espaçamento à esquerda */
+}
+
+.item-description {
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    transition: width 0.6s ease;
+    color: white;
+}
+
+#sidebar.open-sidebar .item-description {
+    width: 130px; /* Largura do texto visível quando o sidebar está aberto */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+.side-item a i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 20px;
+    color: black;
+    margin-left: 10px;
+}
+
+#logout {
+    padding: 14px;
+}
+
+#logout-btn {
+    border: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    text-align: start;
+    cursor: pointer;
+    background-color: transparent;
+    text-align: center;
+    align-items: center;
+}
+
+#open-btn {
+    position: absolute;
+    top: 145px;
+    right: -10px;
+    background-color: #4b21ad;
+    color: #fdfdfd;
+    width: 22px;
+    height: 22px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+#open-btn-icon {
+    transition: transform 0.3s ease;
+}
+
+.open-sidebar #open-btn-icon {
+    transform: rotate(180deg);
+}

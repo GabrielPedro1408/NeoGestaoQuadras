@@ -4,57 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <script type="module" src="../components/sidebar.js"></script>
-    <script type="module" src="../components/header.js"></script>
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
     <title>NPL Quadras</title>
-
 </head>
 <body>
     <?php  
         require '../components/sidebar.php';
-        require '../components/header.php' ;
+        require '../components/header.php';
     ?>
-    
-    
 
     <!-- start main -->
-    <main>
-        <div class="titulo">
-            <h1>SEJA BEM VINDO <strong>NOME DO USUÁRIO</strong></h1>
+    <div id="main-content">
+        <div class="container">
+            <main>
+                <div class="titulo">
+                    <h1>SEJA BEM VINDO <strong>NOME DO USUÁRIO</strong></h1>
+                </div>
+                <!-- conteúdo da esquerda -->
+                <section class="contas">
+                    <!-- filepath: c:\xampp\htdocs\Projeto-TCC\public\assets\PHP\index.php -->
+                    <div class="conta-diaria">
+                        <div class="conta-diaria-title item-variavel">
+                            <h3>Contas Variáveis Diária</h3>
+                        </div>
+                        <div class="conta-diaria-esquerda item-variavel">
+                            <div class="conta-diaria-subtitle-esquerda">
+                                <h4>Contas a Receber</h4>
+                            </div>
+                            <div class="container-fluids">
+                                <div class="cards">
+                                    <div class="cards-headers">
+                                        <div class="cards-top">
+                                            <div class="card-number">
+                                                <div class="card-valor">
+                                                    <p class="valor">R$ </p><label for="valor-vendas-dia">1890,00</label>
+                                                </div>
+                                                <div class="days">
+                                                    <p>Faturamento de Hoje</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-icon">
+                                                <i class="fa-solid fa-cart-shopping"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-type">
+                                            <p class="quantidade">Venda(s) Feita(s) no Dia - </p> <label for="quant-vendas-dia">12</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bottom-group item-variavel">
+                                    <a class="bottom-text" href="#">Ir Para Todas Contas a Receber</a>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cópia do card -->
+                    <div class="conta-diaria direita">
+                        <div class="conta-diaria-esquerda item-variavel">
+                            <div class="conta-diaria-subtitle-esquerda">
+                                <h4>Contas a Pagar</h4>
+                            </div>
+                            <div class="container-fluids">
+                                <div class="cards">
+                                    <div class="cards-headers">
+                                        <div class="cards-top">
+                                            <div class="card-number">
+                                                <div class="card-valor">
+                                                    <p class="valor">R$ </p><label for="valor-vendas-dia">789,00</label>
+                                                </div>
+                                                <div class="days">
+                                                    <p>Contas de Hoje</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-icon">
+                                                <i class="fa-solid fa-bag-shopping"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-type">
+                                            <p class="quantidade">Conta(s) a Pagar no Dia - </p> <label for="quant-vendas-dia">12</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bottom-group item-variavel">
+                                    <a class="bottom-text" href="#">Ir Para Todas Contas a Pagar</a>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="agenda">
+                    <div class="horarios">
+                        <div class="top-group">
+                            <div class="title">
+                                <h3>Agenda de Hoje</h3>
+                            </div>
+                            <div class="button-agenda">
+                                <button href="#">Exibir Agenda Completa <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="content-agenda">
+                            
+                        </div>
+                    </div>
+                </section>
+                <!-- end conteúdo da esquerda -->
+
+                <!-- conteúdo da direita -->
+                <section class="contas-fixas">
+
+                </section>
+                <!-- end conteúdo da direita -->
+            </main>
         </div>
-        
-        <!-- sconteúdo de cima -->
-        <section class="conteud-de-cima">
-            <div class="conta-diaria">
-                
-            </div>
-            <!-- divisão -->
-            <div class="conta-fixa">
-
-            </div>
-        </section>      
-        <!-- end conteúdo de cima-->
-
-        <!-- conteúdo de baixo -->
-        <section class="conteud-de-baixo">
-            <div class="horarios">
-
-            </div>
-            <!-- divisão -->
-            <div class="vendas">
-
-            </div>
-        </section>
-        <!-- end conteúdo de baixo -->
-
-    </main>
+    </div>
     <!-- end main -->
 
     <!-- start footer -->
-    <footer>
-
-    </footer>
+    <footer></footer>
     <!-- end footer -->
 </body>
 </html>
