@@ -1,0 +1,27 @@
+Tabelas: 
+Clientes
+   id (pk[1])
+   nome
+   email
+   cpf
+   endreco
+   telefone
+
+Produtos
+   id(pk[2])
+   descricao
+   unidade
+   quant
+   valor
+
+Vendas
+   id(pk[3])
+   id_clientes(fk[1])
+   data
+
+det_vendas
+   id(pk[4])
+   id_venda(fk[3])
+   id_produto(fk[2])
+   quant
+   valor 
