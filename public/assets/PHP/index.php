@@ -27,7 +27,6 @@
                 </div>
                 <!-- conteúdo da esquerda -->
                 <section class="contas">
-                    <!-- filepath: c:\xampp\htdocs\Projeto-TCC\public\assets\PHP\index.php -->
                     <div class="conta-diaria">
                         <div class="conta-diaria-title item-variavel">
                             <h3>Contas Variáveis Diária</h3>
@@ -111,7 +110,22 @@
                             </div>
                         </div>
                         <div class="content-agenda">
-                            
+                        <?php
+                            /*foreach($result as $linha){echo
+                                "<div class='tile-agenda'>
+                                    <label for='title-agenda'>".$linha['nomequadra']."</label>
+                                </div>";}
+                                echo("<div class='group-agenda'>");
+                                    foreach($resultHorarios as $horarios){
+                                        echo("
+                                        <div class='horario'>
+                                            <label for='horario-agenda'>".$horarios['horarioEntrada']."</label>
+                                            <label for='horario-agenda'>".$horarios['horarioSaida']."</label>
+                                        </div>
+                                        ");
+                                    }
+                                echo("</div>");*/
+                        ?>
                         </div>
                     </div>
                 </section>
@@ -119,7 +133,33 @@
 
                 <!-- conteúdo da direita -->
                 <section class="contas-fixas">
-
+                    <div class="container-contas">
+                        <div class="title-fixo">
+                            <h3>Contas fixas Mensais</h3>
+                        </div>
+                        <div class="main-content">
+                            <div class="content-item">
+                                <?php 
+                                /*foreach($nomeConta as $nome)*/ {
+                                    echo("<div class='nome-item'>
+                                        <label for='nomeConta'>Funcionario Estavan</label>
+                                        </div>
+                                    ");
+                                }
+                                echo('<div class="valor-item">');
+                                /*foreach($valorConta as $valor)*/ {
+                                    echo("<label for='valorConta'>R$ 1518,00</label>");
+                                }
+                                echo('</div>');
+                                ?>
+                                <div class="icons-item">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <i class="fa-solid fa-trash"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <!-- end conteúdo da direita -->
             </main>
