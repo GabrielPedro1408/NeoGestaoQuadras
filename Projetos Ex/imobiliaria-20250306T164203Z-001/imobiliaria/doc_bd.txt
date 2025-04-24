@@ -1,0 +1,19 @@
+table imoveis
+colunas:
+id
+tipo de operação
+estágio
+quartos
+banheiros
+caracteristicas
+preço
+tipo de imovel
+vagas
+area_tot
+area_util
+multimidia
+areas comuns
+areas privativas
+data_publi
+endereco
+
