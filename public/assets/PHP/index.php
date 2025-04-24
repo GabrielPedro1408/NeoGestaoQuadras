@@ -119,7 +119,31 @@
 
                 <!-- conteúdo da direita -->
                 <section class="contas-fixas">
-
+                    <div class="title-fixo">
+                        Contas fixas Mensais
+                    </div>
+                    <div class="main-content">
+                        <div class="content-item">
+                            <?php 
+                            /*foreach($nomeConta as $nome) {
+                                echo("<div class='nome-item'>
+                                    <label for='nomeConta'>(".$nome [nomeGasto].")</label>
+                                    </div>
+                                ");
+                            }
+                            echo('<div class="valor-item">');
+                            foreach($valorConta as $valor) {
+                                echo("<label for='valorConta'>R$ ".$valor [valorGasto]."</label>");
+                            }
+                            echo('</div>');*/
+                            ?>
+                            <div class="icons-item">
+                                <i class="bi bi-pencil-square"></i>
+                                <i class="bi bi-info-circle"></i>
+                                <i class="bi bi-trash3"></i>
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <!-- end conteúdo da direita -->
             </main>
