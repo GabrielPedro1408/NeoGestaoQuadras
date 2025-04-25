@@ -272,3 +272,24 @@ body {
 .tudo-direita{
     float: right;
 }
+.container-contas{
+    max-width: 900px;
+    width: 100%;
+
+}
+.contas-fixas .container-contas{
+    margin: 25px 0px 0px 25px;
+
+}
+.contas-fixas .title-fixo {
+    font-size: 2rem ;
+    font-weight: 1000px ; 
+    color: #042940;
+}
+.contas-fixas .container-contas .main-content .content-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width:100%;
+    width: 100%;
+}
