@@ -111,6 +111,7 @@
                         </div>
                         <div class="content-agenda">
                         <?php
+                            $sql = "SELECT id,horario FROM horarios limit 10 and SELECT idAgend, horarioEntrada, horarioSaida FROM agendamentos where idQuadra = 1 ";
                             /*foreach($result as $linha){echo
                                 "<div class='tile-agenda'>
                                     <label for='title-agenda'>".$linha['nomequadra']."</label>
