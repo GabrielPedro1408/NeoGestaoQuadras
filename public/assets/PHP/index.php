@@ -111,7 +111,33 @@
                         </div>
                         <div class="content-agenda">
                         <?php
-                            $sql = "SELECT id,horario FROM horarios limit 10 and SELECT idAgend, horarioEntrada, horarioSaida FROM agendamentos where idQuadra = 1 ";
+                            $sqlBuscaQuadra = "SELECT id, nomequadra FROM quadras where id = 1";
+                            $stmt = $pdo->prepare($sqlBuscaQuadra);
+                            $resultQuadra = $stmt->execute();
+                            foreach($resultQuadra as $linha){
+                                echo("
+                                <div class='quadra'>
+                                <div class='tile-quadra'>
+                                    <label for='title-quadra'>".$linha['nomequadra']."</label>
+                                </div>
+                                <div class='container-quadras'>");
+                                    $sqlBuscaHorario = "SELECT id,horario FROM horarios limit 10 UNION
+                                     SELECT idAgend, horarioEntrada, horarioSaida FROM agendamentos where idQuadra = 1 ";
+                                    $stmt = $pdo->prepare($sqlBuscaHorario);
+                                    $resultHorarios = $stmt->execute();
+                                    foreach($resultHorarios as $horarios){
+                                        echo("
+                                        <div class='horario'>
+                                            <label for='horario-agenda'>".$horarios['horarioEntrada']."</label>
+                                            <label for='horario-agenda'>".$horarios['horarioSaida']."</label>
+                                        </div>
+                                        ");
+                                    }
+                                echo("</div>
+                                </div>");
+
+                            }   
+                            //$sql = "SELECT id,horario FROM horarios limit 10 and SELECT idAgend, horarioEntrada, horarioSaida FROM agendamentos where idQuadra = 1 ";
                             /*foreach($result as $linha){echo
                                 "<div class='tile-agenda'>
                                     <label for='title-agenda'>".$linha['nomequadra']."</label>
