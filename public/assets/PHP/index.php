@@ -16,6 +16,7 @@
     <?php  
         require '../components/sidebar.php';
         require '../components/header.php';
+        require 'conexao.php';
     ?>
 
     <!-- start main -->
@@ -122,7 +123,7 @@
                                 </div>
                                 <div class='container-quadras'>");
                                     $sqlBuscaHorario = "SELECT id,horario FROM horarios limit 10 UNION
-                                     SELECT idAgend, horarioEntrada, horarioSaida FROM agendamentos where idQuadra = 1 ";
+                                     SELECT id, horario_inicio, horario_fim FROM agendamento where id_quadras = 1 ";
                                     $stmt = $pdo->prepare($sqlBuscaHorario);
                                     $resultHorarios = $stmt->execute();
                                     foreach($resultHorarios as $horarios){
@@ -136,7 +137,14 @@
                                 echo("</div>
                                 </div>");
 
-                            }   
+                            }  
+                            /*
+                            SELECT h.id, h.horario, a.horario_inicio, a.horario_fim
+                            FROM horarios h
+                            LEFT JOIN agendamento a ON h.id = a.id_horario
+                            WHERE a.id_quadras = 1
+                            LIMIT 10
+                            */
                             //$sql = "SELECT id,horario FROM horarios limit 10 and SELECT idAgend, horarioEntrada, horarioSaida FROM agendamentos where idQuadra = 1 ";
                             /*foreach($result as $linha){echo
                                 "<div class='tile-agenda'>
