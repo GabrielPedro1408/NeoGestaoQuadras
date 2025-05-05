@@ -16,6 +16,7 @@
     <?php  
         require '../components/sidebar.php';
         require '../components/header.php';
+        require 'conexao.php';
     ?>
 
     <!-- start main -->
