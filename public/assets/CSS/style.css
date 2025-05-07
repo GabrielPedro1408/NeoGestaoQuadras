@@ -40,7 +40,7 @@ body {
     display: flex;
     gap: 20px; 
     justify-content: flex-start; /* Alinha os cards à esquerda */
-    flex-wrap: wrap; /* Permite que os cards quebrem linha em telas menores */
+    flex-wrap: wrap; 
     height: 100%;
     background-color:  #ffffffd2;
     border-radius: 15px;

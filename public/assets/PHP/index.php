@@ -113,13 +113,7 @@
                                 </div>
                                 <div class="content-agenda">
                                 <?php
-                                    /*
-                                            SELECT h.id, h.horario, a.horario_inicio, a.horario_fim
-                                            FROM horarios h
-                                            LEFT JOIN agendamento a ON h.id = a.id_horario
-                                            WHERE a.id_quadras = 1
-                                            LIMIT 10
-                                        */
+                                    // foreach($result as $linha){
                                     echo
                                         "<div class='title-agenda'>
                                             <label for='title-agenda'> Quadra 1</label>
