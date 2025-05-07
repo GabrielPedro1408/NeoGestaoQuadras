@@ -18,24 +18,25 @@
             <h1><strong>Quadras</strong></h1>
         </div>
         <!-- end title -->
-         <div class="radio-group">
-        <div class="formulario-cadastro"> 
-            <form action="cadastrar-quadra" method="POST">
-            <label for="Descricao">Descrição da Quadra</label>
-            <input type="text" class="form-control" id="floatingInputValue" placeholder="Insira Descrição"  value="descricao" name="descricao" required>
-            </label>
-
+        <div class="radio-group">
+            <div class="formulario-cadastro"> 
+                <div class="description">
+                    <form action="cadastrar-quadra" method="POST">
+                        <label for="Descricao">Descrição da Quadra</label>
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Insira Descrição"  value="descricao" name="descricao" required>
+                        </label>
+                </div>
             <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="disponivel" id="checkDefault">
-            <label class="form-check-label" for="checkDefault">
-                Disponível
-            </label>
+                <input class="form-check-input" type="checkbox" value="disponivel" id="checkDefault">
+                <label class="form-check-label" for="checkDefault">
+                    Disponível
+                </label>
             </div>
             <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="indisponivel" id="checkChecked" checked>
-            <label class="form-check-label" for="checkChecked">
-                Indisponível
-            </label>
+                <input class="form-check-input" type="checkbox" value="indisponivel" id="checkChecked" checked>
+                <label class="form-check-label" for="checkChecked">
+                    Indisponível
+                </label>
             </div>
             </div>
                 <div class="modalidade">

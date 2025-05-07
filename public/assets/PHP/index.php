@@ -16,7 +16,6 @@
     <?php  
         require '../components/sidebar.php';
         require '../components/header.php';
-        require 'conexao.php';
     ?>
 
     <!-- start main -->
@@ -114,21 +113,25 @@
                                 </div>
                                 <div class="content-agenda">
                                 <?php
-                                    /*foreach($result as $linha){echo
-                                        "<div class='tile-agenda'>
-                                            <label for='title-agenda'>".$linha['nomequadra']."</label>
-                                        </div>";}
+                                    // foreach($result as $linha){
+                                    echo
+                                        "<div class='title-agenda'>
+                                            <label for='title-agenda'> Quadra 1</label>
+                                        </div>";
+                                    // }
                                         echo("<div class='group-agenda'>");
-                                            foreach($resultHorarios as $horarios){
+                                            // foreach($resultHorarios as $horarios){
                                                 echo("
                                                 <div class='horario'>
-                                                    <label for='horario-agenda'>".$horarios['horarioEntrada']."</label>
-                                                    <label for='horario-agenda'>".$horarios['horarioSaida']."</label>
+                                                    <label for='horario-agenda'>9:00</label>
+                                                <label>às</label>
+                                                    <label for='horario-agenda'>10:00</label>
                                                 </div>
                                                 ");
-                                            }
-                                        echo("</div>");*/
+                                            // }
+                                        echo("</div>");
                                 ?>
+                                
                                 </div>
                             </div>
                         </section>
@@ -143,6 +146,11 @@
                                         <h3>Contas fixas Mensais</h3>
                                     </div>
                                     <div class="main-content">
+                                        <div class="content-title">
+                                            <h4>Descrição da Conta</h4>
+                                            <span><h4>Valor da Conta</h4></span>
+                                            <h4>Ações</h4>
+                                        </div>
                                         <div class="content-item">
                                             <?php 
                                             /*foreach($nomeConta as $nome)*/ {
@@ -158,9 +166,9 @@
                                             echo('</div>');
                                             ?>
                                             <div class="icons-item">
-                                                <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="#"><i class="fa-solid fa-circle-info"></i></a>
-                                                <a href="#"><i class="fa-solid fa-trash"></i></a>
+                                                <a href="#"><i class="fa-solid fa-pen-to-square first"></i></a>
+                                                <a href="#"><i class="fa-solid fa-trash second"></i></a>
+                                                <a href="#"><i class="fa-solid fa-circle-info third"></i></a>
                                             </div>
                                         </div>
                                     </div>
