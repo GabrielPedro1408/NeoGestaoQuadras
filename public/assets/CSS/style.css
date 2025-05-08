@@ -9,6 +9,7 @@ body {
     display: flex;
     margin: 0;
     padding: 0;
+    width: 100vh;
 }
 
 #sidebar {
@@ -39,7 +40,7 @@ body {
 .contas {
     display: flex;
     gap: 20px; 
-    justify-content: flex-start; /* Alinha os cards à esquerda */
+    justify-content: flex-start; 
     flex-wrap: wrap; 
     height: 100%;
     background-color:  #ffffffd2;
@@ -223,6 +224,7 @@ body {
     height: 32px;
     width: 300px;
     padding: 0 1rem;
+    border: none;
 }
 .agenda .horarios .top-group .button-agenda button:hover{
     cursor: pointer;
@@ -336,3 +338,4 @@ body {
 .tudo-direita{
     float: right;
 }
+/* fim */
