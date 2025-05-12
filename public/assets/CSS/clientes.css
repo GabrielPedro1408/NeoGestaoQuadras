@@ -28,8 +28,13 @@ body {
     width: 100%;
     box-sizing: border-box;
 }
+.titulo {
+    max-width: 100%;
+    width: 100px;
+    margin-left:  -75px;
+}
 .titulo{
-    margin-left: -100px;
+    
 }
 .titulo strong {
     color: #ecd447a2;
@@ -92,7 +97,7 @@ body {
     transition: all 0.05s ease-in-out;
 }
 .table-clientes{
-    width: 1510px !important;
+    width: 1450px !important;
     height: 100%;
     margin: 0 auto; 
     background-color: #ffffff; 
@@ -102,7 +107,7 @@ body {
     justify-content: space-between;
 }
 table{
-    width: 1450px !important; 
+    width: 1400px !important; 
     margin: 0 auto;
     justify-content: space-between;
 }
@@ -123,16 +128,22 @@ table td a:not(:last-child){
     margin-right: 2px;
 }
 table td i{
-    color: rgb(221, 187, 33);
-    border: 1.5px solid black;
+    color: rgb(255, 255, 255);
+    border: 0.5px solid black;
     padding: 2px 2.5px 1.8px 2.5px;
     border-radius: 5px;
+    background-color: rgb(221, 187, 33);
+    align-items: center;
+    justify-content: center;
 }
 .icons-item .second {
-    color: #B54848;
+    background-color: #B54848;
+    color: white;
+    padding: 2px 2.8px 1.8px 2.5px;
 }
 .icons-item .third {
-    color: #707070;
+    background-color: #707070;
+    color: white;
 }
 .footer-table{
     display: flex;
@@ -165,9 +176,39 @@ table td i{
 .footer-table .direita a{
     color: black;
 }
+.footer-table .direita{
+    margin-right: 20px;
+}
 .footer-table .direita a:not(:last-child){
     margin-right: 10px;
 }
 .footer-table .direita label{
-    margin-right: 8px;
+    margin-right: 12px;
+}
+.top-pop-up-excluir{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+.buttons button{
+    background-color: #042940e1;
+    color: white;
+    height: 38px;
+    width: 200px;
+    border-radius: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+ .excluir{
+    margin-top: 150px;
+}
+.modal .excluir{
+    height: calc(100% + 100px);
 }

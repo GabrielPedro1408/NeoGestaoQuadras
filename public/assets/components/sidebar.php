@@ -10,6 +10,9 @@
 <body>
 <nav id="sidebar">
 <div id="sidebar-content">
+    <button id="open-btn">
+        <div class="button"><i id="open-btn-icon" class="fa-solid fa-chevron-right fa-xl"></i></div>
+    </button>
     <div id="user">
         <p id="user-info">
             <span class="item-description first-item-description">
@@ -44,8 +47,8 @@
     </li>
     <li class="side-item" data-item="vendas">
         <a href="../PHP/Vendas.php"> 
-            <i class="fas fa-bag-shopping fa-xl"></i>
-            <span class="item-description"> Vendas </span>
+        <i class="fa-solid fa-calendar fa-xl"></i>
+            <span class="item-description"> Agendamentos </span>
         </a>
         <i class="bi bi-caret-down"></i>
 
@@ -69,9 +72,7 @@
     </li>
 </div>
 </ul>
-    <button id="open-btn">
-        <div class="button"><i id="open-btn-icon" class="fa-solid fa-chevron-right fa-xl"></i></div>
-    </button>
+
 </div>
 
 

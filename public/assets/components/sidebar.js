@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.toggle('open-sidebar');
     if (sidebar.classList.contains('open-sidebar')) {
       mainContent.style.marginLeft = '310px'; // Largura do sidebar aberto
+      openBtn.style.marginRight = '-15px';
+      // Largura do sidebar aberto
     } else {
-      mainContent.style.marginLeft = '120px'; // Largura do sidebar fechado
+      mainContent.style.marginLeft = '120px';
+      openBtn.style.marginRight = '50px'; // Largura do sidebar fechado
     }
   });
 
@@ -21,15 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Seleciona todos os itens do menu
 const sideItems = document.querySelectorAll('.side-item');
 
-// Função para remover a classe 'active' de todos os itens
 function clearActiveClass() {
   sideItems.forEach(item => item.classList.remove('active'));
 }
 
-// Restaura o item ativo do localStorage
 function restoreActiveItem() {
   const activeItem = localStorage.getItem('activeItem');
   clearActiveClass(); // Remove a classe 'active' de todos os itens
@@ -54,5 +54,4 @@ sideItems.forEach(item => {
   });
 });
 
-// Restaura o estado do item ativo ao carregar a página
 restoreActiveItem();
