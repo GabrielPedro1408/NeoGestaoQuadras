@@ -1,0 +1,214 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Cabin", sans-serif;
+}
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    
+}
+#sidebar {
+    transition: width 0.5s ease; 
+    flex-shrink: 0;
+}
+#main-content {
+    display: flex;
+    transition: margin-left 0.5s ease;
+}
+.container{
+    display: flex; 
+    flex-direction: column;
+    margin: 115px 0 0 5%;
+    width: 100%;
+    box-sizing: border-box;
+}
+.titulo {
+    max-width: 100%;
+    width: 100px;
+    margin-left:  -75px;
+}
+.titulo{
+    
+}
+.titulo strong {
+    color: #ecd447a2;
+}
+.top-area{
+    display: flex;
+    padding: 25px 0;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    height: 100px;
+}
+.top-area{
+    align-items: center;
+}
+.top-area .adicionar{
+    margin-left: 3px;
+    max-width: 100%;
+    width: 300px;
+}
+.top-area .adicionar button{
+    background-color: #042940e1;
+    color: white;
+    height: 38px;
+    width: 200px;
+    border-radius: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+.top-area .adicionar button:hover{
+    cursor: pointer;
+    box-shadow: 1px 2px 4px 0.5px #42545f;
+    transition: all 0.05s ease-in-out;
+}
+/* divisão de botoes */
+.top-area .pesquisar{
+    max-width: 100%;
+    width: 300px;
+    display: flex;
+    justify-content: flex-end;
+}
+.top-area .pesquisar button{
+    display: flex;
+    background-color: #042940e1;
+    color: white;
+    height: 38px;
+    width: 250px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 0 1rem;
+}
+.top-area .pesquisar button:hover{
+    cursor: pointer;
+    box-shadow: 1px 2px 4px 0.5px #42545f;
+    transition: all 0.05s ease-in-out;
+}
+.table-clientes{
+    width: 1450px !important;
+    height: 100%;
+    margin: 0 auto; 
+    background-color: #ffffff; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 10px;
+    justify-content: space-between;
+}
+table{
+    width: 1400px !important; 
+    margin: 0 auto;
+    justify-content: space-between;
+}
+table th {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+table td{
+    font-size: 1rem;
+    font-weight: 400;
+}
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+table td a:not(:last-child){
+    margin-right: 2px;
+}
+table td i{
+    color: rgb(255, 255, 255);
+    border: 0.5px solid black;
+    padding: 2px 2.5px 1.8px 2.5px;
+    border-radius: 5px;
+    background-color: rgb(221, 187, 33);
+    align-items: center;
+    justify-content: center;
+}
+.icons-item .second {
+    background-color: #B54848;
+    color: white;
+    padding: 2px 2.8px 1.8px 2.5px;
+}
+.icons-item .third {
+    background-color: #707070;
+    color: white;
+}
+.footer-table{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 25px 0 25px;
+}
+.footer-table .esquerda {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.footer-table .esquerda label{
+     margin-bottom: 6px; 
+     font-size: 1.3rem;
+}
+.footer-table .esquerda p{
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+.footer-table .esquerda label, p {
+    margin-left: 5px;
+}
+.footer-table .esquerda .labels{
+    display: flex;
+    flex-direction: row;
+    margin-left: 4px;
+    align-items: center;
+}
+.footer-table .direita a{
+    color: black;
+}
+.footer-table .direita{
+    margin-right: 20px;
+}
+.footer-table .direita a:not(:last-child){
+    margin-right: 10px;
+}
+.footer-table .direita label{
+    margin-right: 12px;
+}
+.top-pop-up-excluir{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+.buttons button{
+    background-color: #042940e1;
+    color: white;
+    height: 38px;
+    width: 200px;
+    border-radius: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+ .excluir{
+    margin-top: 150px;
+}
+.modal .excluir{
+    height: calc(100% + 100px);
+}
