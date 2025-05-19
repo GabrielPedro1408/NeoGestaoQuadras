@@ -29,11 +29,11 @@
             </span>
         </a>
     </li>
-    <li class="side-item" data-item="financeiro">
-        <a href="../PHP/Financeiro.php">
-            <i class="fa-solid fa-dollar-sign fa-xl"></i>
+    <li class="side-item" data-item="funcionameto">
+        <a href="../PHP/Funcionamento.php">
+            <i class="fa-solid fa-wrench"></i>
             <span class="item-description">
-                Financeiro
+                Funcionamento
             </span>
         </a>
     </li>
@@ -58,6 +58,14 @@
             <i class="fas fa-user fa-xl"></i>
             <span class="item-description">
                 Clientes
+            </span>
+        </a>
+    </li>
+    <li class="side-item" data-item="financeiro">
+        <a href="../PHP/Financeiro.php">
+            <i class="fa-solid fa-dollar-sign fa-xl"></i>
+            <span class="item-description">
+                Financeiro
             </span>
         </a>
     </li>
