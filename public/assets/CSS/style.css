@@ -338,4 +338,8 @@ body {
 .tudo-direita{
     float: right;
 }
+.tempo-agendamento{
+    display: flex;
+}
+
 /* fim */

@@ -46,7 +46,7 @@
         </a>
     </li>
     <li class="side-item" data-item="vendas">
-        <a href="../PHP/Vendas.php"> 
+        <a href="../PHP/Agendamentos.php"> 
         <i class="fa-solid fa-calendar fa-xl"></i>
             <span class="item-description"> Agendamentos </span>
         </a>

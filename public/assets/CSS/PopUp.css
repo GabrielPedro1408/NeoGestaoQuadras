@@ -1,11 +1,11 @@
 *{
     box-sizing: border-box;
 }
-#closePopUp button:active{
+#closePopUpEditar button:active{
     opacity: 0.75;
 }
 /* Estilo base do modal */
-.modal {
+.modalEditar {
     display: flex; 
     position: absolute;
     width: 100%;
@@ -14,7 +14,6 @@
     z-index: 1000;
     
 }
-
 /* Conteúdo interno do modal */
 .modal-inner {
     background-color: #fff;
@@ -26,44 +25,45 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
-    align-items: center;
     margin: auto;
-    margin-top: 250px;
+    margin-top: 150px;
 }
 
 /* Botão de fechar */
-#closePopUp {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
-#closePopUp:hover {
+#closePopUpEditar button:hover {
     background-color: #0056b3;
 }
-.modal.open{
+.modalEditar.open{
     opacity: 1;
     z-index: 9999999999;
 
 }
-.modal button {
+.modalEditar button {
     padding: 10px 25px;
     border-radius: 12px;
     color: white;
     border: none;
     cursor: pointer;
-    background-image: linear-gradient(#F2E63D, #c9b033);
+    background-color: #042940e1;
 }
 .modal-inner h2{
     margin: 0;
-
 }
 .modal-inner p{
     line-height: 24px;
     margin: 10px 0;
 }
+.top-pop-up{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.top-pop-up i{
+    margin-right: 10px;
+    color: black;
+}
+.tempo-agendamento{
+    display: flex;
+}
+
