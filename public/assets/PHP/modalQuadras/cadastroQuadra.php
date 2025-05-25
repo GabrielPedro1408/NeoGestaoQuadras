@@ -9,15 +9,15 @@
             <form class="row g-3" action="Quadras.php" method="POST">
             <div class="col-md-6">
                     <label for="nomeQuadra" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nomeQuadra">
+                    <input type="text" class="form-control" id="nomeQuadra" name="nomeQuadra">
                 </div>
                 <div class="col-md-6">
                     <label for="disponibilidadeQuadra" class="form-label">Disponibilidade</label>
-                    <input type="text" class="form-control" id="disponibilidadeQuadra">
+                    <input type="text" class="form-control" id="disponibilidadeQuadra" name="disponibilidadeQuadra">
                 </div>
                 <div class="col-md-6">
                 <label for="modalidadeQuadra">Modalidade</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" aria-label="Default select example" name="modalidadeQuadra">
                         <option id="opFutebolSociety" value="1">Futebol Society</option>
                         <option id="opFutsal" value="2">Futsal</option>
                         <option id="opVoleiPraia" value="3">Vôlei de Praia</option>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="valorhrQuadra" class="form-label">Valor do Agendamento</label>
-                    <input type="int" class="form-control" id="valoragendQuadra">
+                    <input type="int" class="form-control" id="valoragendQuadra" name="valoragendQuadra">
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Adicionar Quadra</button>

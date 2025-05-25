@@ -12,20 +12,14 @@
         require '../components/header.php' ;
     ?>
     <!-- start main -->
-    <main>
-        <!-- start title -->
-        <div class="titulo">
-            <h1><strong>Financeiro</strong></h1>
-        </div>
-        
-        <!-- end title -->
-    </main>
-    <!-- end main -->
+     <div id="main-content">
+        <main>
+            <!-- start title -->
+            <div class="titulo">
+                <h1><strong>Financeiro</strong></h1>
+            </div>
+        </main>
+     </div>
     
-    <!-- start footer -->
-    <footer>
-
-    </footer>
-    <!-- end footer -->
 </body>
 </html>
