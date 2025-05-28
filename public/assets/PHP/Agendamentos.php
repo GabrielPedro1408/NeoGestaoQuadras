@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION["id_empresa"] = 1;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

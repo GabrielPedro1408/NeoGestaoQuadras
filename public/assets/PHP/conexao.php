@@ -1,11 +1,12 @@
-<?php
-$servidor='localhost';
-$db = "nopelogestao";
+<?php 
+$local = '127.0.0.1';
+$db = 'neogestão';
 $user = 'root';
-$pass = ''; 
+$pass = '';
 try {
-  $conn = new PDO('mysql:host='.$servidor.';dbname='.$db ,  $user, $pass);
+  $pdo = new PDO ("mysql:host=".$local.";dbname=".$db, $user, $pass);
 } catch (PDOException $e) {
-    echo 'Erro número : ' . $e->getMessage();
+  echo "erro com a conexão ao banco de dados";
+  echo "Erro número:" . $e->getMessage();
 }
-?>  
+?>
