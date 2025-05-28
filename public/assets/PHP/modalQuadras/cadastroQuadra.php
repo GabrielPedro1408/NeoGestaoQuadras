@@ -1,3 +1,8 @@
+ <?php 
+ include_once __DIR__ . '/../conexao.php';
+ include_once __DIR__ . '/CRUD/createQuadras.php';
+
+ ?>
  <!-- cadastro cli -->
     
     <div class="modal" id="modalCadastro">
@@ -6,10 +11,10 @@
                     <h3>Cadastro de Quadra</h3>
                     <a href="#" id="closePopUpCadastro" ><i class="fa-solid fa-x"></i></a>
                 </div>
-            <form class="row g-3" action="Quadras.php" method="POST">
+            <form class="row g-3" action="" method="POST">
             <div class="col-md-6">
                     <label for="nomeQuadra" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nomeQuadra" name="nomeQuadra">
+                    <input type="text" class="form-control" id="descr" name="descr">
                 </div>
                 <div class="col-md-6">
                     <label for="disponibilidadeQuadra" class="form-label">Disponibilidade</label>
@@ -42,10 +47,10 @@
                 </div>
                 <div class="col-md-6">
                     <label for="valorhrQuadra" class="form-label">Valor do Agendamento</label>
-                    <input type="int" class="form-control" id="valoragendQuadra" name="valoragendQuadra">
+                    <input type="number" class="form-control" id="valoragendQuadra" name="valoragendQuadra">
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Adicionar Quadra</button>
+                    <button type="submit" name="cadastrar" class="btn btn-primary">Adicionar Quadra</button>
                 </div>
                 </form>
             </div>

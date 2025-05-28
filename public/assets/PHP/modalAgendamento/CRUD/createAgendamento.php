@@ -15,8 +15,8 @@
                 $estadoContaAgend = $_POST["estadoContaAgend"];
                 
                 /* inserçaõ no b.d. */
-                $sql = "INSERT into agendamentos(id_empresa,id_cliente,id_quadra,dt,horario_agendado,tempo_alocado,valor,estado_conta)" .
-                "values (:id_empresa, :id_cliente, :id_quadra,:dataAgend,:horarioAgend,:horarioFimAgend,:valorAgend,:estadoContaAgend )";
+                $sql = "INSERT into agendamentos(id_empresa,id_cliente,id_quadra,dt,horario_agendado,tempo_alocado,valor,estado_conta) 
+                values (:id_empresa, :id_cliente, :id_quadra,:dataAgend,:horarioAgend,:horarioFimAgend,:valorAgend,:estadoContaAgend )" ;
                 
                 /*preparando o envio para o $pdo dentro de conexao.php */ 
                 $stmt = $pdo->prepare($sql);
