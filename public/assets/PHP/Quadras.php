@@ -1,10 +1,14 @@
+<?php
+session_start();
+$_SESSION['id_empresa'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/quadras.css">
-    <link rel="stylesheet" href="../CSS/PopUpEditar.css">
+    <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
     <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
