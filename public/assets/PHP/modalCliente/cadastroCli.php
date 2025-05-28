@@ -6,58 +6,58 @@
                     <h3>Cadastro de Cliente</h3>
                     <a href="#" id="closePopUpCadastro" ><i class="fa-solid fa-x"></i></a>
                 </div>
-            <form class="row g-3" action="Clientes.php" method="POST">
+            <form class="row g-3" action="modalCliente/CRUD/createCliente.php" method="POST">
                 <div class="col-md-6">
                     <label for="nomeCli" class="form-label">Primeiro Nome</label>
-                    <input type="text" class="form-control" id="nomeCli">
+                    <input type="text" class="form-control" id="nomeCli" name="nomeCli">
                 </div>
                 <div class="col-md-6">
                     <label for="sobrenomeCli" class="form-label">Sobrenome</label>
-                    <input type="text" class="form-control" id="sobrenomeCli">
+                    <input type="text" class="form-control" id="sobrenomeCli" name="sobrenomeCli">
                 </div>
                 <div class="col-md-4">
                     <label for="dataNascCli" class="form-label">Data de Nascimento</label>
-                    <input type="date" class="form-control" id="dataNascCli">
+                    <input type="date" class="form-control" id="dataNascCli" name="dataNascCli">
                 </div>
                 <div class="col-md-4">
                     <label for="cpfCli" class="form-label">CPF</label>
-                    <input type="int" class="form-control" id="cpfCli">
+                    <input type="text" class="form-control" id="cpfCli" name="cpfCli">
                 </div>
                 <div class="col-md-4">
                     <label for="rgCli" class="form-label">RG (Registro Geral)</label>
-                    <input type="int" class="form-control" id="rgCli">
+                    <input type="text" class="form-control" id="rgCli" name="rgCli">
                 </div>
                 <div class="col-md-6">
                     <label for="cepCli" class="form-label">CEP</label>
-                    <input type="int" class="form-control" id="cepCli">
+                    <input type="text" class="form-control" id="cepCli" name="cepCli">
                 </div>
                 <div class="col-md-6">
                     <label for="cidadeCli" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="cidadeCli">
+                    <input type="text" class="form-control" id="cidadeCli" name="cidadeCli">
                 </div>
                 <div class="col-md-6">
                     <label for="ruaCli" class="form-label">Rua</label>
-                    <input type="text" class="form-control" id="ruaCli">
+                    <input type="text" class="form-control" id="ruaCli" name="ruaCli">
                 </div>
                 <div class="col-md-3">
-                    <label for="estadoCli" class="form-label">Estado</label>
-                    <input type="text" class="form-control" id="estadoCli">
+                    <label for="ufCli" class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="ufCli" name="ufCli">
                 </div>
                 <div class="col-md-3">
-                    <label for="casaCli" class="form-label">Nº Da Residência</label>
-                    <input type="int" class="form-control" id="casaCli">
+                    <label for="ncasaCli" class="form-label">Nº Da Residência</label>
+                    <input type="text" class="form-control" id="ncasaCli" name="ncasaCli">
                 </div>
                 <div class="col-md-6">
-                    <label for="contatoCli" class="form-label">Contato</label>
-                    <input type="int" class="form-control" id="contatoCli">
+                    <label for="celularCli" class="form-label">Celular</label>
+                    <input type="text" class="form-control" id="celularCli" name="celularCli">
                 </div>
                 <div class="col-6">
                     <label for="emailCli" class="form-label">Email</label>
-                    <input type="text" value="" class="form-control" id="emailCli">
+                    <input type="email" class="form-control" name="emailCli" id="emailCli">
                 </div>
                 <div class="col-md-12">
-                    <label for="descCli" class="form-label">Complementos</label>
-                    <input type="text" class="form-control" id="descCli">
+                    <label for="complementocasaCli" class="form-label">Complementos</label>
+                    <input type="text" class="form-control" id="complementocasaCli" name="complementocasaCli">
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Adicionar Cliente</button>

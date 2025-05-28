@@ -1,10 +1,10 @@
 <?php
 $servidor='localhost';
-$db = "nopelogestao";
+$db = "neogestão";
 $user = 'root';
 $pass = ''; 
 try {
-  $conn = new PDO('mysql:host='.$servidor.';dbname='.$db ,  $user, $pass);
+  $pdo = new PDO('mysql:host='.$servidor.';dbname='.$db ,  $user, $pass);
 } catch (PDOException $e) {
     echo 'Erro número : ' . $e->getMessage();
 }
