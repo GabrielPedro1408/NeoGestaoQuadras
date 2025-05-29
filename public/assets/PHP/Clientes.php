@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php 
+session_start();
+include_once 'conexao.php';
+include_once './modalCliente/CRUD/createCliente.php';
+?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -37,14 +41,24 @@
     <!-- buscar cli -->
     
     <!-- editar cli -->
-
-
     
-                <!-- PopUps -->
-
+<!-- PopUps -->
 
     <div id="main-content">
         <main>
+            <?php
+            if (isset($_SESSION['message'])):
+                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+            ?>
+                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                    <?= $_SESSION['message'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            endif;
+            ?>
             <div class="container">
                 <div class="titulo">
                     <h1><strong>Clientes</strong></h1>
@@ -61,6 +75,15 @@
                         <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </section>
+                <?php 
+                try {
+                    $stmt = $pdo->query("SELECT nome, celular, email, cpf, rua, nCasa FROM clientes");
+                    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                } catch ( PDOException $e) {
+                    echo 'erro ao buscar clientes' . $e -> getMessage();
+                }
+                
+                ?>
                     <!-- start tableCli  -->
                     <div class="table-clientes">
                         <table class="table table-hover">
@@ -76,33 +99,52 @@
                             </thead>
                             <tbody>
                             <?php
-                            // foreach ($clientes as $cliente) {
-                                echo"
-                                <td scope ='row'><label for='nomeCli'>Espeto Pietro da Santa Silva</label></dh>
-                                <td><label for='contatoCli'>(011) 90000-0000</label></td>
-                                <td><label for='emailCli'>bosta123@gmail.com</label></td>
-                                <td><label for='cpfCli'>40090080023</label></td>
-                                <td><label for='enderecoCli'>bangalo do espeto</label></td>
+                             foreach ($clientes as $cliente):
+                            ?>
+                            <tr>
+                                <td><label for='nomeCli'><?= 
+                                empty($cliente['nome']) ? '<span>Vazio</span>' :
+                                $cliente['nome']?>
+                                </label></td>
+
+                                <td><label for='contatoCli'><?= 
+                                empty($cliente['celular']) ?  '<span>Vazio</span>' :
+                                $cliente['celular']?>  
+                                </label></td>
+
+                                <td><label for='emailCli'><?= 
+                                empty($cliente['email']) ? '<span>Vazio</span>' :
+                                $cliente['email']?>
+                                </label></td>
+
+                                <td><label for='cpfCli'><?= 
+                                empty($cliente['cpf']) ? '<span>Vazio</span>' :
+                                $cliente['cpf']?>
+                                </label></td>
+
+                                <td><label for='enderecoCli'><?= 
+                                empty($cliente['rua']) ? '<span>Vazio</span>' :
+                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                </label></td>
+
                                 <td class='icons-item'>
                                     <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                     <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
                                     <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                </td>";
-                            // }
+                                </td>
+                            </tr>
+                            <?php
+                                endforeach;
                             ?>
                             </tbody>
                         </table>
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>
-                            <?php
-                            // foreach($pages as $page){
-                                echo"
+
                                 <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div></div>
                                 <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
-                                ";
-                            // }
-                            ?>
+                                
                         </div>
                     </div>
                 </div>

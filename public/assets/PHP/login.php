@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../CSS/login.css">
-    <title>União</title>
+    <title>Neo Gestão</title>
 </head>
 
 <body>
@@ -15,13 +15,9 @@
         <div class="form-container sign-up">
             <form action="cadastro.php" method="post">
                 <h1>Ciar uma conta</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
+                <br>
                 <span>Preencha os campos com seu dados</span>
+                <br>
                 <input type="text" name="username" id="username" placeholder="Nome de Usuário">
                 <input type="email" name="email" id="email" placeholder="Email">
                 <input type="password" name="password" id="password" placeholder="Senha">
@@ -31,13 +27,9 @@
         <div class="form-container sign-in">
             <form action="login.php" method="post" autocomplete="on">
                 <h1>Entrar</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
+                <br>
                 <span>Informe o seu nome de usuário e senha</span>
+                <br>
                 <input type="text" name="username" id="username" placeholder="Nome de Usuário">
                 <input type="password" name="password" id="password" placeholder="Senha">
                 <?php
@@ -46,7 +38,7 @@
                     }
                 ?>
                 <a href="#">Esqueceu a Senha?</a>
-                <button>Entar</button>
+                <button type="submit">Entar</button>
             </form>
         </div>
         <div class="toggle-container">

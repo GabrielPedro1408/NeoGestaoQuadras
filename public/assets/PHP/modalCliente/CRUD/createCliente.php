@@ -4,8 +4,7 @@
     // adicionar o script para verificar de qual empresa é o cliente a partir do usuario logado verificando a tabela empresa
 
 
-
-    include '../../conexao.php';
+    include_once __DIR__ . '/../../conexao.php';
     
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         // Guardar em variaveis os dados do formulário
@@ -46,11 +45,15 @@
                 ':ncasaCli' => $ncasaCli,
                 ':complementocasaCli' => $complementocasaCli
             ));
-            if(!$result) {
-                echo "<script>alert('Erro ao cadastrar cliente.');</script>";
+            if ($result) {
+                $_SESSION['message'] = 'Dados inseridos com sucesso!';
+                $_SESSION['message_type'] = 'success'; // Bootstrap: verde
             } else {
-                echo "<script>alert('Cliente cadastrado com sucesso!');</script>";
+                $_SESSION['message'] = 'Erro ao inserir os dados!';
+                $_SESSION['message_type'] = 'danger'; // Bootstrap: vermelho
             }
+            header("Location: ../PHP/Clientes.php");
+            exit;
             
         } catch (PDOException $e) {
             echo 'Erro número: ' . $e->getMessage();

@@ -212,3 +212,16 @@ table td i{
 .modal .excluir{
     height: calc(100% + 100px);
 }
+.alert-top-fixed {
+    position: fixed;
+    top: 80px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    min-width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.table-clientes span{
+    color: #7a7a7a;
+}

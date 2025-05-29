@@ -62,6 +62,15 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                 <div class="col-12">
                     <button type="submit" name="cadastrar" class="btn btn-primary">Cadastrar Agendamento</button>
                 </div>
+                <?php
+                if (isset($_GET['msg'])) {
+                    if ($_GET['msg'] == 'sucesso') {
+                        echo "<script>alert('Cliente cadastrado com sucesso!');</script>";
+                    } elseif ($_GET['msg'] == 'erro') {
+                        echo "<script>alert('Erro ao cadastrar cliente.');</script>";
+                    }
+                }
+                ?>
                 </form>
             </div>
         </div>
