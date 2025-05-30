@@ -41,7 +41,7 @@
         <main>
             <div class="container">
                 <div class="titulo">
-                    <h1><strong>Clientes</strong></h1>
+                    <h1><strong>Funcionamento</strong></h1>
                 </div>
             </div>
 

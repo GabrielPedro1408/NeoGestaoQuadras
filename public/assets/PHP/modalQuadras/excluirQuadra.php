@@ -7,11 +7,11 @@
             <form class="row g-3" action="Quadras.php" method="POST">
                 <div class="col-md-6">
                     <label for="nomeQuadra" class="form-label">Nome</label>
-                    <input type="text" value="Quadra 1" class="form-control" id="nomeQuadra" disabled>
+                    <input type="text" value="Quadra 1" class="form-control" id="nomeQuadra" name="nomeQuadra" disabled>
                 </div>
                 <div class="col-md-4">
                     <label for="modalidadeQuadra" class="form-label">Modalidade</label>
-                    <input type="checkbox" class="form-control" id="modalidadeQuadra">
+                    <input type="checkbox" class="form-control" id="modalidadeQuadra" name="modalidadeQuadra" disabled>
                 </div>
                 <div class="buttons">
                     <button type="submit" id="excluirQuadra" class="deletar">Excluir</button>

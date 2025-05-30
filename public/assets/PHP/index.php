@@ -171,6 +171,10 @@
                                                 <a href="#"><i class="fa-solid fa-circle-info third"></i></a>
                                             </div>
                                         </div>
+                                        <div class="bottom-group">
+                                            <button>Exibir todos os Gastos</button>
+                                            <button>Novo Gasto</button>
+                                        </div>
                                     </div>
                                 </div>
                             </section>

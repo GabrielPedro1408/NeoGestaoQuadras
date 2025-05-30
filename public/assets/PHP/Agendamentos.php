@@ -1,5 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+session_start();
+include_once 'conexao.php';
+include_once './modalAgendamento/CRUD/createAgendamento.php';
+?><!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +11,6 @@
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
     <script type="module" src="../JS/PopUpBuscar.js"></script>
     <script type="module" src="../JS/PopUpCadastro.js"></script>
     <script type="module" src="../JS/PopUpEditar.js"></script>
@@ -17,9 +20,15 @@
     <title>Agendamentos</title>
 </head>
 <body>
+
+    <!-- menssagem -->
+     
+
+    <!-- menssagem -->
+    
     <?php
-        require '../components/sidebar.php';
-        require '../components/header.php' ;
+        include '../components/sidebar.php';
+        include '../components/header.php' ;
     ?>
 
     <!-- start main -->
@@ -40,6 +49,19 @@
 
     <div id="main-content">
         <main>
+            <?php
+            if (isset($_SESSION['message'])):
+                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+            ?>
+                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                    <?= $_SESSION['message'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            endif;
+            ?>
             <div class="container">
                 <div class="titulo">
                     <h1><strong>Agendamentos</strong></h1>
@@ -61,7 +83,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                <th scope="col">Nome</th>
+                                <th scope="col">Nome Cliente</th>
                                 <th scope="col">Quadra</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Horário Início</th>
@@ -71,36 +93,107 @@
                                 <th scope="col">Ações</th>
                                 </tr>
                             </thead>
+                            <?php 
+                            try {
+                                $stmt = $pdo->query("
+                                SELECT
+                                    cli.nome AS nome_cliente,
+                                    q.descr AS quadras,
+                                    ag.dt,
+                                    ag.horario_agendado,
+                                    ag.tempo_alocado,
+                                    ag.valor,
+                                    ag.estado_conta
+                                        FROM agendamentos ag
+                                        JOIN clientes cli ON ag.id_clientes = cli.id
+                                        JOIN quadras q ON ag.id_quadra = q.id
+                                ");
+                                $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            } catch ( PDOException $e) {
+                                echo 'erro ao buscar clientes' . $e -> getMessage();
+                            }
+                            
+                            ?>
                             <tbody>                                    
                             <?php
-                            // foreach ($clientes as $cliente) {
-                                echo"
-                                <td scope ='row'><label for='nomeAgendamento'>Espeto </label></dh>
-                                <td><label for='quadraAgendamento'>Quadra 1</label></td>
-                                <td><label for='dataAgendamento'>14/07/20025</label></td>
-                                <td><label for='horarioinicioAgendamento'>14:30</label></td>
-                                 <td><label for='horariofinalAgendamento'>16:00</label></td>
-                                <td><label for='valorAgendamento'>R$ 170,00</label></td>
-                                 <td><label for='estadoAgendamento'>Cancelado</label></td>
+                             foreach ($agendametos as $agendamento):
+                            ?>
+                            <tr>
+                                <td><label for='nomeCli'><?= 
+                                empty($cliente['nome']) ? '<span>Vazio</span>' :
+                                $cliente['nome']?>
+                                </label></td>
+
+                                <td><label for='contatoCli'><?= 
+                                empty($cliente['celular']) ?  '<span>Vazio</span>' :
+                                $cliente['celular']?>  
+                                </label></td>
+
+                                <td><label for='emailCli'><?= 
+                                empty($cliente['email']) ? '<span>Vazio</span>' :
+                                $cliente['email']?>
+                                </label></td>
+
+                                <td><label for='cpfCli'><?= 
+                                empty($cliente['cpf']) ? '<span>Vazio</span>' :
+                                $cliente['cpf']?>
+                                </label></td>
+
+                                <td><label for='enderecoCli'><?= 
+                                empty($cliente['rua']) ? '<span>Vazio</span>' :
+                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                </label></td>
+
+                                <td><label for='enderecoCli'><?= 
+                                empty($cliente['rua']) ? '<span>Vazio</span>' :
+                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                </label></td>
+                                
+                                <td><label for='enderecoCli'><?= 
+                                empty($cliente['rua']) ? '<span>Vazio</span>' :
+                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                </label></td>
+
                                 <td class='icons-item'>
                                     <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                     <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
                                     <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                </td>";
-                            // }
+                                </td>
+                            </tr>
+                            <?php
+                                endforeach;
                             ?>
-                            </tbody>
+                                 <td scope ='row'><label for='nomeAgendamento'> <?= $id_cliente?> </label></dh>
+                                <td><label for='quadraAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
+                                <td><label for='dataAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
+                                <td><label for='horarioinicioAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
+                                 <td><label for='horariofinalAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
+                                <td><label for='valorAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
+                                 <td><label for='estadoAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
+                                <td class='icons-item'>
+                                    <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
+                                    <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
+                                    <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                                </td>
+                                <br>
+                            <?php 
+                            endforeach
+                            ?>
+                            <tbody> 
                         </table>
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>
                             <?php 
-                            // foreach($pages as $page){
-                                echo"
+                            // foreach($pages as $page):
+                            ?>
+                                
                                 <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div></div>
                                 <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
-                                ";
-                            // }
+                                
+                            
+                            <?php 
+                            // endforeach 
                             ?>
                         </div>
                     </div>     
@@ -111,6 +204,7 @@
     <footer>
 
     </footer>
+    <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

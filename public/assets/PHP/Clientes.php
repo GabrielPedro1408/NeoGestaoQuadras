@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php 
+session_start();
+include_once 'conexao.php';
+include_once './modalCliente/CRUD/createCliente.php';
+?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +24,7 @@
 <body>
 
     <?php
-        include_once 'conexao.php';
+        include_once __DIR__. 'conexao.php';
         include_once '../src/buscarIdEmpresa.php';
         require '../components/sidebar.php';
         require '../components/header.php' ; 
@@ -39,14 +43,24 @@
     <!-- buscar cli -->
     
     <!-- editar cli -->
-
-
     
-                <!-- PopUps -->
-
+<!-- PopUps -->
 
     <div id="main-content">
         <main>
+            <?php
+            if (isset($_SESSION['message'])):
+                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+            ?>
+                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                    <?= $_SESSION['message'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            endif;
+            ?>
             <div class="container">
                 <div class="titulo">
                     <h1><strong>Clientes</strong></h1>
@@ -63,6 +77,15 @@
                         <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </section>
+                <?php 
+                try {
+                    $stmt = $pdo->query("SELECT nome, celular, email, cpf, rua, nCasa FROM clientes");
+                    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                } catch ( PDOException $e) {
+                    echo 'erro ao buscar clientes' . $e -> getMessage();
+                }
+                
+                ?>
                     <!-- start tableCli  -->
                     <div class="table-clientes">
                         <table class="table table-hover">
@@ -91,6 +114,8 @@
                                 foreach($result as $row){
                                     echo "
                                     <tr>
+                                        <input type='hidden' id='idCliente' value='". $row['id'] ."' />
+                                        <td scope ='row'><label for='idCli'>". $row['id']."</label></td>
                                         <td scope ='row'><label for='nomeCli'>". $row['nome']." ". $row['sobrenome']."</label></td>
                                         <td><label for='contatoCli'>". $row['celular'] ."</label></td>
                                         <td><label for='emailCli'>". $row['email'] ."</label></td>
@@ -111,14 +136,10 @@
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>
-                            <?php
-                            // foreach($pages as $page){
-                                echo"
+
                                 <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div></div>
                                 <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
-                                ";
-                            // }
-                            ?>
+                                
                         </div>
                     </div>
                 </div>
