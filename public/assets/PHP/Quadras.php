@@ -25,7 +25,7 @@
     <!-- start main -->
     <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
-            <?php include_once "./modalQuadras/cadastroQuadra.php"; ?>
+        <?php include_once "./modalQuadras/cadastroQuadra.php"; ?>
             <!-- buscar cliente -->
         <?php include_once "./modalQuadras/buscarQuadra.php"; ?>
             <!-- editar cliente -->

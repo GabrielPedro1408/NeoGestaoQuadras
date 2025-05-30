@@ -20,8 +20,10 @@
 <body>
 
     <?php
+        include_once 'conexao.php';
+        include_once '../src/buscarIdEmpresa.php';
         require '../components/sidebar.php';
-        require '../components/header.php' ;
+        require '../components/header.php' ; 
     ?>
     <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
@@ -76,19 +78,33 @@
                             </thead>
                             <tbody>
                             <?php
-                            // foreach ($clientes as $cliente) {
-                                echo"
-                                <td scope ='row'><label for='nomeCli'>Espeto Pietro da Santa Silva</label></dh>
-                                <td><label for='contatoCli'>(011) 90000-0000</label></td>
-                                <td><label for='emailCli'>bosta123@gmail.com</label></td>
-                                <td><label for='cpfCli'>40090080023</label></td>
-                                <td><label for='enderecoCli'>bangalo do espeto</label></td>
-                                <td class='icons-item'>
-                                    <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
-                                    <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
-                                    <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                </td>";
-                            // }
+                                //Start search clients
+                                $username = "Vitor";
+                                $id_empresa = buscarIdEmpresa($username);
+                                $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, cidade
+                                FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
+                                $buscarClientes->execute(array(
+                                    ':id_empresa' => $id_empresa
+                                ));
+                                $result = $buscarClientes->fetchAll(PDO::FETCH_ASSOC);
+
+                                foreach($result as $row){
+                                    echo "
+                                    <tr>
+                                        <td scope ='row'><label for='nomeCli'>". $row['nome']." ". $row['sobrenome']."</label></td>
+                                        <td><label for='contatoCli'>". $row['celular'] ."</label></td>
+                                        <td><label for='emailCli'>". $row['email'] ."</label></td>
+                                        <td><label for='cpfCli'>". $row['cpf'] ."</label></td>
+                                        <td><label for='enderecoCli'>". $row['cidade'] ."</label></td>
+                                        <td class='icons-item'>
+                                            <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
+                                            <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
+                                            <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                                        </td>
+                                    </tr>
+                                    ";
+                                }
+                                //End search clients
                             ?>
                             </tbody>
                         </table>
