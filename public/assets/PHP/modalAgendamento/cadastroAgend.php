@@ -1,5 +1,4 @@
 <?php  
-include_once __DIR__ . '/../conexao.php';
 include_once __DIR__ . '/CRUD/createAgendamento.php';
 ?>
     <div class="modal" id="modalCadastro">

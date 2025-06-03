@@ -2,10 +2,10 @@
     // resolver o problema que ele salva mesmo sem os dados
     // colocar o script que verifica se o campo está vazio
     // adicionar o script para verificar de qual empresa é o cliente a partir do usuario logado verificando a tabela empresa
+    $id_empresa = 1;
 
-
-
-    include_once '../../conexao.php';
+    include_once __DIR__ . '/../../conexao.php';
+    include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
     
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         // Guardar em variaveis os dados do formulário
@@ -48,13 +48,21 @@
                 ':ncasaCli' => $ncasaCli,
                 ':complementocasaCli' => $complementocasaCli
             ));
-            if(!$result) {
-                echo "<script>alert('Erro ao cadastrar cliente.');</script>";
+                if (!$result) {
+                $_SESSION['message'] = 'Erro ao inserir os dados!';
+                $_SESSION['message_type'] = 'danger';
+                header("Location: ../PHP/Clientes.php");
+                exit;
             } else {
-                echo "<script>alert('Cliente cadastrado com sucesso!');</script>";
+                $_SESSION['message'] = 'Dados inseridos com sucesso!';
+                $_SESSION['message_type'] = 'success';
+                header("Location: ../PHP/Clientes.php");
+                exit;
             }
-        } catch (PDOException $e) {
-            echo 'Erro número: ' . $e->getMessage();
+        }
+        catch (PDOException $e) {
+            echo "Erro ao inserir os dados" .
+            "Número do erro: " . $e -> getMessage() ;
         }
     }
 ?>

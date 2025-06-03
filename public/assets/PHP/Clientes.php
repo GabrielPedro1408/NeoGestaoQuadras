@@ -1,7 +1,9 @@
 <?php 
 session_start();
 include_once 'conexao.php';
-include_once './modalCliente/CRUD/createCliente.php';
+if($_SERVER ['REQUEST_METHOD'] === "POST"){
+    include_once './modalCliente/CRUD/createCliente.php';
+}
 ?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,7 +14,6 @@ include_once './modalCliente/CRUD/createCliente.php';
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
     <script type="module" src="../JS/PopUpBuscar.js"></script>
     <script type="module" src="../JS/PopUpCadastro.js"></script>
     <script type="module" src="../JS/PopUpEditar.js"></script>
@@ -24,8 +25,7 @@ include_once './modalCliente/CRUD/createCliente.php';
 <body>
 
     <?php
-        include_once __DIR__. 'conexao.php';
-        include_once '../src/buscarIdEmpresa.php';
+        
         require '../components/sidebar.php';
         require '../components/header.php' ; 
     ?>
@@ -91,7 +91,8 @@ include_once './modalCliente/CRUD/createCliente.php';
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                <th scope="col">Nome</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Cliente</th>
                                 <th scope="col">Contato</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">CPF</th>
@@ -101,36 +102,37 @@ include_once './modalCliente/CRUD/createCliente.php';
                             </thead>
                             <tbody>
                             <?php
-                                //Start search clients
+                                //Start search clients 
                                 $username = "Vitor";
                                 $id_empresa = buscarIdEmpresa($username);
-                                $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, cidade
+                                $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
                                 FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
                                 $buscarClientes->execute(array(
                                     ':id_empresa' => $id_empresa
                                 ));
                                 $result = $buscarClientes->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach($result as $row){
-                                    echo "
+                            ?>
+                            <?php
+                                foreach($result as $row):
+                            ?>
                                     <tr>
-                                        <input type='hidden' id='idCliente' value='". $row['id'] ."' />
-                                        <td scope ='row'><label for='idCli'>". $row['id']."</label></td>
-                                        <td scope ='row'><label for='nomeCli'>". $row['nome']." ". $row['sobrenome']."</label></td>
-                                        <td><label for='contatoCli'>". $row['celular'] ."</label></td>
-                                        <td><label for='emailCli'>". $row['email'] ."</label></td>
-                                        <td><label for='cpfCli'>". $row['cpf'] ."</label></td>
-                                        <td><label for='enderecoCli'>". $row['cidade'] ."</label></td>
+                                        <input type='hidden' id='idCliente' value=<?= $row['id']?> />
+                                        <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
+                                        <td scope ='row'><label for='nomeCli'><?= $row['nome']." ". $row['sobrenome'] ?></label></td>
+                                        <td><label for='contatoCli'><?= $row['celular'] ?></label></td>
+                                        <td><label for='emailCli'><?= $row['email'] ?></label></td>
+                                        <td><label for='cpfCli'><?= $row['cpf'] ?></label></td>
+                                        <td><label for='enderecoCli'><?= "Rua ". $row['rua'] .", nº". $row['nCasa'] ?></label></td>
                                         <td class='icons-item'>
                                             <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                             <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
                                             <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
                                         </td>
                                     </tr>
-                                    ";
-                                }
-                                //End search clients
-                            ?>
+                                <?php
+                                    endforeach
+                                ?>
+                                <!-- End search clients -->
                             </tbody>
                         </table>
                         <div class="footer-table">
@@ -146,9 +148,7 @@ include_once './modalCliente/CRUD/createCliente.php';
             </div>
         </main>
     </div>
-    <footer>
-
-    </footer>
+    <script  src="../JS/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

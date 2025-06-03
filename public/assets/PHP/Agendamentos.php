@@ -105,7 +105,7 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                                     ag.valor,
                                     ag.estado_conta
                                         FROM agendamentos ag
-                                        JOIN clientes cli ON ag.id_clientes = cli.id
+                                        JOIN clientes cli ON ag.id_cliente = cli.id
                                         JOIN quadras q ON ag.id_quadra = q.id
                                 ");
                                 $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -116,42 +116,42 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                             ?>
                             <tbody>                                    
                             <?php
-                             foreach ($agendametos as $agendamento):
+                             foreach ($agendamentos as $agendamento):
                             ?>
                             <tr>
-                                <td><label for='nomeCli'><?= 
-                                empty($cliente['nome']) ? '<span>Vazio</span>' :
-                                $cliente['nome']?>
+                                <td><label>
+                                <?=empty($agendamento['nome_cliente']) ? '<span>Vazio</span>' :
+                                $agendamento['nome_cliente']?>
                                 </label></td>
 
-                                <td><label for='contatoCli'><?= 
-                                empty($cliente['celular']) ?  '<span>Vazio</span>' :
-                                $cliente['celular']?>  
+                                <td><label> 
+                                <?=empty($agendamento['quadra']) ? '<span>Vazio</span>' :
+                                $agendamento['quadra']?>  
                                 </label></td>
 
-                                <td><label for='emailCli'><?= 
-                                empty($cliente['email']) ? '<span>Vazio</span>' :
-                                $cliente['email']?>
+                                <td><label>
+                                <?=empty($agendamento['dt']) ? '<span>Vazio</span>' :
+                                $agendamento['dt']?>
                                 </label></td>
 
-                                <td><label for='cpfCli'><?= 
-                                empty($cliente['cpf']) ? '<span>Vazio</span>' :
-                                $cliente['cpf']?>
+                                <td><label> 
+                               <?=empty($agendamento['horario_agendado']) ? '<span>Vazio</span>' :
+                                $agendamento['horario_agendado']?>
                                 </label></td>
 
-                                <td><label for='enderecoCli'><?= 
-                                empty($cliente['rua']) ? '<span>Vazio</span>' :
-                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                <td><label>
+                                <?=empty($agendamento['tempo_alocado']) ? '<span>Vazio</span>' :
+                                $agendamento['tempo_alocado']?>
                                 </label></td>
 
-                                <td><label for='enderecoCli'><?= 
-                                empty($cliente['rua']) ? '<span>Vazio</span>' :
-                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                <td><label>
+                                <?=empty($agendamento['valor']) ? '<span>Vazio</span>' :
+                                $agendamento['valor']?>
                                 </label></td>
                                 
-                                <td><label for='enderecoCli'><?= 
-                                empty($cliente['rua']) ? '<span>Vazio</span>' :
-                                $cliente['rua']. ','.$cliente['nCasa']?>
+                                <td><label>
+                                <?=empty($agendamento['estado_conta']) ? '<span>Vazio</span>' :
+                                $agendamento['estado_conta']?>
                                 </label></td>
 
                                 <td class='icons-item'>
@@ -163,23 +163,6 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                             <?php
                                 endforeach;
                             ?>
-                                 <td scope ='row'><label for='nomeAgendamento'> <?= $id_cliente?> </label></dh>
-                                <td><label for='quadraAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
-                                <td><label for='dataAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
-                                <td><label for='horarioinicioAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
-                                 <td><label for='horariofinalAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
-                                <td><label for='valorAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
-                                 <td><label for='estadoAgendamento'><?= $id_cliente['id_cliente'] ?></label></td>
-                                <td class='icons-item'>
-                                    <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
-                                    <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
-                                    <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                </td>
-                                <br>
-                            <?php 
-                            endforeach
-                            ?>
-                            <tbody> 
                         </table>
                         <div class="footer-table">
                             <div class='esquerda'>

@@ -1,12 +1,14 @@
  <!-- cadastro cli -->
-    
+    <?php 
+    include_once __DIR__ . '/CRUD/createCliente.php';
+    ?>
     <div class="modal" id="modalCadastro">
             <div class="modal-inner">
                 <div class="top-pop-up">
                     <h3>Cadastro de Cliente</h3>
                     <a href="#" id="closePopUpCadastro" ><i class="fa-solid fa-x"></i></a>
                 </div>
-            <form class="row g-3" action="modalCliente/CRUD/createCliente.php" method="POST">
+            <form class="row g-3" action="" method="POST">
                 <div class="col-md-6">
                     <label for="nomeCli" class="form-label">Primeiro Nome</label>
                     <input type="text" class="form-control" id="nomeCli" name="nomeCli">

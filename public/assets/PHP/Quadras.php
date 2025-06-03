@@ -1,6 +1,7 @@
 <?php
 session_start();
-$_SESSION['id_empresa'];
+include_once 'conexao.php';
+include_once './modalQuadras/CRUD/createQuadras.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,8 +23,8 @@ $_SESSION['id_empresa'];
 </head>
 <body>
     <?php
-        require '../components/sidebar.php';
-        require '../components/header.php' ;
+    include '../components/sidebar.php';
+    include '../components/header.php' ;
     ?>
 
     <!-- start main -->

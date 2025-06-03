@@ -1,8 +1,8 @@
        <?php
             
             include_once __DIR__ . '/../../conexao.php';
-
-            if (isset($_POST["cadastrar"])) {
+            try {
+                if (isset($_POST["cadastrar"])) {
 
                 /* passagem de parametros*/
                 $id_empresa = 1;
@@ -36,11 +36,19 @@
                 $result = $stmt->execute();
 
                 if (!$result) {
-                    var_dump($stmt->errorInfo());
-                    exit;
-                }
-                 else {
-                    echo $stmt->rowCount() . "Linhas Inseridas";
-                 }
+                $_SESSION['message'] = 'Erro ao inserir os dados!';
+                $_SESSION['message_type'] = 'danger'; // Bootstrap: verde
+                header("Location: ../PHP/Agendamentos.php");
+                exit;
+            } else {
+                $_SESSION['message'] = 'Dados inseridos com sucesso!';
+                $_SESSION['message_type'] = 'success'; // Bootstrap: vermelho
+                header("Location: ../PHP/Agendamentos.php");
+                exit;
             }
-            ?>
+            }
+        }catch (PDOException $e) {
+                    echo "Erro ao inserir os dados" .
+                    "Número do erro: " . $e -> getMessage() ;
+                }
+?>
