@@ -124,7 +124,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                                         <td><label for='cpfCli'><?= $row['cpf'] ?></label></td>
                                         <td><label for='enderecoCli'><?= "Rua ". $row['rua'] .", nº". $row['nCasa'] ?></label></td>
                                         <td class='icons-item'>
-                                            <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
+                                            <a id='openPopUpEditar' class='".$row['id']."' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                             <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
                                             <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
                                         </td>
