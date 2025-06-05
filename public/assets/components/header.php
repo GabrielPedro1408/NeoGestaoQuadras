@@ -9,7 +9,7 @@
 <body>
   <div id="header">
 <div id="logo">
-          <a href="../PHP/index.php"><img src="../images/financeiro.png" alt="Logo"></a>
+          <a href="../PHP/dashboard.php"><img src="../images/financeiro.png" alt="Logo"></a>
           <h1 id="title">NEO GESTÃO</h1>
         </div>
         <div id="user-info">

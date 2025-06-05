@@ -6,8 +6,8 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/cadastro.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+     <link rel="stylesheet" href="../CSS/cadastro.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
     <script type="module" src="../JS/cadastro.js"></script>
     <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
@@ -17,6 +17,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
 
         <main>
         <div class="container">
+
             <div class="form">
                 <div class="pagination">
                     <div class="number active">1</div>
