@@ -71,6 +71,24 @@ body {
     height: 4px;
     background: #042940e1;
     border-radius: 5px;
+    margin: 0 12px;
+    overflow: hidden;
+    position: relative;
+}
+.bar .fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: #042940;
+    border-radius: 5px;
+    transition: width 0.8s;
+    height: 100%;
+    z-index: 1;
+}
+.pagination .number.active {
+    background: #042940;
+    color: #fff;
+    transition: background 0.4s, color 0.4s;
 }
 .active ~ div{
     background: #ddd;

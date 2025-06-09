@@ -20,7 +20,7 @@
             <nav class="menu">
                 <ul>
                     <li><a href="#">Início</a></li>
-                    <li><a href="login.php">Entrar</a></li>
+                    <li><a href="#">Entrar</a></li>
                     <li><a href="Cadastro.php">Cadastrar</a></li>
                 </ul>
             </nav>
