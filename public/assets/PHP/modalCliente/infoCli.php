@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-6">
                     <label for="emailCli" class="form-label">Email</label>
-                    <input type="text" value="" class="form-control" id="emailCli"disabled>
+                    <input type="email" value="" class="form-control" id="emailCli"disabled>
                 </div>
                 <div class="col-md-12">
                     <label for="descCli" class="form-label">Complementos</label>

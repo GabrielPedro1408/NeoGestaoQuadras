@@ -1,18 +1,35 @@
-(function(){
-    let currentPage = 1;
-    const nextBtn = document.querySelector(".form .next");
-    function movePage(){
-        nextBtn.disabled = false;
-        document.querySelector(" .pagination .active").classList.remove("active");
-        document.querySelectorAll(".pagination .number")[currentPage-1].classList.remove("active");
-        const stepNode = document.querySelector(".steps .step");
-        const width = ((currentPage-1)*stepNode.offsetWidtth*-1)="px";
-        stepNode.parentNode.style.marginLeft = width;
+document.addEventListener('DOMContentLoaded', function() {
+    const steps = document.querySelectorAll('.step');
+    const nextBtns = document.querySelectorAll('.next');
+    const prevBtns = document.querySelectorAll('.prev'); // se quiser botões de voltar
+    let currentStep = 0;
 
+    function showStep(index) {
+        steps.forEach((step, i) => {
+            step.classList.toggle('active', i === index);
+        });
     }
-    nextBtn.addEventListener("click",function(){
-        currentPage += 1;
-        movePage();
+
+    nextBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
     });
-    
-})();
+
+    // Se quiser botões de voltar:
+    prevBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+    });
+
+    showStep(currentStep);
+});

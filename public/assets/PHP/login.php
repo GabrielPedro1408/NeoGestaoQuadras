@@ -12,25 +12,13 @@
 <body>
 
     <div class="container" id="container">
-        <div class="form-container sign-up">
-            <form action="cadastro.php" method="post">
-                <h1>Ciar uma conta</h1>
-                <br>
-                <span>Preencha os campos com seu dados</span>
-                <br>
-                <input type="text" name="username" id="username" placeholder="Nome de Usuário">
-                <input type="email" name="email" id="email" placeholder="Email">
-                <input type="password" name="password" id="password" placeholder="Senha">
-                <button>Cadastrar-se</button>
-            </form>
-        </div>
         <div class="form-container sign-in">
             <form action="login.php" method="post" autocomplete="on">
                 <h1>Entrar</h1>
                 <br>
                 <span>Informe o seu nome de usuário e senha</span>
                 <br>
-                <input type="text" name="username" id="username" placeholder="Nome de Usuário">
+                <input type="email" name="username" id="username" placeholder="Email">
                 <input type="password" name="password" id="password" placeholder="Senha">
                 <?php
                     if(isset($_GET['error']) && $_GET['error'] == 'incorret'){
@@ -41,21 +29,7 @@
                 <button type="submit">Entar</button>
             </form>
         </div>
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Bem-vindo de volta!</h1>
-                    <p>Use seus dados ja cadastrados para entrar</p>
-                    <button class="hidden" id="login">Entrar</button>
-                </div>
-                <div class="toggle-panel toggle-right">
-                    <h1>Olá, amigo!</h1>
-                    <p>Cadastre seus dados para desfrutar</p>
-                    <button class="hidden" id="register">Cadastrar-se</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div> 
 
     <script src="../JS/login.js"></script>
 </body>

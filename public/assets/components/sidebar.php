@@ -22,7 +22,7 @@
     </div>
     <ul id="side-items">
     <li class="side-item" data-item="dashboard">
-        <a href="../PHP/index.php">
+        <a href="../PHP/dashboard.php">
             <i class="fas fa-chart-line fa-xl"></i>
             <span class="item-description">
                 Dashboard
