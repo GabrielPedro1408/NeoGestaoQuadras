@@ -7,20 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
   openBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open-sidebar');
     if (sidebar.classList.contains('open-sidebar')) {
-      mainContent.style.marginLeft = '310px'; // Largura do sidebar aberto
-      openBtn.style.marginRight = '-15px';
+      mainContent.style.marginLeft = '265px'; // Largura do sidebar aberto
+      openBtn.style.marginRight = '5px';
       // Largura do sidebar aberto
     } else {
-      mainContent.style.marginLeft = '120px';
+      mainContent.style.marginLeft = '150px';
       openBtn.style.marginRight = '50px'; // Largura do sidebar fechado
     }
   });
 
   // Restaura o estado inicial do sidebar e do main-content
   if (sidebar.classList.contains('open-sidebar')) {
-    mainContent.style.marginLeft = '310px';
+    mainContent.style.marginLeft = '265px';
   } else {
-    mainContent.style.marginLeft = '120px';
+    mainContent.style.marginLeft = '150px';
   }
 });
 

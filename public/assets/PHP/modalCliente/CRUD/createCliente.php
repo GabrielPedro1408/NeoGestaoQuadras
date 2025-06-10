@@ -13,6 +13,7 @@
         $sobrenomeCli = $_POST['sobrenomeCli'];
         $dataNascCli = $_POST['dataNascCli'];
         $cpfCli = $_POST['cpfCli'];
+        $cnpjCli = $_POST['cnpjCli'];
         $rgCli = $_POST['rgCli'];
         $cepCli = $_POST['cepCli'];
         $cidadeCli = $_POST['cidadeCli'];
@@ -29,8 +30,8 @@
         try {
             buscarIdEmpresa($username);
                 
-            $cadastraCli = $pdo->prepare("INSERT INTO clientes (id_empresa, nome, sobrenome, dt_nascimento, email, cpf, rg, celular, cep, uf, cidade, rua, nCasa, complemento) 
-            VALUES (:id_empresa, :nomeCli, :sobrenomeCli, :dataNascCli, :emailCli, :cpfCli, :rgCli, :celularCli, :cepCli, :ufCli, :cidadeCli, :ruaCli, :ncasaCli, :complementocasaCli)");
+            $cadastraCli = $pdo->prepare("INSERT INTO clientes (id_empresa, nome, sobrenome, dt_nascimento, email, cpf, cnpj, rg, celular, cep, uf, cidade, rua, nCasa, complemento) 
+            VALUES (:id_empresa, :nomeCli, :sobrenomeCli, :dataNascCli, :emailCli, :cpfCli, :cnpjCli, :rgCli, :celularCli, :cepCli, :ufCli, :cidadeCli, :ruaCli, :ncasaCli, :complementocasaCli)");
 
             $result = $cadastraCli->execute(array(
                 ':id_empresa' => $id_empresa,
@@ -39,6 +40,7 @@
                 ':dataNascCli' => $dataNascCli,
                 ':emailCli' => $emailCli,
                 ':cpfCli' => $cpfCli,
+                ':cnpjCli' => $cnpjCli,
                 ':rgCli' => $rgCli,
                 ':celularCli' => $celularCli,
                 ':cepCli' => $cepCli,

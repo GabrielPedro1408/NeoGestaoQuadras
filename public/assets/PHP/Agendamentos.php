@@ -71,7 +71,9 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                 <div class="container-fluids">
                 <section class="top-area">
                     <div class="adicionar">
-                        <button id='openPopUpCadastro' type="button">+ Novo Agendamento</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">
+                            + Novo Agendamento
+                        </button>
                     </div>
                             
                     <div class="pesquisar">

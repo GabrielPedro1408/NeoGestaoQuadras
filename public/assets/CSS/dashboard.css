@@ -341,5 +341,24 @@ body {
 .tempo-agendamento{
     display: flex;
 }
-
+.bottom-group-bts{
+    display: flex;
+    justify-content: space-between;
+    max-width: 95% ;
+    margin-top: 15px;
+}
+.bottom-group-bts button{
+    border: none;
+    border-radius: 15px;
+    background-color: #042940;
+    color: white;
+}
+.bt-exibir button{
+    width: 200px;
+    height: 30px;
+}
+.bt-novo-gasto button{
+    width: 140px;
+    height: 30px;
+}
 /* fim */

@@ -13,19 +13,17 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
     <link rel="stylesheet" href="../CSS/clientes.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
+    <link rel="stylesheet" href="../CSS/all.css">
     <script type="module" src="../JS/PopUpBuscar.js"></script>
     <script type="module" src="../JS/PopUpCadastro.js"></script>
     <script type="module" src="../JS/PopUpEditar.js"></script>
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
-    <title>NPL Quadras</title>
-
+    <title>Neo Gestão</title>
 </head>
 <body>
 
-    <?php
-        
+    <?php 
         require '../components/sidebar.php';
         require '../components/header.php' ; 
     ?>
@@ -61,6 +59,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 unset($_SESSION['message_type']);
             endif;
             ?>
+            
             <div class="container">
                 <div class="titulo">
                     <h1><strong>Clientes</strong></h1>
@@ -70,7 +69,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 <div class="container-fluids">
                 <section class="top-area">
                     <div class="adicionar">
-                        <button id='openPopUpCadastro' type="button">+ Novo Cliente</button>
+                        <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Novo Cliente</button>
                     </div>
 
                     <div class="pesquisar">
@@ -115,6 +114,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             <?php
                                 foreach($result as $row):
                             ?>
+                            
                                     <tr>
                                         <input type='hidden' id='idCliente' value=<?= $row['id']?> />
                                         <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
@@ -122,7 +122,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                                         <td><label for='contatoCli'><?= $row['celular'] ?></label></td>
                                         <td><label for='emailCli'><?= $row['email'] ?></label></td>
                                         <td><label for='cpfCli'><?= $row['cpf'] ?></label></td>
-                                        <td><label for='enderecoCli'><?= "Rua ". $row['rua'] .", nº". $row['nCasa'] ?></label></td>
+                                        <td><label for='enderecoCli'><?= $row['rua'] .", Nº ". $row['nCasa'] ?></label></td>
                                         <td class='icons-item'>
                                             <a id='openPopUpEditar' class='".$row['id']."' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                             <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
@@ -148,7 +148,16 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
             </div>
         </main>
     </div>
-    <script  src="../JS/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../src/consultaCep.js"></script>
+    <script src="../src/consultaRG.js"></script>
+    <script src="../src/consultaCPF.js"></script>
+    <script src="../src/consultaCNPJ.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script>
+        $('#modalCadastro').on('shown.bs.modal', function () {
+        $('#nomeCli').focus();
+        });
+    </script>
 </body>
 </html>

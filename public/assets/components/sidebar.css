@@ -35,7 +35,7 @@ main {
 }
 
 #sidebar.open-sidebar {
-    min-width: 300px; /* Largura do sidebar aberto */
+    min-width: 270px; /* Largura do sidebar aberto */
     align-items: center; /* Mantém os itens centralizados horizontalmente */
 }
 
