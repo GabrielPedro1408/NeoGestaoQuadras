@@ -11,10 +11,22 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
     <script type="module" src="../JS/cadastro.js"></script>
     <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
-    <title>Cadastro de Empresa</title>
+    <title>Cadastro Inicial</title>
 </head>
 <body>
-
+    <header>
+            <div class="logotipo">
+                <a href="index.php"><img src="../images/financeiro.png" alt="logo-NeoGestão"></a>
+                <h4>Neo Gestão</h4>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Entrar</a></li>
+                    <li><a href="Cadastro.php">Cadastrar</a></li>
+                </ul>
+            </nav>
+    </header>
         <main>
         <div class="container">
 
@@ -102,8 +114,9 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
                     </form>
                 </div>
             </div>
-        </div> 
-        </main>
+        </div>
+    </div>     
+</main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

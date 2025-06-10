@@ -62,15 +62,33 @@ body {
     text-align: center;
     line-height: 28px;
     border-radius: 50%;
-    background-color: #042940e1;
-    color: #ffffff;
+    background-color: #042940;
+    color: #042940;
     font-size: 15px;
 }
  .bar{
     width: 650px;
     height: 4px;
-    background: #042940e1;
+    background: #ffe44d;;
     border-radius: 5px;
+    margin: 0 12px;
+    overflow: hidden;
+    position: relative;
+}
+.bar .fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: #ffe44d;;
+    border-radius: 5px;
+    transition: width 0.8s;
+    height: 100%;
+    z-index: 1;
+}
+.pagination .number.active {
+    background: #ffe44d;
+    color: #042940;
+    transition: background 0.4s, color 0.4s;
 }
 .active ~ div{
     background: #ddd;
