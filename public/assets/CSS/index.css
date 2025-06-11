@@ -51,6 +51,11 @@ nav.menu ul li a {
     color: #fff;
     text-decoration: none;
 }
+.menu ul li a:hover,
+.menu ul li a:focus {
+    background: #ffe44d;
+    color: #042940;
+}
 
 /* main */
 
