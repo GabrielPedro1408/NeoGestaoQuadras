@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Login form submission
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
-      e.preventDefault()
 
       if (validateForm(loginForm)) {
         showLoading()
