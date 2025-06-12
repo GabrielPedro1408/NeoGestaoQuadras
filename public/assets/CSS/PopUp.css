@@ -15,18 +15,13 @@
     
 }
 /* Conteúdo interno do modal */
-.modal-inner {
+.modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 1200px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: auto;
-    margin-top: 150px;
 }
 
 /* Botão de fechar */
@@ -51,7 +46,7 @@
     margin: 0;
 }
 .modal-inner p{
-    line-height: 24px;
+    
     margin: 10px 0;
 }
 .top-pop-up{
