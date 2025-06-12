@@ -1,3 +1,6 @@
+<?php
+include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,21 +15,26 @@
 <body>
 
     <div class="container" id="container">
+        <?php
+            if (isset($_GET['error'])) {
+                echo '<div class="alert alert-danger">' . htmlspecialchars($_GET['error']) . '</div>';
+            }
+        ?>
         <div class="form-container sign-in">
-            <form action="login.php" method="post" autocomplete="on">
+            <form action="login_process.php" method="post" autocomplete="on">
                 <h1>Entrar</h1>
                 <br>
                 <span>Informe o seu nome de usuário e senha</span>
                 <br>
                 <input type="text" name="username" id="username" placeholder="Nome de Usuário">
-                <input type="password" name="password" id="password" placeholder="Senha">
+                <input type="text" name="password" id="password" placeholder="Senha">
                 <?php
                     if(isset($_GET['error']) && $_GET['error'] == 'incorret'){
                         echo '<p style="color: red;">Nome de usuário ou senha incorretos!</p>';
                     }
                 ?>
                 <a href="#">Esqueceu a Senha?</a>
-                <button type="submit">Entar</button>
+                <button type="submit" name="logar">Entar</button>
             </form>
         </div>
     </div>

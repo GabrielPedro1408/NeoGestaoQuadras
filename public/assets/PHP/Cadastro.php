@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
+include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -7,8 +7,8 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-     <link rel="stylesheet" href="../CSS/cadastro.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
+    <link rel="stylesheet" href="../CSS/cadastro.css">
+    <link rel="stylesheet" href="../CSS/fontawesome.min.css"> 
     <script type="module" src="../JS/cadastro.js"></script>
     <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
     <title>Cadastro Inicial</title>
@@ -18,6 +18,19 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
         <main>
         <div class="container">
             <div class="form">
+                    <?php
+                    if (isset($_SESSION['message'])):
+                        $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+                    ?>
+                        <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                            <?= $_SESSION['message'] ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php
+                        unset($_SESSION['message']);
+                        unset($_SESSION['message_type']);
+                    endif;
+                    ?>
                     <div class="pagination">
                         <div class="number active">1</div>
                         <div class="bar"><div class="fill"></div></div>
@@ -27,7 +40,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
                     </div>
                 </div>  
                 <div class="form-body">
-                    <form class="row g-5" action="login.php" method="POST">
+                    <form class="row g-5" action="../PHP/CRUD-Empresa/createEmpresa.php" method="POST">
                         <div class="steps">
                             <div class="step active">
                                 <h3>Informações da Empresa</h3>
@@ -107,7 +120,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
                                         <label for="usuario" class="form-label">Usuário</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ex: joaosilva">
+                                            <input type="text" class="form-control" id="usuario" name="nomeUsuario" placeholder="Ex: joaosilva">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -128,7 +141,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php'
                                 <div class="top-page">
                                     <h2>Obrigado Pela Preferência!</h2>
                                 </div>
-                                <button type="submit" class="btn btn-primary" name="cadastrarUsuario">Concluir Cadastro</button>
+                                <button type="submit" class="btn btn-primary" name="Cadastrar">Concluir Cadastro</button>
                             </div>
                         </div>
                     </form>

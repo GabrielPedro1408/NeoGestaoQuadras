@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    // Verifica se foi efetuado o login
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

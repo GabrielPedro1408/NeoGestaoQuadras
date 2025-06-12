@@ -19,8 +19,8 @@
 
             <nav class="menu">
                 <ul>
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Sobre</a></li>
+                    <li><a href="index.php">Início</a></li>
+                    <li><a href="login.php">Login</a></li>
                     <li><a href="Cadastro.php">Cadastrar</a></li>
                 </ul>
             </nav>
