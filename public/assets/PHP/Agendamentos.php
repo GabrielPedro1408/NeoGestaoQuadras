@@ -8,6 +8,8 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/agendamentos.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
@@ -20,16 +22,10 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
     <title>Agendamentos</title>
 </head>
 <body>
-
-    <!-- menssagem -->
-     
-
-    <!-- menssagem -->
-    
-    <?php
-        include '../components/sidebar.php';
-        include '../components/header.php' ;
-    ?>
+<div class="full-content">
+    <?php include '../components/sidebar.php';?>
+    <div id="main-content">
+    <header><?php require '../components/header.php';?> </header> 
 
     <!-- start main -->
     <!-- PopUps -->
@@ -45,9 +41,6 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
         <?php include_once "./modalAgendamento/infoAgend.php"; ?>
     <!-- buscar cli -->
                 <!-- PopUps -->
-
-
-    <div id="main-content">
         <main>
             <?php
             if (isset($_SESSION['message'])):
@@ -186,9 +179,8 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
             </div>
         </main>
     </div>
-    <footer>
-
-    </footer>
+</div>
+</div>
     <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>

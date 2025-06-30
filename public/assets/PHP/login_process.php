@@ -23,7 +23,7 @@
                 header("Location: dashboard.php?sucess=" . urldecode($mensagem));
                 exit;
             } else {
-                echo "deu";
+                
                 //Se o usuario ou senha estiverem incorretos, redireciona com erro
                 $mensagem = "Nome de usuário ou senha incorretos!";
                 header("Location: login.php?error=" . urlencode($mensagem));

@@ -19,7 +19,9 @@ $(document).on('blur', '#cnpjCli', function() {
         $input.addClass('is-invalid');
         return;
     }
+
     // Validação de dígitos verificadores
+    
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);
     let digitos = cnpj.substring(tamanho);
