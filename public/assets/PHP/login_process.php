@@ -6,6 +6,7 @@
         //Pega os dados do formulário
         $username = $_POST['username'];
         $password = $_POST['password'];
+       
 
         try{
 
@@ -18,7 +19,6 @@
             
             if(password_verify($password,$dadosUsuario['senha'])){
                 //Se a senha estiver correta, inicia a sessão
-                
                 $_SESSION['username'] = $dadosUsuario['username'];
                 $mensagem = "Bem-vindo, " . htmlspecialchars($dadosUsuario['username']) . "!";
                 header("Location: dashboard.php?sucess=" . urldecode($mensagem));
@@ -34,6 +34,7 @@
             echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
             header("Location: login.php?error=" . urlencode("Erro ao conectar ao banco de dados."));
             exit;
+            
         }
     }
 ?>
