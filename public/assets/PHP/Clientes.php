@@ -1,5 +1,9 @@
 <?php 
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+    exit;
+}
 include_once 'conexao.php';
 if($_SERVER ['REQUEST_METHOD'] === "POST"){
     include_once './modalCliente/CRUD/createCliente.php';
@@ -11,6 +15,8 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/clientes.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
@@ -22,11 +28,10 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
     <title>Neo Gestão</title>
 </head>
 <body>
-
-    <?php 
-        require '../components/sidebar.php';
-        require '../components/header.php' ; 
-    ?>
+<div class="full-content">
+    <?php require '../components/sidebar.php'; ?>
+    <div id="main-content">
+    <?php require '../components/header.php' ; ?>
     <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
         <?php include_once "./modalCliente/cadastroCli.php"; ?>
@@ -44,7 +49,6 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
     
 <!-- PopUps -->
 
-    <div id="main-content">
         <main>
             <?php
             if (isset($_SESSION['message'])):
@@ -78,7 +82,10 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 </section>
                 <?php 
                 try {
-                    $stmt = $pdo->query("SELECT nome, celular, email, cpf, rua, nCasa FROM clientes");
+                    $stmt = $pdo->query(
+                    "SELECT
+                    nome, celular, email, cpf, rua, nCasa 
+                    FROM clientes");
                     $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 } catch ( PDOException $e) {
                     echo 'erro ao buscar clientes' . $e -> getMessage();
@@ -102,7 +109,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             <tbody>
                             <?php
                                 //Start search clients 
-                                $username = "Vitor";
+                                $username = "Gabriel";
                                 $id_empresa = buscarIdEmpresa($username);
                                 $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
                                 FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
@@ -113,8 +120,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             ?>
                             <?php
                                 foreach($result as $row):
-                            ?>
-                            
+                            ?>   
                                     <tr>
                                         <input type='hidden' id='idCliente' value=<?= $row['id']?> />
                                         <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
@@ -159,5 +165,6 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         $('#nomeCli').focus();
         });
     </script>
+</div>
 </body>
 </html>

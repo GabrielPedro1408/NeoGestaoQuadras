@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/funcionamento.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
@@ -18,11 +20,10 @@
 
 </head>
 <body>
-
-    <?php
-        require '../components/sidebar.php';
-        require '../components/header.php' ;
-    ?>
+<div class="full-content">
+    <?php require '../components/sidebar.php';?>
+    <div id="main-content">
+    <?php require '../components/header.php' ;?>
     <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
         <?php include_once "./modalCliente/cadastroCli.php"; ?>
@@ -37,7 +38,6 @@
     <!-- PopUps -->
 
 
-    <div id="main-content">
         <main>
             <div class="container">
                 <div class="titulo">
@@ -47,6 +47,7 @@
 
         </main>
     </div>
+</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,29 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const sidebar = document.getElementById('sidebar');
-  const openBtn = document.getElementById('open-btn');
-  const mainContent = document.getElementById('main-content'); // Seleciona o #main-content
-
-  // Alterna a classe 'open-sidebar' no clique do botão
-  openBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('open-sidebar');
-    if (sidebar.classList.contains('open-sidebar')) {
-      mainContent.style.marginLeft = '265px'; // Largura do sidebar aberto
-      openBtn.style.marginRight = '5px';
-      // Largura do sidebar aberto
-    } else {
-      mainContent.style.marginLeft = '150px';
-      openBtn.style.marginRight = '50px'; // Largura do sidebar fechado
-    }
-  });
-
-  // Restaura o estado inicial do sidebar e do main-content
-  if (sidebar.classList.contains('open-sidebar')) {
-    mainContent.style.marginLeft = '265px';
-  } else {
-    mainContent.style.marginLeft = '150px';
-  }
-});
-
 const sideItems = document.querySelectorAll('.side-item');
 
 function clearActiveClass() {

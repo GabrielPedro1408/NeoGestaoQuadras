@@ -8,11 +8,12 @@
         $password = $_POST['password'];
 
         try{
-            //Consulta SQL para buscar o usuario
+
             $buscaUsuario = $pdo->prepare("SELECT username, senha FROM usuario WHERE username = :username");
             $buscaUsuario->execute(array(
                 ':username' => $username
             ));
+            
             $dadosUsuario = $buscaUsuario->fetch(PDO::FETCH_ASSOC);//armazena os dados do usuario
             
             if(password_verify($password,$dadosUsuario['senha'])){
@@ -23,7 +24,7 @@
                 header("Location: dashboard.php?sucess=" . urldecode($mensagem));
                 exit;
             } else {
-                echo "deu";
+                
                 //Se o usuario ou senha estiverem incorretos, redireciona com erro
                 $mensagem = "Nome de usuário ou senha incorretos!";
                 header("Location: login.php?error=" . urlencode($mensagem));
