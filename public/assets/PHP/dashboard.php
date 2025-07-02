@@ -112,11 +112,39 @@
             
             <!-- relatorios -->
 
-            <div class="agenda">
-                
+       <div class="agenda">
+            
+        <div class="quadras-lista">
+            <h4>Próximos horários agendados</h4>
+            <div class="main-text">
+                 <div class="relogio">
+                        <i class="fa-solid fa-clock fa-2xl"></i>
+                    </div>
+            <div class="horarios">
+                 <h5><label for="Quadra1">Quadra 1</label></h5>
+            <div class="lista-horarios">
+                <span>13:30</span>
+                <span>14:30</span>
+                <span>15:30</span>
             </div>
         </div>
-    </div>
+        <div class="horarios">
+            <h5><label for="Quadra2">Quadra 2</label></h5>
+            <div class="lista-horarios">
+                <span>14:00</span>
+                <span>15:00</span>
+                <span>16:00</span>
+            </div>
+            </div>
+            </div>
+           
+        </div>
+        <div class="bottom-horario">
+    <a href="#"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
+</div>
+    </div> 
+</div>
+
     <!-- end main -->
 
     <!-- start footer -->

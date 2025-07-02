@@ -79,33 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })
 
-// Social login handlers
-document.addEventListener("DOMContentLoaded", () => {
-  const googleBtn = document.querySelector(".btn-social.google")
-  const microsoftBtn = document.querySelector(".btn-social.microsoft")
-
-  if (googleBtn) {
-    googleBtn.addEventListener("click", () => {
-      showLoading()
-      // Simulate Google OAuth
-      setTimeout(() => {
-        hideLoading()
-        console.log("Google login initiated")
-      }, 1500)
-    })
-  }
-
-  if (microsoftBtn) {
-    microsoftBtn.addEventListener("click", () => {
-      showLoading()
-      // Simulate Microsoft OAuth
-      setTimeout(() => {
-        hideLoading()
-        console.log("Microsoft login initiated")
-      }, 1500)
-    })
-  }
-})
 
 // Input focus effects
 document.addEventListener("DOMContentLoaded", () => {
