@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="../CSS/dashboard.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
-    <script type="module" src="../components/sidebar.js"></script>
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
@@ -23,6 +22,9 @@
     <title>NPL Quadras</title>
 </head>
 <body>
+<script>
+  localStorage.setItem('activeItem', 'dashboard');
+</script>
 <div class="full-content">
     <?php require '../components/sidebar.php';?> 
     <div id="main-content">
@@ -113,36 +115,67 @@
             
             <!-- relatorios -->
 
-       <div class="agenda">
-            
+    <div class="agenda">    
         <div class="quadras-lista">
-            <h4>Próximos horários agendados</h4>
+            <h4>Próximos Agendamentos:</h4>
             <div class="main-text">
-                 <div class="relogio">
-                        <i class="fa-solid fa-clock fa-2xl"></i>
+                <div class="relogio">
+                    <i class="fa-solid fa-clock fa-2xl"></i>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra1">Quadra 1</label></h5>
+                <div class="lista-horarios">
+                    <span>13:30</span>
+                    <span>14:30</span>
+                    <span>15:30</span>
+                </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra 2</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
                     </div>
-            <div class="horarios">
-                 <h5><label for="Quadra1">Quadra 1</label></h5>
-            <div class="lista-horarios">
-                <span>13:30</span>
-                <span>14:30</span>
-                <span>15:30</span>
-            </div>
-        </div>
-        <div class="horarios">
-            <h5><label for="Quadra2">Quadra 2</label></h5>
-            <div class="lista-horarios">
-                <span>14:00</span>
-                <span>15:00</span>
-                <span>16:00</span>
-            </div>
-            </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra 3</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra Beach</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra Society</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra Society</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
             </div>
            
         </div>
         <div class="bottom-horario">
-    <a href="#"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
-</div>
+            <a href="Agendamentos.php"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
     </div> 
 </div>
 
@@ -154,7 +187,7 @@
         $clientes = $pdo->prepare(
         
         "SELECT 
-        DATE_FORMAT(data_cadastro, '%Y-%m') AS mes_ano,
+        DATE_FORMAT(data_cadastro, '%m - %Y') AS mes_ano,
         COUNT(*) AS total_clientes
 
         FROM 
@@ -171,18 +204,26 @@
         }
 
         /* caso não consiga fazer a consulta */
-
         catch(PDOException $e){
             echo $e;
         }
 
+        /* passando para um vetor, para usar no gráfico */
+        $clientes -> execute();
         $result = $clientes->fetchAll(PDO::FETCH_ASSOC);
-        
+
+        $mes_ano = [];
+        $total_clientes = [];
+
+        foreach ($result as $row){
+            $mes_ano[] = $row['mes_ano'];
+            $total_clientes[] = $row['total_clientes'];
+        }
+
     ?>
     <script>
     
     /* função para pegar os últimos 6 meses */
-
     function seisMeses() {
     
     const hoje = new Date();
@@ -199,24 +240,21 @@
     }
 
     /* gráfico clientes */
+    const mes_ano = <?php echo json_encode($mes_ano);?>;
+    const total_clientes = <?php echo json_encode($total_clientes);?>;
 
     const ctx1 = document.getElementById('grafico-clientes');
     const grafico1 = new Chart(ctx1, {
         type: 'line',
         data: {
-        labels: seisMeses(),
-        datasets: [{
-            label: 'Novos Clientes',
-            data: [69, 59, 30, 58, 62, 43],
-            backgroundColor: [
-                'rgb(221, 187, 33)'
-            ],
-            borderColor: [
-                'rgba(5, 62, 97, 0.733)'
-
-            ],
-            borderWidth: 1
-        }]
+            labels: mes_ano,
+            datasets: [{
+                label: 'Novos Clientes',
+                data: total_clientes,
+                backgroundColor: ['rgb(221, 187, 33)'],
+                borderColor: ['rgba(5, 62, 97, 0.733)'],
+                borderWidth: 1
+            }]
         },
         options: {
             animations:{
@@ -267,5 +305,6 @@
             }
         });
     </script>
+    <script src="../components/sidebar.js"></script>
     </body>
 </html>

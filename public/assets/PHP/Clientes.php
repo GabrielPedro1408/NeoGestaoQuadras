@@ -155,6 +155,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../components/sidebar.js"></script>
     <script src="../src/consultaCep.js"></script>
     <script src="../src/consultaRG.js"></script>
     <script src="../src/consultaCPF.js"></script>
@@ -165,6 +166,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         $('#nomeCli').focus();
         });
     </script>
+    
 </div>
 </body>
 </html>
