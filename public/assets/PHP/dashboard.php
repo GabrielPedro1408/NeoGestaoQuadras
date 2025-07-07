@@ -215,45 +215,71 @@
             
             <!-- relatorios -->
 
-        <div class="agenda">    
-            <div class="quadras-lista">
-                <h4>PRÓXIMOS AGENDAMENTOS:</h4>
-                <div class="main-text">
-                    <div class="relogio">
-                        <i class="fa-solid fa-clock fa-2xl"></i>
-                    </div>
-
-                    <?php 
-                    $limit = 6;
-                    $contador = 0;
-                    foreach($result_horarios as $horario):
-                    if($contador >= $limit){
-                        break;
-                    }
-                    ?>
-
-                    <div class="horarios">
-                        <h5><label for="Quadra1"><?= $horario['nome_quadra']?></label></h5>
-                    <div class="lista-horarios">
-                        <span><label for="horarioAgendado"><?= $horario['horario_agendado']?></label></span>
-                    </div>
-                    </div>
-                    <?php
-                    $contador++;
-                    endforeach ?>
+    <div class="agenda">    
+        <div class="quadras-lista">
+            <h4>Próximos Agendamentos:</h4>
+            <div class="main-text">
+                <div class="relogio">
+                    <i class="fa-solid fa-clock fa-2xl"></i>
                 </div>
-            
+                <div class="horarios">
+                    <h5><label for="Quadra1">Quadra 1</label></h5>
+                <div class="lista-horarios">
+                    <span>13:30</span>
+                    <span>14:30</span>
+                    <span>15:30</span>
+                </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra 2</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra 3</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra Beach</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra Society</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
+                <div class="horarios">
+                    <h5><label for="Quadra2">Quadra Society</label></h5>
+                    <div class="lista-horarios">
+                        <span>14:00</span>
+                        <span>15:00</span>
+                        <span>16:00</span>
+                    </div>
+                </div>
             </div>
-            <div class="bottom-horario">
-                <a href="Agendamentos.php"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-        </div> 
-    </div>
-
-    <!-- end main -->
-    </div>
-    
-
+           
+        </div>
+        <div class="bottom-horario">
+            <a href="Agendamentos.php"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div> 
+</div><!-- end main -->
+</div>
+</div>
     <script>
     
     /* função para pegar os últimos 6 meses */
