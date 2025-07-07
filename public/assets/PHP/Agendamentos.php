@@ -19,7 +19,7 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
 
-    <title>Agendamentos</title>
+    <title>Neo Gestão</title>
 </head>
 <body>
 <div class="full-content">
@@ -55,24 +55,53 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                 unset($_SESSION['message_type']);
             endif;
             ?>
-            <div class="container">
-                <div class="titulo">
-                    <h1><strong>Agendamentos</strong></h1>
-                </div>
-            
+            <?php
+            $query = $pdo ->prepare(
+                "SELECT
+                count(*) AS total_agendamentos
+                FROM
+                agendamentos"
+            );
+            $query -> execute();
+            $resultAgendamentos = $query -> fetchAll(PDO::FETCH_ASSOC);
 
-               
+            $totalAgendamentos = [];
+            foreach($resultAgendamentos as $agendamento){
+                $totalAgendamentos[] = $agendamento['total_agendamentos'];
+            }
+
+            ?>
+            <div class="container">
                 <section class="top-area">
+                    <div class="titulo">
+                        <h3><strong>GERENCIAMENTO DE AGENDAMENTOS</strong></h3>
+                    </div>
                     <div class="adicionar">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">
-                            + Novo Agendamento
-                        </button>
+                        <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Novo Agendamento</button>
                     </div>
-                            
-                    <div class="pesquisar">
-                        <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
+                </section>   
+                    <div class="mid-area">
+                        <div class="pesquisar">
+                            <h6>BUSCAR</h6>
+                            <div class="main-pesquisar">
+                                <form action="" method="post">
+                                    <div class="group">
+                                        <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome">
+                                    </div>
+                                    <div class="group">
+                                        <input type="date" name="diaAgend" id="diaAgend" placeholder="Dia">
+                                    </div>
+                                </form>
+                        </div>
                     </div>
-                </section>
+                    <div class="total-agendamentos">
+                        <h6>TOTAL DE AGENDAMENTOS</h6>
+                        <div class="main-total-agendamentos">
+                            <i class="fa-solid fa-calendar fa-xl"></i>
+                            <h3><label for="totalAgend"><?=$totalAgendamentos[0]?></label></h3>
+                        </div>
+                    </div>
+                </div>
                     <!-- start tableCli  -->
                     <div class="table-clientes">
                         <table class="table table-hover">
