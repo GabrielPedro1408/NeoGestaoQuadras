@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="../CSS/dashboard.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
-    <script type="module" src="../components/sidebar.js"></script>
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
@@ -23,6 +22,109 @@
     <title>NPL Quadras</title>
 </head>
 <body>
+<script> localStorage.setItem('activeItem', 'dashboard');</script>
+        
+        <?php 
+        /* card quadras */
+        try {
+        $quadras = $pdo -> prepare(
+        "SELECT
+        COUNT(*) AS total_quadras
+        FROM
+        quadras
+        /* WHERE 
+        disponibilidade = 1 */
+        ");
+        $quadras -> execute();
+        $result_quadras = $quadras -> fetchAll(PDO::FETCH_ASSOC);
+
+        $total_quadras = [];
+        foreach($result_quadras as $quadra){
+            $total_quadras[] = $quadra['total_quadras'];
+        }
+        } catch (PDOException $e) {
+            echo 'erro' . $e ;
+        }
+        
+
+
+        /* card agendamentos */
+        try {
+        $agendamentos = $pdo->prepare(
+        "SELECT
+        COUNT(*) AS total_agendamentos
+        FROM 
+        agendamentos
+        WHERE DATE(horario_agendado) = CURDATE() 
+        AND horario_agendado >= NOW() 
+        ");
+
+        $agendamentos -> execute();
+        $result_agendamentos = $agendamentos -> fetchAll(PDO::FETCH_ASSOC);
+        $total_agendamentos = [];
+        foreach($result_agendamentos as $agendamento){
+            $total_agendamentos[] = $agendamento['total_agendamentos'];
+        }
+        } catch (PDOException $e) {
+            echo 'error' . $e;
+        } 
+
+
+
+        /* card proximos horarios */
+        $horarios = $pdo -> prepare(
+        "SELECT
+        q.descr AS nome_quadra,
+        DATE_FORMAT(a.horario_agendado, '%H:%i') AS horario_agendado
+        FROM 
+        agendamentos a
+        JOIN
+        quadras q ON a.id_quadra = q.id
+        WHERE 
+        a.horario_agendado >= NOW()
+        ");
+        $horarios -> execute();
+        $result_horarios = $horarios -> fetchAll(PDO::FETCH_ASSOC);
+
+        
+
+        /*clientes cadastrado nos ultimos 6 meses para o gráfico */
+        try{
+        $clientes = $pdo->prepare(
+        
+        "SELECT 
+        DATE_FORMAT(data_cadastro, '%m - %Y') AS mes_ano,
+        COUNT(*) AS total_clientes
+
+        FROM 
+        clientes
+
+        WHERE 
+        data_cadastro BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND NOW()
+
+        GROUP BY
+        mes_ano
+
+        ORDER BY
+        mes_ano");
+        }
+        /* caso não consiga fazer a consulta */
+        catch(PDOException $e){
+            echo 'erro' . $e;
+        }
+
+        /* passando para um vetor, para usar no gráfico */
+        $clientes -> execute();
+        $result = $clientes->fetchAll(PDO::FETCH_ASSOC);
+
+        $mes_ano = [];
+        $total_clientes = [];
+
+        foreach ($result as $row){
+            $mes_ano[] = $row['mes_ano'];
+            $total_clientes[] = $row['total_clientes'];
+        }
+    ?>
 <div class="full-content">
     <?php require '../components/sidebar.php';?> 
     <div id="main-content">
@@ -48,7 +150,7 @@
                     </div>
                     <div class="text">
                         <h5>Quadras Funcionando:</h5> 
-                        <h4><label for="quadrasFuncionando">5</label></h4>
+                        <h4><label for="quadrasFuncionando"><?= $total_quadras[0]; ?> </label></h4>
                     </div>
                     <div class="bottom-card">
                         <a href="#"><p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i></a>
@@ -62,7 +164,7 @@
 
                     <div class="text"> 
                         <h5>Horários Agendados</h5>
-                        <h4><label for="agendamentosDiario">27</label></h4>
+                        <h4><label for="agendamentosDiario"><?= $total_agendamentos[0];?></label></h4>
                     </div>
 
                     <div class="bottom-card">
@@ -113,76 +215,48 @@
             
             <!-- relatorios -->
 
-       <div class="agenda">
-            
-        <div class="quadras-lista">
-            <h4>Próximos horários agendados</h4>
-            <div class="main-text">
-                 <div class="relogio">
+        <div class="agenda">    
+            <div class="quadras-lista">
+                <h4>PRÓXIMOS AGENDAMENTOS:</h4>
+                <div class="main-text">
+                    <div class="relogio">
                         <i class="fa-solid fa-clock fa-2xl"></i>
                     </div>
-            <div class="horarios">
-                 <h5><label for="Quadra1">Quadra 1</label></h5>
-            <div class="lista-horarios">
-                <span>13:30</span>
-                <span>14:30</span>
-                <span>15:30</span>
+
+                    <?php 
+                    $limit = 6;
+                    $contador = 0;
+                    foreach($result_horarios as $horario):
+                    if($contador >= $limit){
+                        break;
+                    }
+                    ?>
+
+                    <div class="horarios">
+                        <h5><label for="Quadra1"><?= $horario['nome_quadra']?></label></h5>
+                    <div class="lista-horarios">
+                        <span><label for="horarioAgendado"><?= $horario['horario_agendado']?></label></span>
+                    </div>
+                    </div>
+                    <?php
+                    $contador++;
+                    endforeach ?>
+                </div>
+            
             </div>
-        </div>
-        <div class="horarios">
-            <h5><label for="Quadra2">Quadra 2</label></h5>
-            <div class="lista-horarios">
-                <span>14:00</span>
-                <span>15:00</span>
-                <span>16:00</span>
+            <div class="bottom-horario">
+                <a href="Agendamentos.php"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
             </div>
-            </div>
-            </div>
-           
-        </div>
-        <div class="bottom-horario">
-    <a href="#"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
-</div>
-    </div> 
-</div>
+        </div> 
+    </div>
 
     <!-- end main -->
     </div>
-    <?php 
-        /* seleciono a quantidade de clientes cadastrado nos ultimos 6 meses */
-        try{
-        $clientes = $pdo->prepare(
-        
-        "SELECT 
-        DATE_FORMAT(data_cadastro, '%Y-%m') AS mes_ano,
-        COUNT(*) AS total_clientes
+    
 
-        FROM 
-        clientes
-
-        WHERE 
-        data_cadastro BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND NOW()
-
-        GROUP BY
-        mes_ano
-
-        ORDER BY
-        mes_ano");
-        }
-
-        /* caso não consiga fazer a consulta */
-
-        catch(PDOException $e){
-            echo $e;
-        }
-
-        $result = $clientes->fetchAll(PDO::FETCH_ASSOC);
-        
-    ?>
     <script>
     
     /* função para pegar os últimos 6 meses */
-
     function seisMeses() {
     
     const hoje = new Date();
@@ -199,24 +273,21 @@
     }
 
     /* gráfico clientes */
+    const mes_ano = <?php echo json_encode($mes_ano);?>;
+    const total_clientes = <?php echo json_encode($total_clientes);?>;
 
     const ctx1 = document.getElementById('grafico-clientes');
     const grafico1 = new Chart(ctx1, {
         type: 'line',
         data: {
-        labels: seisMeses(),
-        datasets: [{
-            label: 'Novos Clientes',
-            data: [69, 59, 30, 58, 62, 43],
-            backgroundColor: [
-                'rgb(221, 187, 33)'
-            ],
-            borderColor: [
-                'rgba(5, 62, 97, 0.733)'
-
-            ],
-            borderWidth: 1
-        }]
+            labels: mes_ano,
+            datasets: [{
+                label: 'Novos Clientes',
+                data: total_clientes,
+                backgroundColor: ['rgb(221, 187, 33)'],
+                borderColor: ['rgba(5, 62, 97, 0.733)'],
+                borderWidth: 1
+            }]
         },
         options: {
             animations:{
@@ -267,5 +338,6 @@
             }
         });
     </script>
+    <script src="../components/sidebar.js"></script>
     </body>
 </html>

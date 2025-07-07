@@ -63,23 +63,38 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 unset($_SESSION['message_type']);
             endif;
             ?>
-            
             <div class="container">
-                <div class="titulo">
-                    <h1><strong>Clientes</strong></h1>
-                </div>
-            </div>
-
-                <div class="container-fluids">
                 <section class="top-area">
+                    <div class="titulo">
+                        <h3><strong>GERENCIAMENTO DE CLIENTES</strong></h3>
+                    </div>
                     <div class="adicionar">
                         <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Novo Cliente</button>
                     </div>
-
-                    <div class="pesquisar">
-                        <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
                 </section>
+                <div class="mid-area">
+                    <div class="pesquisar">
+                        <h6>BUSCAR</h6>
+                        <div class="main-pesquisar">
+                            <form action="" method="post">
+                                <div class="group">
+                                    <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome">
+                                </div>
+                                <div class="group">
+                                    <input type="text" name="cpfCli" id="nomeCli" placeholder="CPF">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="total-clientes">
+                        <h6>TOTAL DE CLIENTES</h6>
+                        <div class="main-total-clientes">
+                            <i class="fa-solid fa-users fa-xl"></i>
+                            <h3><label for="totalCli">19</label></h3>
+                        </div>
+                    </div>
+                </div>
+
                 <?php 
                 try {
                     $stmt = $pdo->query(
@@ -155,6 +170,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../components/sidebar.js"></script>
     <script src="../src/consultaCep.js"></script>
     <script src="../src/consultaRG.js"></script>
     <script src="../src/consultaCPF.js"></script>
@@ -165,6 +181,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         $('#nomeCli').focus();
         });
     </script>
+    
 </div>
 </body>
 </html>

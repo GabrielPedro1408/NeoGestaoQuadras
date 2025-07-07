@@ -9,8 +9,8 @@ html, body {
 }
 .full-content {
     display: flex;
-    width: 100%;      /* Troque de 100vw para 100% */
-    min-height: 100vh;
+    width: 100%;
+    min-height: 100%;
     flex-direction: column;
 }
 .container {
@@ -22,7 +22,8 @@ html, body {
 }
 
 .title label{
-    color: rgb(226, 204, 0);
+    color: rgb(243, 219, 0);
+    text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
 }
 .divisao{
     display: flex;
@@ -214,11 +215,16 @@ html, body {
     box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
     overflow: visible;
     position: relative;
-    margin-bottom: 64px;
+    margin-bottom: 34px;
     margin-top: 40px;
 }
 .quadras-lista {
     padding: 32px 24px;
+}
+.quadras-lista h4{
+    color: rgb(243, 219, 0);
+    text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
+    font-weight: 900;
 }
 .main-text{
     display: flex;

@@ -21,6 +21,7 @@
             </div>
         </main>
     </div>
-</div>  
+</div>
+<script src="../components/sidebar.js"></script>  
 </body>
 </html>
