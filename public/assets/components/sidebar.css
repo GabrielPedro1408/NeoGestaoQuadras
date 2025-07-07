@@ -28,10 +28,10 @@
 
 #main-content {
     flex: 1;
-    background: #cfd1d1bd;
-    margin-left: 16vw;
+    background: whitesmoke;
+    margin-left: 15vw;
     margin-top: 80px; 
-    padding: 24px 0px 0px 5px;
+    padding: 24px 0px 0px 0px;
 }   
 
 .full-content{
@@ -54,12 +54,17 @@
 .side-item {
     display: flex;
     align-items: center;
-    justify-content: center; 
-    border-radius: 8px;
-    padding: 10px;
+    justify-content: space-around; 
+    border-radius: 1px;
+    padding: 16px;
+    width: 31.7vh;
     cursor: pointer;
     text-align: center;
     transition: all 0.3s ease;
+}
+.esquerda{
+    display: flex;
+    margin-left: 20px;
 }
 
 .side-item.active {
@@ -109,21 +114,4 @@
     height: 20px;
     color: rgb(255, 255, 255);
     margin-left: 10px;
-}
-
-#logout {
-    padding: 14px;
-}
-
-#logout-btn {
-    border: none;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    border-radius: 8px;
-    text-align: start;
-    cursor: pointer;
-    background-color: transparent;
-    text-align: center;
-    align-items: center;
 }
