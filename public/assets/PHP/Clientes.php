@@ -1,6 +1,10 @@
 <?php 
 session_start();
 include_once 'conexao.php';
+if(!isset($_SESSION['username'])) {
+    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+    exit();
+}
 if($_SERVER ['REQUEST_METHOD'] === "POST"){
     include_once './modalCliente/CRUD/createCliente.php';
 }
@@ -102,7 +106,8 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             <tbody>
                             <?php
                                 //Start search clients 
-                                $username = "Vitor";
+                                $username = $_SESSION['username'];
+                                die($username);
                                 $id_empresa = buscarIdEmpresa($username);
                                 $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
                                 FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
