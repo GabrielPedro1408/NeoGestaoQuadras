@@ -331,7 +331,6 @@ function togglePassword(inputId) {
 
 // Handle form submission
 function handleFormSubmit(e) {
-  e.preventDefault()
 
   if (!validateCurrentStep()) {
     return
@@ -370,9 +369,6 @@ function showSuccessModal() {
 }
 
 // Redirect to login
-function redirectToLogin() {
-  window.location.href = "login.php"
-}
 
 // Add ripple effect to buttons
 document.addEventListener("DOMContentLoaded", () => {

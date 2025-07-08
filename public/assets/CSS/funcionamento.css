@@ -13,28 +13,11 @@ body {
     height: 100%;
     
 }
-#sidebar {
-    transition: width 0.5s ease; 
-    flex-shrink: 0;
-}
-#main-content {
-    display: flex;
-    transition: margin-left 0.5s ease;
-}
 .container{
-    display: flex; 
-    flex-direction: column;
-    margin: 115px 0 0 5%;
     width: 100%;
-    box-sizing: border-box;
 }
 .titulo {
     max-width: 100%;
-    width: 100px;
-    
-}
-.titulo{
-    
 }
 .titulo strong {
     color: #ecd447a2;

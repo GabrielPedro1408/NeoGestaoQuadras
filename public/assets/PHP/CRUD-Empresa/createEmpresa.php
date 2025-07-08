@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start();
 include_once __DIR__ . '/../conexao.php';
 if (isset($_POST['Cadastrar'])){
     //post dados empresa
@@ -15,6 +16,7 @@ if (isset($_POST['Cadastrar'])){
     $nomeUsuario = $_POST['nomeUsuario'];
     $senhaUsuario = $_POST['senhaUsuario'];
     try{
+        echo 'a' ;
         //Sql Empresa
         $cadastraEmpresa = $pdo->prepare("INSERT into empresa(razão_social,email,telefone,cnpj,cep,uf,cidade,rua,numero)
         values(:razaoSocial,:emailEmpresa,:telefoneEmpresa,:cnpjEmpresa,:cepEmpresa,:ufEmpresa,:cidadeEmpresa,:ruaEmpresa,:numeroEmpresa)");

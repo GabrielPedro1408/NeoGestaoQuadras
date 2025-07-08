@@ -1,6 +1,3 @@
-<?php
-include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -41,6 +38,19 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
             <!-- Progress Bar -->
             <div class="progress-container">
                 <div class="progress-step active" data-step="1">
+                    <?php
+                    if (isset($_SESSION['message'])):
+                        $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+                    ?>
+                        <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                            <?= $_SESSION['message'] ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php
+                        unset($_SESSION['message']);
+                        unset($_SESSION['message_type']);
+                    endif;
+                    ?>
                     <div class="step-number">1</div>
                     <span class="step-label">Empresa</span>
                 </div>
@@ -62,7 +72,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
 
             <!-- Form Container -->
             <div class="form-container">
-                <form action=".createEmpresa.php" method="POST" class="cadastro-form" id="cadastroForm">
+                <form action="../PHP/CRUD-Empresa/createEmpresa.php" method="POST" class="cadastro-form" id="cadastroForm">
                     
                     <!-- Step 1: Informações da Empresa -->
                     <div class="step-content active" data-step="1">
@@ -103,7 +113,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
                                 <label for="cnpjEmpresa">CNPJ</label>
                                 <div class="input-field">
                                     <i class="fas fa-id-card"></i>
-                                    <input type="text" id="cnpjEmpresa" name="cnpjEmpresa" placeholder="Ex: 12.345.678/0001-99" required>
+                                    <input type="text" id="cnpjEmpresa" name="cnpjEmpresa" placeholder="Ex: 12.345.678/0001-99" maxlength="18" required>
                                 </div>
                             </div>
 
@@ -111,7 +121,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
                                 <label for="cepEmpresa">CEP</label>
                                 <div class="input-field">
                                     <i class="fas fa-map-pin"></i>
-                                    <input type="text" id="cepEmpresa" name="cepEmpresa" placeholder="Ex: 12345-678" required>
+                                    <input type="text" id="cepEmpresa" name="cepEmpresa" placeholder="Ex: 12345-678" maxlength="9" required>
                                 </div>
                             </div>
 
@@ -180,7 +190,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
                                 <label for="usuario">Nome de Usuário</label>
                                 <div class="input-field">
                                     <i class="fas fa-user"></i>
-                                    <input type="text" id="usuario" name="usuario" placeholder="Ex: joaosilva" required>
+                                    <input type="text" id="usuario" name="nomeUsuario" placeholder="Ex: joaosilva" required>
                                 </div>
                             </div>
 
@@ -277,7 +287,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
                                 <label class="terms-checkbox">
                                     <input type="checkbox" name="terms" required>
                                     <span class="checkmark"></span>
-                                    Aceito os <a href="#" target="_blank">termos de uso</a> e <a href="#" target="_blank">política de privacidade</a>
+                                    Aceito os  <a href="#" target="_blank">termos de uso </a> e <a href="#" target="_blank"> política de privacidade</a>
                                 </label>
                             </div>
                         <div class="step-buttons">
@@ -285,7 +295,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
                                 <i class="fas fa-arrow-left"></i>
                                 Voltar
                             </button>
-                            <button type="submit" class="btn-submit" name="cadastrarUsuario">
+                            <button type="submit" class="btn-submit" name="Cadastrar">
                                 <i class="fas fa-check"></i>
                                 Concluir Cadastro
                             </button>

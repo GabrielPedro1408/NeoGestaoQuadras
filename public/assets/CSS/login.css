@@ -26,7 +26,7 @@ body {
 
 .floating-shape {
   position: absolute;
-  background: rgba(255, 228, 77, 0.1);
+  background: rgba(175, 152, 23, 0.1);
   border-radius: 50%;
   animation: float 6s ease-in-out infinite;
 }
@@ -531,4 +531,18 @@ body {
   .input-field input {
     padding: 12px 12px 12px 40px;
   }
+}
+.alert-top-fixed {
+    position: absolute;
+    top: 40px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    min-width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.input-group{
+  align-items: center;
+  justify-content: center;
 }
