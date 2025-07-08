@@ -43,10 +43,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         <?php include_once "./modalCliente/excluirCli.php"; ?>
             <!-- iformação cliente -->
         <?php include_once "./modalCliente/infoCli.php"; ?>
-    <!-- buscar cli -->
-    
-    <!-- editar cli -->
-    
+
 <!-- PopUps -->
 
         <main>
@@ -62,6 +59,20 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 unset($_SESSION['message']);
                 unset($_SESSION['message_type']);
             endif;
+            
+            $queryClientes = $pdo -> prepare(
+            "SELECT
+            count(*) AS total_clientes
+            FROM
+            clientes
+            ");
+            $queryClientes -> execute();
+            $resultClientes = $queryClientes ->fetchAll(PDO::FETCH_ASSOC);
+            $total_clientes = [];
+            foreach($resultClientes as $cliente){
+                $total_clientes[] = $cliente['total_clientes'];
+            }
+            
             ?>
             <div class="container">
                 <section class="top-area">
@@ -87,11 +98,15 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                         </div>
                     </div>
                     <div class="total-clientes">
-                        <h6>TOTAL DE CLIENTES</h6>
-                        <div class="main-total-clientes">
-                            <i class="fa-solid fa-users fa-xl"></i>
-                            <h3><label for="totalCli">19</label></h3>
-                        </div>
+                        <div class="grupo">
+                            <h6>TOTAL DE CLIENTES</h6>
+                            <div class="main-total-clientes">
+                                <h1><label for="totalCli"><?=$total_clientes[0];?></label></h1>
+                                <div class="icone-total">
+                                    <i class="fa-solid fa-users fa-xl"></i>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                 </div>
 
