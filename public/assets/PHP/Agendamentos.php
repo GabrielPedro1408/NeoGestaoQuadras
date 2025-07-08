@@ -8,6 +8,8 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/agendamentos.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
@@ -17,19 +19,13 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
 
-    <title>Agendamentos</title>
+    <title>Neo Gestão</title>
 </head>
 <body>
-
-    <!-- menssagem -->
-     
-
-    <!-- menssagem -->
-    
-    <?php
-        include '../components/sidebar.php';
-        include '../components/header.php' ;
-    ?>
+<div class="full-content">
+    <?php include '../components/sidebar.php';?>
+    <div id="main-content">
+    <header><?php require '../components/header.php';?> </header> 
 
     <!-- start main -->
     <!-- PopUps -->
@@ -45,9 +41,6 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
         <?php include_once "./modalAgendamento/infoAgend.php"; ?>
     <!-- buscar cli -->
                 <!-- PopUps -->
-
-
-    <div id="main-content">
         <main>
             <?php
             if (isset($_SESSION['message'])):
@@ -62,24 +55,53 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                 unset($_SESSION['message_type']);
             endif;
             ?>
-            <div class="container">
-                <div class="titulo">
-                    <h1><strong>Agendamentos</strong></h1>
-                </div>
-            </div>
+            <?php
+            $query = $pdo ->prepare(
+                "SELECT
+                count(*) AS total_agendamentos
+                FROM
+                agendamentos"
+            );
+            $query -> execute();
+            $resultAgendamentos = $query -> fetchAll(PDO::FETCH_ASSOC);
 
-                <div class="container-fluids">
+            $totalAgendamentos = [];
+            foreach($resultAgendamentos as $agendamento){
+                $totalAgendamentos[] = $agendamento['total_agendamentos'];
+            }
+
+            ?>
+            <div class="container">
                 <section class="top-area">
+                    <div class="titulo">
+                        <h3><strong>GERENCIAMENTO DE AGENDAMENTOS</strong></h3>
+                    </div>
                     <div class="adicionar">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">
-                            + Novo Agendamento
-                        </button>
+                        <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Novo Agendamento</button>
                     </div>
-                            
-                    <div class="pesquisar">
-                        <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
+                </section>   
+                    <div class="mid-area">
+                        <div class="pesquisar">
+                            <h6>BUSCAR</h6>
+                            <div class="main-pesquisar">
+                                <form action="" method="post">
+                                    <div class="group">
+                                        <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome">
+                                    </div>
+                                    <div class="group">
+                                        <input type="date" name="diaAgend" id="diaAgend" placeholder="Dia">
+                                    </div>
+                                </form>
+                        </div>
                     </div>
-                </section>
+                    <div class="total-agendamentos">
+                        <h6>TOTAL DE AGENDAMENTOS</h6>
+                        <div class="main-total-agendamentos">
+                            <i class="fa-solid fa-calendar fa-xl"></i>
+                            <h3><label for="totalAgend"><?=$totalAgendamentos[0]?></label></h3>
+                        </div>
+                    </div>
+                </div>
                     <!-- start tableCli  -->
                     <div class="table-clientes">
                         <table class="table table-hover">
@@ -186,10 +208,10 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
             </div>
         </main>
     </div>
-    <footer>
-
-    </footer>
+</div>
+</div>
     <script src="../JS/bootstrap.bundle.min.js"></script>
+    <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

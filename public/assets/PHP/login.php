@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -10,6 +10,8 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
     <link rel="stylesheet" href="../CSS/login.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/all.css">
 </head>
 <body>
     <!-- Background Animation -->
@@ -33,9 +35,22 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
             </a>
         </div>
     </header>
-
+        <?php
+            if (isset($_SESSION['message'])):
+                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+        ?>
+                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                    <?= $_SESSION['message'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+        <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            endif;
+        ?>
     <!-- Main Container -->
     <div class="main-container">
+        
         <div class="login-container centered">
             <!-- Login Form -->
             <div class="form-container sign-in centered-form">
@@ -95,5 +110,6 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
     </div>
 
     <script src="../JS/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

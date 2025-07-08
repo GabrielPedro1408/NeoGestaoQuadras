@@ -1,5 +1,9 @@
 <?php 
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+    exit;
+}
 include_once 'conexao.php';
 if(!isset($_SESSION['username'])) {
     header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
@@ -15,6 +19,8 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/clientes.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
@@ -26,11 +32,10 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
     <title>Neo Gestão</title>
 </head>
 <body>
-
-    <?php 
-        require '../components/sidebar.php';
-        require '../components/header.php' ; 
-    ?>
+<div class="full-content">
+    <?php require '../components/sidebar.php'; ?>
+    <div id="main-content">
+    <?php require '../components/header.php' ; ?>
     <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
         <?php include_once "./modalCliente/cadastroCli.php"; ?>
@@ -42,13 +47,9 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         <?php include_once "./modalCliente/excluirCli.php"; ?>
             <!-- iformação cliente -->
         <?php include_once "./modalCliente/infoCli.php"; ?>
-    <!-- buscar cli -->
-    
-    <!-- editar cli -->
-    
+
 <!-- PopUps -->
 
-    <div id="main-content">
         <main>
             <?php
             if (isset($_SESSION['message'])):
@@ -62,27 +63,63 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 unset($_SESSION['message']);
                 unset($_SESSION['message_type']);
             endif;
-            ?>
             
+            $queryClientes = $pdo -> prepare(
+            "SELECT
+            count(*) AS total_clientes
+            FROM
+            clientes
+            ");
+            $queryClientes -> execute();
+            $resultClientes = $queryClientes ->fetchAll(PDO::FETCH_ASSOC);
+            $total_clientes = [];
+            foreach($resultClientes as $cliente){
+                $total_clientes[] = $cliente['total_clientes'];
+            }
+            
+            ?>
             <div class="container">
-                <div class="titulo">
-                    <h1><strong>Clientes</strong></h1>
-                </div>
-            </div>
-
-                <div class="container-fluids">
                 <section class="top-area">
+                    <div class="titulo">
+                        <h3><strong>GERENCIAMENTO DE CLIENTES</strong></h3>
+                    </div>
                     <div class="adicionar">
                         <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Novo Cliente</button>
                     </div>
-
-                    <div class="pesquisar">
-                        <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
                 </section>
+                <div class="mid-area">
+                    <div class="pesquisar">
+                        <h6>BUSCAR</h6>
+                        <div class="main-pesquisar">
+                            <form action="" method="post">
+                                <div class="group">
+                                    <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome">
+                                </div>
+                                <div class="group">
+                                    <input type="text" name="cpfCli" id="nomeCli" placeholder="CPF">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="total-clientes">
+                        <div class="grupo">
+                            <h6>TOTAL DE CLIENTES</h6>
+                            <div class="main-total-clientes">
+                                <h1><label for="totalCli"><?=$total_clientes[0];?></label></h1>
+                                <div class="icone-total">
+                                    <i class="fa-solid fa-users fa-xl"></i>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+
                 <?php 
                 try {
-                    $stmt = $pdo->query("SELECT nome, celular, email, cpf, rua, nCasa FROM clientes");
+                    $stmt = $pdo->query(
+                    "SELECT
+                    nome, celular, email, cpf, rua, nCasa 
+                    FROM clientes");
                     $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 } catch ( PDOException $e) {
                     echo 'erro ao buscar clientes' . $e -> getMessage();
@@ -118,8 +155,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             ?>
                             <?php
                                 foreach($result as $row):
-                            ?>
-                            
+                            ?>   
                                     <tr>
                                         <input type='hidden' id='idCliente' value=<?= $row['id']?> />
                                         <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
@@ -154,6 +190,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../components/sidebar.js"></script>
     <script src="../src/consultaCep.js"></script>
     <script src="../src/consultaRG.js"></script>
     <script src="../src/consultaCPF.js"></script>
@@ -164,5 +201,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         $('#nomeCli').focus();
         });
     </script>
+    
+</div>
 </body>
 </html>

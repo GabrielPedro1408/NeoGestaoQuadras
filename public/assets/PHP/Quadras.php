@@ -8,28 +8,28 @@ include_once './modalQuadras/CRUD/createQuadras.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/quadras.css">
+    <link rel="stylesheet" href="../components/header.css">
+    <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
+    <link rel="stylesheet" href="../CSS/PopUpExcluir.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../CSS/all.css">
     <script type="module" src="../JS/PopUpBuscar.js"></script>
     <script type="module" src="../JS/PopUpCadastro.js"></script>
     <script type="module" src="../JS/PopUpEditar.js"></script>
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
-
     <title>Quadras</title>
 </head>
 <body>
-    <?php
-    include '../components/sidebar.php';
-    include '../components/header.php' ;
-    ?>
+<div class="full-content">
+    <?php include '../components/sidebar.php'; ?>
+    <div id="main-content">
+    <?php include '../components/header.php' ; ?>
 
-    <!-- start main -->
     <!-- PopUps -->
-            <!-- cadastrar cli/modalClienteente -->
         <?php include_once "./modalQuadras/cadastroQuadra.php"; ?>
             <!-- buscar cliente -->
         <?php include_once "./modalQuadras/buscarQuadra.php"; ?>
@@ -39,28 +39,77 @@ include_once './modalQuadras/CRUD/createQuadras.php';
         <?php include_once "./modalQuadras/excluirQuadra.php"; ?>
             <!-- iformação cliente -->
         <?php include_once "./modalQuadras/infoQuadra.php"; ?>
-    <!-- buscar cli -->
-                <!-- PopUps -->
+    <!-- PopUps -->
 
-
-    <div id="main-content">
         <main>
-            <div class="container">
-                <div class="titulo">
-                    <h1><strong>Quadras</strong></h1>
-                </div>
-            </div>
+             <?php
+            $query = $pdo ->prepare(
+                "SELECT
+                count(*) AS total_quadras
+                FROM
+                quadras"
+            );
+            $query -> execute();
+            $resultQuadras = $query -> fetchAll(PDO::FETCH_ASSOC);
 
-                <div class="container-fluids">
+            $totalQuadras = [];
+            foreach($resultQuadras as $quadra){
+                $totalQuadras[] = $quadra['total_quadras'];
+            }
+
+            ?>
+            <div class="container">
                 <section class="top-area">
+                    <div class="titulo">
+                        <h3><strong>GERENCIAMENTO DE QUADRAS</strong></h3>
+                    </div>
                     <div class="adicionar">
-                        <button id='openPopUpCadastro' type="button">+ Novo Cadastro</button>
+                        <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Nova Quadra</button>
                     </div>
-                            
-                    <div class="pesquisar">
-                        <button id='openPopUpBuscar'>Buscar : <i class="fa-solid fa-magnifying-glass"></i></button>
+                </section>         
+                    <div class="mid-area">
+                        <div class="pesquisar">
+                            <h6>BUSCAR</h6>
+                            <div class="main-pesquisar">
+                                <form action="" method="post">
+                                    <div class="group">
+                                        <input type="text"  name="nomeQuadra" id="nomeQuadra" placeholder="Nome da Quadra">
+                                    </div>
+                                    <div class="group">
+                                         <select class="form-select" aria-label="Default select example" name="modalidadeQuadra">
+                                            <option id="opFutebolSociety" value="1">Futebol Society</option>
+                                            <option id="opFutsal" value="2">Futsal</option>
+                                            <option id="opVoleiPraia" value="3">Vôlei de Praia</option>
+                                            <option id="opBasquete" value="4">Basquete</option>
+                                            <option id="opTenis" value="5">Tênis</option>
+                                            <option id="opBeachTennis" value="6">Beach Tennis</option>
+                                            <option id="opHandebol" value="7">Handebol</option>
+                                            <option id="opPadel" value="8">Padel</option>
+                                            <option id="opPeteca" value="9">Peteca</option>
+                                            <option id="opBadminton" value="10">Badminton</option>
+                                            <option id="opHoqueiIndoor" value="11">Hóquei Indoor</option>
+                                            <option id="opFutebolAreia" value="12">Futebol de Areia</option>
+                                            <option id="opVoleiIndoor" value="13">Vôlei Indoor</option>
+                                            <option id="opBasquete3x3" value="14">Basquete 3x3</option>
+                                            <option id="opSquash" value="15">Squash</option>
+                                            <option id="opFutebolInfantil" value="16">Futebol Infantil</option>
+                                            <option id="opTenisMesa" value="17">Tênis de Mesa</option>
+                                            <option id="opPickleball" value="18">Pickleball</option>
+                                            <option id="opFutebolAmericanoFlag" value="19">Futebol Americano Flag</option>
+                                            <option id="opRugbyTouch" value="20">Rugby Touch</option>
+                                        </select>
+                                    </div>
+                                </form>
+                        </div>
                     </div>
-                </section>
+                    <div class="total-Quadras">
+                        <h6>TOTAL DE QUADRAS</h6>
+                        <div class="main-total-quadras">
+                            <i class="fa-solid fa-futbol fa-xl"></i>
+                            <h3><label for="totalQuadras"><?=$totalQuadras[0]?></label></h3>
+                        </div>
+                    </div>
+                </div>
                     <!-- start tableCli  -->
                     <div class="table-clientes">
                         <table class="table table-hover">
@@ -70,6 +119,7 @@ include_once './modalQuadras/CRUD/createQuadras.php';
                                 <th scope="col">Modalidade</th>
                                 <th scope="col">Disponibilidade</th>
                                 <th scope="col">Valor</th>
+                                <th scope="col">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>                                    
@@ -106,9 +156,9 @@ include_once './modalQuadras/CRUD/createQuadras.php';
             </div>
         </main>
     </div>
-    <footer>
-
-    </footer>
+</div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

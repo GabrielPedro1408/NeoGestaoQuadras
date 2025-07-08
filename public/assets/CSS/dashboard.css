@@ -4,361 +4,275 @@
     box-sizing: border-box;
     font-family: "Cabin", sans-serif;
 }
-
-body {
+html, body {
+    overflow-x: hidden;
+}
+.full-content {
     display: flex;
-    margin: 0;
-    padding: 0;
-    width: 100vh;
+    width: 100%;
+    min-height: 100%;
+    flex-direction: column;
 }
-
-#sidebar {
-    transition: width 0.5s ease; /* Suaviza a transição do sidebar */
-    flex-shrink: 0;
-}
-
-#main-content {
-    display: flex;
-    transition: margin-left 0.5s ease;
-}
-
 .container {
-    padding: 0 5%;
-    display: flex;
-    max-width: 100%;
     width: 100%;
-    align-items: center;
-}
-
-.titulo {
-    margin-top: 105px;
-}
-
-.titulo strong {
-    color: #ecd447a2;
-}
-.contas {
-    display: flex;
-    gap: 20px; 
-    justify-content: flex-start; 
-    flex-wrap: wrap; 
     height: 100%;
-    background-color:  #ffffffd2;
-    border-radius: 15px;
-    height: 360px;
-    max-width: 100%;
-    width: 840px;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
 }
-.conteudo-esquerda .conta-diaria{
-    flex-direction: row;
+
+.title label{
+    color: rgb(243, 219, 0);
+    text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
 }
-.conta-diaria-esquerda{
-    align-items: center;
-    justify-content: center;
-}
-.conta-diaria {
-    flex: 1 1 calc(50% - 20px); /* Cada card ocupa 50% da largura menos o gap */
-    max-width: 48%; /* Limita a largura máxima de cada card */
-    border-radius: 15px;
-    padding: 20px;
-    
-}
-.cards {
+.divisao{
+    display: flex;
+    padding: 1px;
     width: 100%;
+    background: rgba(212, 212, 212, 0.753);
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+.subtitle{
     display: flex;
-    padding: 1rem 0 !important;
 }
-.card-valor{
-    display: flex;
-}
-.card-valor label{
-    margin-left: 4px;
-}
-.conta-diaria .item-variavel{
-    padding: 10px 0px 0px 10px;
-}
-.cards .cards-headers {
-    width: 330px;
-    height: 160px;
-    background-color: #2B9E4E;
-    display: block;
-    border-radius: 5px;
-}
-.cards .cards-headers:hover{
-    cursor: pointer;
-}
-.cards .cards-headers .cards-top {
+/* cards */
+.cards{
     display: flex;
     justify-content: space-between;
-    padding: 1rem !important;
-}
-.conta-diaria-title{
-    white-space: nowrap;
-    font-size: 2rem !important;
-    font-weight: 1000px !important; 
-    color: #042940;
-    margin-right: 35px;
-    margin-top: -10px;
-}
-.conta-diaria-esquerda .conta-diaria-subtitle-esquerda{
-    align-items: center;
-    justify-content: center;
-    
-}
-.bottom-group .item-variavel{
-    align-items: center;
-    justify-content: center;
-}
-.bottom-group .bottom-text {
-    text-decoration: none;
-    color: green;
-}
-.cards .cards-headers .cards-top .card-number {
-    display: block;
-}
-.cards .cards-headers .cards-top .card-number p{
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.cards .cards-headers .cards-top .card-number .card-valor p{
-    font-size: 2.1rem;
-    font-weight: 700;
-}
-.cards .cards-headers .cards-top .card-number .card-valor label{
-    font-size: 2.1rem;
-    font-weight: 700;
-}
-.cards .cards-headers .cards-top .card-number .days p{
-    font-size: 1.0rem !important;
-    font-weight: 500 ;
-    display: flex;
-}
-.cards .cards-headers .cards-top .card-icon {
-    background-color: #2B9E4E;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-}
-.cards .cards-headers .cards-top .card-icon i{
-    font-size: 4.5rem;
-    color: #0000003b;
-    background-color: #2B9E4E;
-}
-.cards .cards-headers .card-type{
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 28px;
-    font-size: 0.9rem;
-    background-color: #196832d5;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    padding: 0.1rem !important;
-    color: whitesmoke;
-    
+    gap: 15px;
 }
-.cards .cards-headers .card-type label{
-    margin-left: 5px !important;
-    font-weight: 550;
+.card-1{
+    width: 20%;
+    min-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
+    position: relative;
+    overflow: hidden;
 }
-.cards .cards-headers .card-type p, label{
-    margin: 0 !important;
-    padding: 0 !important;
+.card-2{
+    width: 20%;
+    min-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
+    position: relative;
+    overflow: hidden;
 }
-.conta-diaria:not(h3){
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.card-3{
+    width: 20%;
+    min-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
+    position: relative;
+    overflow: hidden;
 }
-.direita{
-    margin-top: 5%;
+.card-4{
+    width: 20%;
+    min-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
+    position: relative;
+    overflow: hidden;
 }
-.direita  .bottom-group .bottom-text {
-    color: red;
-}
-.direita .cards .cards-headers {
-    background-color: #B54848 ;
-}
-.direita .cards .cards-headers .card-type{
-    background-color: #833535;
-}
-.direita .cards .cards-headers .cards-top .card-icon{
-    background-color: #B54848;
-}
-.direita .cards .cards-headers .cards-top .card-icon i {
-    color: #0000003b;
-    background-color: #B54848;
-}
-
-/* divisão fim de contas diarias */
-
-.agenda{
+.icone-1, .icone-3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-22%, -59%);
+    z-index: 1;
+    opacity: 0.20;
+    color: rgba(5, 62, 97, 1);
+    font-size: 3rem;
+    width: 100%;
     height: 100%;
-    background-color:  #ffffffd2;
-    border-radius: 15px;
-    height: 360px;
-    max-width: 100%;
-    width: 840px;
-    margin-top: 2%;
-}
-.agenda .horarios .top-group{
     display: flex;
-    justify-content: space-between;
-    padding: 2rem !important;
-    color: #042940;
+    align-items: center;
+    justify-content: center;
 }
-.agenda .horarios .top-group .title {
+.icone-2{ 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-18%, -59%);
+    z-index: 1;
+    opacity: 0.20;
+    color: rgba(5, 62, 97, 1);
+    font-size: 3rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.icone-4{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-16%, -59%);
+    z-index: 1;
+    opacity: 0.20;
+    color: rgba(5, 62, 97, 1);
+    font-size: 3rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-1 .text{
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.card-2 .text{
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.card-3 .text{
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.card-4 .text{
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.text h4{
     font-size: 2rem;
 }
-.agenda .horarios .top-group .button-agenda button {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 15px;
-    margin-top: 0;
-    background-color: #042940;
-    color: white;
-    height: 32px;
-    width: 300px;
-    padding: 0 1rem;
-    border: none;
-}
-.agenda .horarios .top-group .button-agenda button:hover{
-    cursor: pointer;
-    box-shadow: 1px 2px 4px 0.5px #42545f;
-    transition: all 0.05s ease-in-out;
-}
-.agenda .horarios .content-agenda{
-    display: flex;
-    flex-direction: column;
-    margin-left: 2rem;
-    margin-top: -20px;
-}
-.agenda .horarios .content-agenda .title-agenda label {
-    font-weight: 450;
-    font-size: 1.1rem;
-}
-.agenda .horarios .content-agenda .group-agenda{
-    display: flex;
-    max-width: 100%;
-    width: 96%;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 8px 0px;
-}
-.agenda .horarios .content-agenda .group-agenda .horario{
-    background-color: #B54848;
-    margin-left: 10px;
-    padding: 2px;
-    border-radius: 5px;
-    border: 0.05px solid rgb(66, 66, 66);
-}
-.contas-fixas{
-    display: flex;
-    max-width: 100%;
-    max-height: 100%;
-    width: 750px;
-    height: 740px; 
-    background-color: #ffffffd2;
-    border-radius: 15px;
-    margin-left: 2%;
-}
-.container-contas{
-    max-width: 700px;
-    width: 100%;
-
-}
-.contas-fixas .container-contas{
-    margin: 25px 0px 0px 25px;
-
-}
-.contas-fixas .title-fixo {
-    font-size: 2rem ;
-    font-weight: 1000px ; 
-    color: #042940;
-}
-.contas-fixas .container-contas .main-content .content-title{
-    display: flex;
-    justify-content: space-between;
-    max-width: 100%;
-    width: 95%;
-    margin-top: 25px;
-    margin-bottom: 10px
-}
-.contas-fixas .container-contas .main-content .content-title span {
-    margin-right: 20px;
-}
-.contas-fixas .container-contas .main-content .content-title h4{
-    font-size: 1.2rem;
-    text-decoration:solid;
-}
-.contas-fixas .container-contas .main-content .content-title h4:not(:first-child){
-    margin-right: 15px;
-}
-.contas-fixas .container-contas .main-content .content-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width:100%;
-    width: 95%;
-    border-bottom: 1px solid black;
-}
-
-.contas-fixas .container-contas .main-content .content-item .icons-item a:not(:last-child) {
-    padding-right: 2px;
-}
-.contas-fixas .container-contas .main-content .content-item .icons-item i{
-    color: rgb(221, 187, 33);
-    border: 1.5px solid black;
-    padding: 2px 2.5px 1.8px 2.5px;
-    border-radius: 5px;
-}
-.contas-fixas .container-contas .main-content .content-item .icons-item .second {
-    color: #B54848;
-    
-}
-.contas-fixas .container-contas .main-content .content-item .icons-item .third {
-    color: #808080;
-    
-}
-.tudo {
+.bottom-card{
+    background-color: rgba(5, 62, 97, 0.733);
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 100%;
-    width: 100%;
 }
-.tudo:not(:last-child){
+.bottom-card a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 100;
+    opacity: 1;
 }
-.tudo-direita{
-    float: right;
+.bottom-card i{
+    margin-bottom: 16px;
+    margin-left: 10px;
 }
-.tempo-agendamento{
-    display: flex;
-}
-.bottom-group-bts{
+/* grafico */
+.graficos{
     display: flex;
     justify-content: space-between;
-    max-width: 95% ;
+    margin-top: 40px;
+    width: 100%;
+    height: 100%;
+}
+.grafico-clientes{
+    width: 48%;
+    height: 100%;
+}
+.grafico-contas-a-receber{
+    width: 48%;
+    height: 100%;
+}
+
+.agenda {
+    width: 100%;         
+    max-width: 1500px;  
+    margin: 0 auto;     
+    font-size: 1.2rem;   
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
+    overflow: visible;
+    position: relative;
+    margin-bottom: 34px;
+    margin-top: 40px;
+}
+.quadras-lista {
+    padding: 32px 24px;
+}
+.quadras-lista h4{
+    color: rgb(243, 219, 0);
+    text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
+    font-weight: 900;
+}
+.main-text{
+    display: flex;
+    flex-direction: row;
     margin-top: 15px;
+    gap: 32px;
 }
-.bottom-group-bts button{
-    border: none;
-    border-radius: 15px;
-    background-color: #042940;
-    color: white;
+.relogio{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-10%, -60%);
+    z-index: 1;
+    opacity: 0.20;
+    color: rgba(5, 62, 97, 1);
+    font-size: 3rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.bt-exibir button{
-    width: 200px;
-    height: 30px;
+.bottom-horario{
+    background-color: rgba(5, 62, 97, 0.733);
+    display:  flex;
+    align-items: center;
+    justify-content: center; 
+    min-height: 56px;      /* altura mínima visível */
+    width: 100%;           /* ocupa toda a largura da agenda */
+    font-size: 1.2rem;
+    position: relative ;
+    z-index: 2;            /* fica acima da relogio */
+    margin-top: 16px;
+    border-radius: 0 0 8px 8px;
+    text-align: center;
 }
-.bt-novo-gasto button{
-    width: 140px;
-    height: 30px;
+.bottom-horario a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 100;
+    opacity: 1;
+    gap: 12px;
 }
-/* fim */
+.bottom-horario i{
+    margin-bottom: 0; /* Remove o deslocamento vertical */
+    margin-left: 0;   /* Remove o deslocamento lateral, pois gap já faz o espaçamento */
+    font-size: 1.2em; /* Ajuste o tamanho se quiser */
+}

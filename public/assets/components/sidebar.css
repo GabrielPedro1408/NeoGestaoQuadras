@@ -1,105 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
-    position: sticky;
-}
-
-body {
-    display: flex;
-    background-color: #afafaf;
-}
-
-main {
-    padding: 20px;
-}
-
 #sidebar {
+    position: fixed;
+    top: 80px;
+    left: 0;
+
+    height: calc(100vh - 80px); 
+    width: 16vw;
+    min-width: 0;
+
+    background-color: rgba(5, 62, 97, 1);
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #042940;
-    height: 100vh;
-    position: absolute;
-    border-radius: 0px 0px 5px 0px;
-    top: 0px;
-    left: 0px; 
-    overflow: hidden;
-    min-width: 100px;
-    transition: all 0.5s ease;
-    align-items: center; /* Centraliza os itens horizontalmente */
+    align-items: center;
+    z-index: 999;
 
 }
-
-#sidebar.open-sidebar {
-    min-width: 270px; /* Largura do sidebar aberto */
-    align-items: center; /* Mantém os itens centralizados horizontalmente */
-}
-
 #sidebar-content {
     display: flex;
     flex-direction: column;
     max-width: 100%;
     justify-content: space-between;
-    height: 92%;
+    height: 100%;
     padding: 12px 0;
 }
 
-#user {
+#main-content {
+    flex: 1;
+    background: whitesmoke;
+    margin-left: 15vw;
+    margin-top: 80px; 
+    padding: 24px 0px 0px 0px;
+}   
+
+.full-content{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 35px;
-    margin-top: 130px;
-    max-width: 100%;
     width: 100%;
-}
-
-#user-info {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-#user-info span {
-    color: #fdfdfd;
-    font-size: 18px;
-    margin-bottom: 15px;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    max-width: 100%;
+    min-height: 100vh;
 }
 
 #side-items {
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os itens horizontalmente */
-    height: 80%;
+    align-items: center;
     justify-content: space-between;
     flex-grow: 1;
     list-style: none;
-    color: rgb(0, 0, 0);
     padding: 0;
 }
 
 .side-item {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o conteúdo do item */
-    border-radius: 8px;
+    justify-content: space-around; 
+    border-radius: 1px;
     padding: 10px;
+    width: 31.7vh;
     cursor: pointer;
     text-align: center;
     transition: all 0.3s ease;
-    margin-top: 10px;
+}
+.esquerda{
+    display: flex;
+    margin-left: 20px;
 }
 
 .side-item.active {
@@ -111,34 +76,24 @@ main {
 
 .side-item.active a {
     color: white;
-    text-decoration: none; /* Remove o sublinhado */
+    text-decoration: none;
 }
 
-.side-item:hover:not(.active)
- {
+.side-item:hover:not(.active){
     background-color: rgb(221, 187, 33);
-    color: rgb(255, 255, 255);
 }
 .side-item i{
     color: white;
 }
 .side-item a {
-    text-decoration: none; /* Remove o sublinhado */
+    text-decoration: none;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o conteúdo do link */
-    gap: 10px; /* Espaçamento entre o ícone e o texto */
-    color: white; /* Garante que o texto fique branco */
-}
-
-#sidebar.open-sidebar .side-item a {
-    justify-content: flex-start; /* Ajusta o alinhamento quando o sidebar está aberto */
-    padding-left: 20px; /* Adiciona um espaçamento à esquerda */
+    justify-content: center;
+    color: white; 
 }
 
 .item-description {
-    width: 0;
-    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 16px;
@@ -146,9 +101,9 @@ main {
     color: white;
 }
 
-#sidebar.open-sidebar .item-description {
-    width: 130px; /* Largura do texto visível quando o sidebar está aberto */
-    text-align: left; /* Alinha o texto à esquerda */
+#sidebar .item-description {
+    width: 130px;
+    text-align: left;
 }
 
 .side-item a i {
@@ -159,49 +114,4 @@ main {
     height: 20px;
     color: rgb(255, 255, 255);
     margin-left: 10px;
-}
-
-#logout {
-    padding: 14px;
-}
-
-#logout-btn {
-    border: none;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    border-radius: 8px;
-    text-align: start;
-    cursor: pointer;
-    background-color: transparent;
-    text-align: center;
-    align-items: center;
-}
-
-#open-btn {
-    position: absolute;
-    top: 145px;
-    right: -10px;
-    background-color: rgb(221, 187, 33);
-    color: #fdfdfd;
-    width: 22px;
-    height: 22px;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-    z-index: 1000;
-}
-
-#open-btn-icon {
-    transition: transform 0.3s ease;
-}
-
-.open-sidebar #open-btn-icon {
-    transform: rotate(180deg);
-}
- #open-btn{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right:  40px;
 }
