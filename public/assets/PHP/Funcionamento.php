@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(!isset($_SESSION['username'])) {
+    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+    exit();
+}
+include_once 'conexao.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -20,6 +28,7 @@
 
 </head>
 <body>
+<<<<<<< Updated upstream
 <script>
   localStorage.setItem('activeItem', 'funcionamento');
 </script>
@@ -41,10 +50,19 @@
     <!-- PopUps -->
 
 
+=======
+
+    <?php
+        require '../components/sidebar.php';
+        require '../components/header.php' ;
+    ?>
+    <div id="main-content">
+>>>>>>> Stashed changes
         <main>
             <div class="container">
                 <div class="titulo">
                     <h1><strong>Funcionamento</strong></h1>
+                    <img src="../images/raphax.jpg" alt="10 meu melhor amg pfto" class="img-fluid">
                 </div>
             </div>
 

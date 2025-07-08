@@ -1,8 +1,14 @@
 <?php 
 session_start();
+<<<<<<< Updated upstream
 if(!isset($_SESSION['username'])){
     header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
     exit;
+=======
+if(!isset($_SESSION['username'])) {
+    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+    exit();
+>>>>>>> Stashed changes
 }
 include_once 'conexao.php';
 if(!isset($_SESSION['username'])) {
@@ -144,7 +150,10 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             <?php
                                 //Start search clients 
                                 $username = $_SESSION['username'];
+<<<<<<< Updated upstream
                                 die($username);
+=======
+>>>>>>> Stashed changes
                                 $id_empresa = buscarIdEmpresa($username);
                                 $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
                                 FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 

@@ -78,8 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 })
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 // Input focus effects
 document.addEventListener("DOMContentLoaded", () => {
   const inputs = document.querySelectorAll(".input-field input")
