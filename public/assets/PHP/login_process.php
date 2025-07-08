@@ -2,7 +2,7 @@
     include_once 'conexao.php';
     session_start();
     // Verifica se o formulário foi enviado
-    if(isset($_POST['logar'])){
+    if(isset($_POST['entrar'])){
         //Pega os dados do formulário
         $username = $_POST['username'];
         $password = $_POST['password'];

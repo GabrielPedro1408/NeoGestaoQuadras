@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(!isset($_SESSION['username'])) {
+    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+    exit();
+}
+include_once 'conexao.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -23,25 +31,12 @@
         require '../components/sidebar.php';
         require '../components/header.php' ;
     ?>
-    <!-- PopUps -->
-            <!-- cadastrar cli/modalClienteente -->
-        <?php include_once "./modalCliente/cadastroCli.php"; ?>
-            <!-- buscar cliente -->
-        <?php include_once "./modalCliente/buscarCli.php"; ?>
-            <!-- editar cliente -->
-        <?php include_once "./modalCliente/editarCli.php"; ?>
-            <!-- excluir cliente -->
-        <?php include_once "./modalCliente/excluirCli.php"; ?>
-            <!-- iformação cliente -->
-        <?php include_once "./modalCliente/infoCli.php"; ?> 
-    <!-- PopUps -->
-
-
     <div id="main-content">
         <main>
             <div class="container">
                 <div class="titulo">
                     <h1><strong>Funcionamento</strong></h1>
+                    <img src="../images/raphax.jpg" alt="10 meu melhor amg pfto" class="img-fluid">
                 </div>
             </div>
 

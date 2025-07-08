@@ -1,9 +1,13 @@
 <?php 
-
+    if(!isset($_SESSION['username'])) {
+        header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+        exit();
+    }
     include_once __DIR__ . '/../../conexao.php';
 
     if (isset($_POST["cadastrar"])) {
-        $id_empresa = 1;
+        $usuario = $_SESSION['username'];
+        $id_empresa = buscarIdEmpresa($usuario);
         $descr = $_POST['descr'];
         $disponibilidadeQuadra = $_POST['disponibilidadeQuadra'];
         $modalidadeQuadra = $_POST['modalidadeQuadra'];

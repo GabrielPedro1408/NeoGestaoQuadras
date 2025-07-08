@@ -1,11 +1,12 @@
 <?php
-    // resolver o problema que ele salva mesmo sem os dados
-    // colocar o script que verifica se o campo está vazio
-    // adicionar o script para verificar de qual empresa é o cliente a partir do usuario logado verificando a tabela empresa
-    $id_empresa = 1;
-
     include_once __DIR__ . '/../../conexao.php';
     include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
+    session_start();
+    if(!isset($_SESSION['username'])) {
+        header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+        exit();
+    }
+
     
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         // Guardar em variaveis os dados do formulário
@@ -25,10 +26,10 @@
         $complementocasaCli = $_POST['complementocasaCli'];
 
         //variavel para teste
-        $username = "Vitor"; //Aqui vai pegar o nome da session
+        $username = $_SESSION['username']; //Aqui vai pegar o nome da session
         
         try {
-            buscarIdEmpresa($username);
+            $id_empresa = buscarIdEmpresa($username);
                 
             $cadastraCli = $pdo->prepare("INSERT INTO clientes (id_empresa, nome, sobrenome, dt_nascimento, email, cpf, cnpj, rg, celular, cep, uf, cidade, rua, nCasa, complemento) 
             VALUES (:id_empresa, :nomeCli, :sobrenomeCli, :dataNascCli, :emailCli, :cpfCli, :cnpjCli, :rgCli, :celularCli, :cepCli, :ufCli, :cidadeCli, :ruaCli, :ncasaCli, :complementocasaCli)");

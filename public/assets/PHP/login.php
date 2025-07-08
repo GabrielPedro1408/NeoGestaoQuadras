@@ -39,7 +39,7 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
         <div class="login-container centered">
             <!-- Login Form -->
             <div class="form-container sign-in centered-form">
-                <form action="" method="post" autocomplete="on" class="login-form">
+                <form action="login_process.php" method="post" autocomplete="on" class="login-form">
                     <div class="form-header">
                         <div class="form-icon">
                             <i class="fas fa-user-circle"></i>
@@ -50,8 +50,8 @@ include_once __DIR__ . '/../../assets/PHP/CRUD-Empresa/createEmpresa.php';
 
                     <div class="input-group">
                         <div class="input-field">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" name="username" id="username" placeholder="Email" required>
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="username" id="username" placeholder="Usuário" required>
                         </div>
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
