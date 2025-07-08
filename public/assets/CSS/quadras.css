@@ -236,3 +236,10 @@ table td i{
 .table-clientes span{
     color: #7a7a7a;
 }
+.modal-body .col-md-6 {
+    margin-bottom: 38px;
+}
+.modal-body .col-md-6 label {
+    margin-bottom: 10px;
+    display: block;
+}
