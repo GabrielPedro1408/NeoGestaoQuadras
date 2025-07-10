@@ -1,5 +1,6 @@
 <?php 
 session_start();
+include_once __DIR__ . '../../src/buscarIdEmpresa.php';
 if(!isset($_SESSION['username'])){
     header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
     exit;
@@ -8,6 +9,8 @@ include_once 'conexao.php';
 if($_SERVER ['REQUEST_METHOD'] === "POST"){
     include_once './modalCliente/CRUD/createCliente.php';
 }
+$username = $_SESSION['username'];
+$id_empresa = buscarIdEmpresa($username);
 ?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -43,10 +46,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
         <?php include_once "./modalCliente/excluirCli.php"; ?>
             <!-- iformação cliente -->
         <?php include_once "./modalCliente/infoCli.php"; ?>
-    <!-- buscar cli -->
-    
-    <!-- editar cli -->
-    
+
 <!-- PopUps -->
 
         <main>
@@ -62,6 +62,20 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                 unset($_SESSION['message']);
                 unset($_SESSION['message_type']);
             endif;
+            
+            $queryClientes = $pdo -> prepare(
+            "SELECT
+            count(*) AS total_clientes
+            FROM
+            clientes
+            ");
+            $queryClientes -> execute();
+            $resultClientes = $queryClientes ->fetchAll(PDO::FETCH_ASSOC);
+            $total_clientes = [];
+            foreach($resultClientes as $cliente){
+                $total_clientes[] = $cliente['total_clientes'];
+            }
+            
             ?>
             <div class="container">
                 <section class="top-area">
@@ -87,11 +101,15 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                         </div>
                     </div>
                     <div class="total-clientes">
-                        <h6>TOTAL DE CLIENTES</h6>
-                        <div class="main-total-clientes">
-                            <i class="fa-solid fa-users fa-xl"></i>
-                            <h3><label for="totalCli">19</label></h3>
-                        </div>
+                        <div class="grupo">
+                            <h6>TOTAL DE CLIENTES</h6>
+                            <div class="main-total-clientes">
+                                <h1><label for="totalCli"><?=$total_clientes[0];?></label></h1>
+                                <div class="icone-total">
+                                    <i class="fa-solid fa-users fa-xl"></i>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                 </div>
 
@@ -124,8 +142,6 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             <tbody>
                             <?php
                                 //Start search clients 
-                                $username = "Gabriel";
-                                $id_empresa = buscarIdEmpresa($username);
                                 $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
                                 FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
                                 $buscarClientes->execute(array(
@@ -137,7 +153,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                                 foreach($result as $row):
                             ?>   
                                     <tr>
-                                        <input type='hidden' id='idCliente' value=<?= $row['id']?> />
+                                        <input type='hidden' id='idCliente' value=<?= $row['id']?>/>
                                         <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
                                         <td scope ='row'><label for='nomeCli'><?= $row['nome']." ". $row['sobrenome'] ?></label></td>
                                         <td><label for='contatoCli'><?= $row['celular'] ?></label></td>

@@ -5,14 +5,15 @@
  ?>
  <!-- cadastro cli -->
     
-    <div class="modal" id="modalCadastro">
-            <div class="modal-inner">
-                <div class="top-pop-up">
-                    <h3>Cadastro de Quadra</h3>
-                    <a href="#" id="closePopUpCadastro" ><i class="fa-solid fa-x"></i></a>
-                </div>
-            <form class="row g-3" action="" method="POST">
-            <div class="col-md-6">
+    <div class="modal fade" id="modalCadastro" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="row g-3" action="" method="POST">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Cadastro de Quadra</h3>
+                        <a href="#" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></a>
+                    </div>
+                <div class="col-md-6">
                     <label for="nomeQuadra" class="form-label">Nome</label>
                     <input type="text" class="form-control" id="descr" name="descr">
                 </div>
@@ -52,6 +53,7 @@
                 <div class="col-12">
                     <button type="submit" name="cadastrar" class="btn btn-primary">Adicionar Quadra</button>
                 </div>
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
+</div>

@@ -1,12 +1,16 @@
 <?php
 session_start();
+include_once __DIR__ . '../../src/buscarIdEmpresa.php';
 include_once 'conexao.php';
 include_once './modalAgendamento/CRUD/createAgendamento.php';
+$username = $_SESSION['username'];
+$id_empresa = buscarIdEmpresa($username);
 ?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/agendamentos.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
@@ -46,21 +50,20 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
             if (isset($_SESSION['message'])):
                 $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
             ?>
-                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
-                    <?= $_SESSION['message'] ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                <?= $_SESSION['message'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <?php
                 unset($_SESSION['message']);
                 unset($_SESSION['message_type']);
             endif;
-            ?>
-            <?php
+            
             $query = $pdo ->prepare(
-                "SELECT
-                count(*) AS total_agendamentos
-                FROM
-                agendamentos"
+            "SELECT
+            count(*) AS total_agendamentos
+            FROM
+            agendamentos"
             );
             $query -> execute();
             $resultAgendamentos = $query -> fetchAll(PDO::FETCH_ASSOC);
@@ -86,19 +89,26 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                             <div class="main-pesquisar">
                                 <form action="" method="post">
                                     <div class="group">
-                                        <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome">
+                                        <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome do Cliente">
                                     </div>
                                     <div class="group">
-                                        <input type="date" name="diaAgend" id="diaAgend" placeholder="Dia">
+                                        <select class="form-select" aria-label="Default select example" name="modalidadeQuadra" aria-placeholder="modalidade">
+                                        <option value="0">Aberta</option>
+                                        <option value="1">Fechada</option>
+                                        </select>
                                     </div>
                                 </form>
                         </div>
                     </div>
                     <div class="total-agendamentos">
-                        <h6>TOTAL DE AGENDAMENTOS</h6>
-                        <div class="main-total-agendamentos">
-                            <i class="fa-solid fa-calendar fa-xl"></i>
-                            <h3><label for="totalAgend"><?=$totalAgendamentos[0]?></label></h3>
+                        <div class="grupo">
+                            <h6>TOTAL DE AGENDAMENTOS</h6>
+                            <div class="main-total-agendamentos">
+                                <h3><label for="totalAgend"><?=$totalAgendamentos[0]?></label></h3>
+                                <div class="icone-total">
+                                    <i class="fa-solid fa-calendar fa-xl"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -119,18 +129,18 @@ include_once './modalAgendamento/CRUD/createAgendamento.php';
                             </thead>
                             <?php 
                             try {
-                                $stmt = $pdo->query("
-                                SELECT
-                                    cli.nome AS nome_cliente,
-                                    q.descr AS quadras,
-                                    ag.dt,
-                                    ag.horario_agendado,
-                                    ag.tempo_alocado,
-                                    ag.valor,
-                                    ag.estado_conta
-                                        FROM agendamentos ag
-                                        JOIN clientes cli ON ag.id_cliente = cli.id
-                                        JOIN quadras q ON ag.id_quadra = q.id
+                                $stmt = $pdo->query(
+                                "SELECT
+                                cli.nome AS nome_cliente,
+                                q.descr AS quadras,
+                                ag.dt,
+                                ag.horario_agendado,
+                                ag.tempo_alocado,
+                                ag.valor,
+                                ag.estado_conta
+                                FROM agendamentos ag
+                                JOIN clientes cli ON ag.id_cliente = cli.id
+                                JOIN quadras q ON ag.id_quadra = q.id
                                 ");
                                 $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
                             } catch ( PDOException $e) {

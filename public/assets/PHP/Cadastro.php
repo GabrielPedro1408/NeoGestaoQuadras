@@ -105,7 +105,7 @@
                                 <label for="telefoneEmpresa">Telefone</label>
                                 <div class="input-field">
                                     <i class="fas fa-phone"></i>
-                                    <input type="tel" id="telefoneEmpresa" name="telefoneEmpresa" placeholder="Ex: (11) 91234-5678" required>
+                                    <input type="tel" id="telefoneEmpresa" name="telefoneEmpresa" placeholder="Ex: (11) 91234-5678" maxlength="15" required>
                                 </div>
                             </div>
 

@@ -1,33 +1,46 @@
 <?php 
 
     include_once __DIR__ . '/../../conexao.php';
+    include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
 
-    if (isset($_POST["cadastrar"])) {
-        $id_empresa = 1;
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $username = $_SESSION['username'];
+        $id_empresa = buscarIdEmpresa($username);
         $descr = $_POST['descr'];
         $disponibilidadeQuadra = $_POST['disponibilidadeQuadra'];
         $modalidadeQuadra = $_POST['modalidadeQuadra'];
         $valoragendQuadra = $_POST['valoragendQuadra'];
-
-        $sql = "INSERT into quadras(id_empresa, id_modalidade, descr,disponibilidade,valor_hora)".
-                "values (:id_empresa, :modalidadeQuadra, :descr, :disponibilidadeQuadra, :valoragendQuadra)";
-
-        $stmt = $pdo->prepare($sql); 
         
-        $stmt -> bindParam(':id_empresa', $id_empresa);
-        $stmt -> bindParam(':descr', $descr);
-        $stmt -> bindParam(':disponibilidadeQuadra', $disponibilidadeQuadra);
-        $stmt -> bindParam(':modalidadeQuadra', $modalidadeQuadra);
-        $stmt -> bindParam(':valoragendQuadra', $valoragendQuadra);
+        try {
+            $sql = $pdo->prepare("INSERT INTO
+            quadras(id_empresa, id_modalidade, descr,disponibilidade, valor_hora)
+            values (:id_empresa, :modalidadeQuadra, :descr, :disponibilidadeQuadra, :valoragendQuadra)");
+            
+            $result = $sql -> execute(array(
+                ':id_empresa' => $id_empresa,
+                ':descr'=> $descr,
+                ':disponibilidadeQuadra'=> $disponibilidadeQuadra,
+                ':modalidadeQuadra'=> $modalidadeQuadra,
+                ':valoragendQuadra'=> $valoragendQuadra,
+            ));
+            if (!$result) {
+                $_SESSION['message'] = 'Erro ao inserir os dados!';
+                $_SESSION['message_type'] = 'danger';
+                header("Location: ../PHP/Quadras.php");
+                exit;
 
-        $result = $stmt->execute();
-
-                if (!$result) {
-                    var_dump($stmt->errorInfo());
-                    exit;
-                }
-                 else {
-                    echo $stmt->rowCount() . "Linhas Inseridas";
-                 }
+            } else {
+                $_SESSION['message'] = 'Dados inseridos com sucesso!';
+                $_SESSION['message_type'] = 'success';
+                header("Location: ../PHP/Quadras.php");
+                exit;
             }
-        ?>
+        } catch (PDOException $e) {
+            echo "Erro ao inserir os dados" .
+            "Número do erro: " . $e -> getMessage() ;
+        }
+        
+        }
+?>
