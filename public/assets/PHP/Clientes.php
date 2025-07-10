@@ -1,11 +1,18 @@
 <?php 
 session_start();
+
 include_once __DIR__ . '../../src/buscarIdEmpresa.php';
+
 if(!isset($_SESSION['username'])){
     header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
     exit;
 }
+
 include_once 'conexao.php';
+if(!isset($_SESSION['username'])) {
+    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+    exit();
+}
 if($_SERVER ['REQUEST_METHOD'] === "POST"){
     include_once './modalCliente/CRUD/createCliente.php';
 }
@@ -141,7 +148,9 @@ $id_empresa = buscarIdEmpresa($username);
                             </thead>
                             <tbody>
                             <?php
-                                //Start search clients 
+                                //Start search clients
+                                $username = $_SESSION['username'];
+                                $id_empresa = buscarIdEmpresa($username);
                                 $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
                                 FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
                                 $buscarClientes->execute(array(

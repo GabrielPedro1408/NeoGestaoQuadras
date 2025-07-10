@@ -1,5 +1,8 @@
 <?php 
-
+    if(!isset($_SESSION['username'])) {
+        header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+        exit();
+    }
     include_once __DIR__ . '/../../conexao.php';
     include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
 

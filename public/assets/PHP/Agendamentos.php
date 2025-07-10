@@ -188,10 +188,10 @@ $id_empresa = buscarIdEmpresa($username);
                                 $agendamento['estado_conta']?>
                                 </label></td>
 
-                                <td class='icons-item'>
-                                    <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
-                                    <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
-                                    <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                               <td class='icons-item'>
+                                    <a href="?editar=<?= $agendamento['id'] ?>"><i class="fa-solid fa-pen-to-square first"></i></a>
+                                    <a id='openPopUpExcluir' href="?excluir=<?= $agendamento['id'] ?>"><i class='fa-solid fa-trash second'></i></a>
+                                    <a id='openPopUpInfo' href="?info=<?= $agendamento['id'] ?>"><i class='fa-solid fa-circle-info third'></i></a>
                                 </td>
                             </tr>
                             <?php
@@ -212,6 +212,26 @@ $id_empresa = buscarIdEmpresa($username);
                             <?php 
                             // endforeach 
                             ?>
+                            <?php if (isset($_GET['editar'])): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById('modalEditar');
+  if (modal) {
+    modal.addEventListener('hidden.bs.modal', function () {
+      if (window.location.search.includes('editar=')) {
+        // Remove o parâmetro editar da URL sem recarregar a página
+        const url = new URL(window.location);
+        url.searchParams.delete('editar');
+        window.history.replaceState({}, document.title, url.pathname + url.search);
+      }
+    });
+    // Abre o modal automaticamente
+    var bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+  }
+});
+</script>
+<?php endif; ?>
                         </div>
                     </div>     
                 </div>

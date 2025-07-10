@@ -1,10 +1,12 @@
 <?php
-    // resolver o problema que ele salva mesmo sem os dados
-    // colocar o script que verifica se o campo está vazio
-    // adicionar o script para verificar de qual empresa é o cliente a partir do usuario logado verificando a tabela empresa
-
     include_once __DIR__ . '/../../conexao.php';
     include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
+    session_start();
+    if(!isset($_SESSION['username'])) {
+        header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+        exit();
+    }
+
     
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         // Guardar em variaveis os dados do formulário

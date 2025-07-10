@@ -1,15 +1,22 @@
-<?php 
+<?php
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+    exit();
+} 
 include_once __DIR__ . '/../../conexao.php';
+
+$usuario = $_SESSION['username'];
+$id_empresa = buscarIdEmpresa($usuario);
 
 try {
     $sql = "SELECT q.id, q.descr, q.disponibilidade, q.valor_hora, m.nome_modalidade 
             FROM quadras q 
             LEFT JOIN modalidades m ON q.id_modalidade = m.id 
-            WHERE q.id_empresa = 1 
+            WHERE q.id_empresa = :id_empresa
             ORDER BY q.id";
     
     $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+    $stmt->execute(array(':id_empresa' => $id_empresa));
     $quadras = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch(PDOException $e) {
