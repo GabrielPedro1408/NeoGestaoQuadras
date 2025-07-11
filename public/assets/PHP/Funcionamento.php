@@ -1,10 +1,13 @@
 <?php
 session_start();
-if(!isset($_SESSION['username'])) {
-    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
-    exit();
+include_once __DIR__ . '../../src/buscarIdEmpresa.php';
+if(!isset($_SESSION['username'])){
+    header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+    exit;
 }
 include_once 'conexao.php';
+$username = $_SESSION['username'];
+$id_empresa = buscarIdEmpresa($username);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -18,17 +21,10 @@ include_once 'conexao.php';
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <script type="module" src="../JS/bootstrap.bundle.min.js"></script>
-    <script type="module" src="../JS/PopUpBuscar.js"></script>
-    <script type="module" src="../JS/PopUpCadastro.js"></script>
-    <script type="module" src="../JS/PopUpEditar.js"></script>
-    <script type="module" src="../JS/PopUpExcluir.js"></script>
-    <script type="module" src="../JS/PopUpInfo.js"></script>
     <title>NPL Quadras</title>
 
 </head>
 <body>
-<<<<<<< Updated upstream
 <script>
   localStorage.setItem('activeItem', 'funcionamento');
 </script>
@@ -36,28 +32,6 @@ include_once 'conexao.php';
     <?php require '../components/sidebar.php';?>
     <div id="main-content">
     <?php require '../components/header.php' ;?>
-    <!-- PopUps -->
-            <!-- cadastrar cli/modalClienteente -->
-        <?php include_once "./modalCliente/cadastroCli.php"; ?>
-            <!-- buscar cliente -->
-        <?php include_once "./modalCliente/buscarCli.php"; ?>
-            <!-- editar cliente -->
-        <?php include_once "./modalCliente/editarCli.php"; ?>
-            <!-- excluir cliente -->
-        <?php include_once "./modalCliente/excluirCli.php"; ?>
-            <!-- iformação cliente -->
-        <?php include_once "./modalCliente/infoCli.php"; ?> 
-    <!-- PopUps -->
-
-
-=======
-
-    <?php
-        require '../components/sidebar.php';
-        require '../components/header.php' ;
-    ?>
-    <div id="main-content">
->>>>>>> Stashed changes
         <main>
             <div class="container">
                 <div class="titulo">

@@ -133,6 +133,7 @@ $id_empresa = buscarIdEmpresa($username);
                                 "SELECT
                                 cli.nome AS nome_cliente,
                                 q.descr AS quadras,
+                                ag.id,
                                 ag.dt,
                                 ag.horario_agendado,
                                 ag.tempo_alocado,
@@ -159,8 +160,8 @@ $id_empresa = buscarIdEmpresa($username);
                                 </label></td>
 
                                 <td><label> 
-                                <?=empty($agendamento['quadra']) ? '<span>Vazio</span>' :
-                                $agendamento['quadra']?>  
+                                <?=empty($agendamento['quadras']) ? '<span>Vazio</span>' :
+                                $agendamento['quadras']?>  
                                 </label></td>
 
                                 <td><label>
@@ -189,9 +190,9 @@ $id_empresa = buscarIdEmpresa($username);
                                 </label></td>
 
                                <td class='icons-item'>
-                                    <a href="?editar=<?= $agendamento['id'] ?>"><i class="fa-solid fa-pen-to-square first"></i></a>
-                                    <a id='openPopUpExcluir' href="?excluir=<?= $agendamento['id'] ?>"><i class='fa-solid fa-trash second'></i></a>
-                                    <a id='openPopUpInfo' href="?info=<?= $agendamento['id'] ?>"><i class='fa-solid fa-circle-info third'></i></a>
+                                    <a href="?editar= <?= $agendamento['id']; ?>"><i class="fa-solid fa-pen-to-square first"></i></a>
+                                    <a id='openPopUpExcluir' href="?excluir=<?= $agendamento['id']; ?>"><i class='fa-solid fa-trash second'></i></a>
+                                    <a id='openPopUpInfo' href="?info=<?= $agendamento['id']; ?>"><i class='fa-solid fa-circle-info third'></i></a>
                                 </td>
                             </tr>
                             <?php

@@ -47,32 +47,49 @@ $id_empresa = buscarIdEmpresa($username);
 
         <main>
              <?php
-            if (isset($_SESSION['message'])):
-                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
-            ?>
-                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
-                    <?= $_SESSION['message'] ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php
-                unset($_SESSION['message']);
-                unset($_SESSION['message_type']);
-            endif;
+            /* mensagem de sucesso */
+                if (isset($_SESSION['message'])):
+                    $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+                ?>
+                    <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                        <?= $_SESSION['message'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                endif;
 
-            $query = $pdo ->prepare(
+            /* card total quadras */
+            $queryTotal = $pdo ->prepare(
                 "SELECT
                 count(*) AS total_quadras
                 FROM
                 quadras"
             );
-            $query -> execute();
-            $resultQuadras = $query -> fetchAll(PDO::FETCH_ASSOC);
+            $queryTotal -> execute();
+            $resultQuadras = $queryTotal -> fetchAll(PDO::FETCH_ASSOC);
 
             $totalQuadras = [];
             foreach($resultQuadras as $quadra){
                 $totalQuadras[] = $quadra['total_quadras'];
             }
 
+            $quadras = $pdo->prepare(
+            "SELECT
+            q.id,
+            q.descr,
+            q.id_modalidade,
+            q.disponibilidade,
+            q.valor_hora
+
+            FROM
+            quadras q
+
+            JOIN
+            modalidade_quadra ON q.id_modalidade = modalidade
+
+            ");
             ?>
             <div class="container">
                 <section class="top-area">
