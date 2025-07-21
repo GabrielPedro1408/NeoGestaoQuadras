@@ -1,11 +1,17 @@
        <?php
-            
+            include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
+            if(!isset($_SESSION['username'])) {
+                header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
+                exit();
+            }
             include_once __DIR__ . '/../../conexao.php';
+
+            $username = $_SESSION['username'];
             try {
                 if (isset($_POST["cadastrar"])) {
 
                 /* passagem de parametros*/
-                $id_empresa = 1;
+                $id_empresa = buscarIdEmpresa($username);
                 $id_cliente = $_POST["id_cliente"];
                 $id_quadra = $_POST["id_quadra"];
                 $dataAgend = $_POST["dataAgend"];

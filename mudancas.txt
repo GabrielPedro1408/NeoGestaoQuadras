@@ -1,0 +1,9 @@
+
+ALTERAÇÕES NO BANCO DE DADOS
+tabela quadras - disponibilidade para boleano
+
+tabela clientes - adicionei uma nova coluna 
+|
+> data_cadastro -> tipo datetime -> padrão current_timestamp()
+
+tabela agendamentos - estado_conta para bleano

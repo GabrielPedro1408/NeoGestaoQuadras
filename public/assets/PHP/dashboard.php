@@ -35,8 +35,8 @@
         COUNT(*) AS total_quadras
         FROM
         quadras
-        /* WHERE 
-        disponibilidade = 1 */
+        WHERE 
+        disponibilidade = 1
         ");
         $quadras -> execute();
         $result_quadras = $quadras -> fetchAll(PDO::FETCH_ASSOC);
@@ -58,8 +58,10 @@
         COUNT(*) AS total_agendamentos
         FROM 
         agendamentos
-        WHERE DATE(horario_agendado) = CURDATE() 
-        AND horario_agendado >= NOW() 
+        WHERE 
+        horario_agendado >= CURRENT_TIME()
+        AND
+        dt = CURRENT_DATE()
         ");
 
         $agendamentos -> execute();
