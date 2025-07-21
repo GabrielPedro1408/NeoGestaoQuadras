@@ -32,13 +32,48 @@ $id_empresa = buscarIdEmpresa($username);
     <?php require '../components/sidebar.php';?>
     <div id="main-content">
     <?php require '../components/header.php' ;?>
+
+    <?php include_once "./modalFuncionamento/editarFuncionamento.php"; ?>
         <main>
             <div class="container">
-                <div class="titulo">
-                    <h1><strong>Funcionamento</strong></h1>
-                    <img src="../images/raphax.jpg" alt="10 meu melhor amg pfto" class="img-fluid">
+                <section class="top-area">
+                    <div class="titulo">
+                        <h3><strong>GERENCIAMENTO DE FUNCIONAMENTO</strong></h3>
+                    </div>
+                    <div class="editar">
+                        <button id='openPopUpEditar' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar">EDITAR</button>
+                    </div>
+                </section>
+
+            <div class="cards">
+            <div class="card">
+                <h3>HORÁRIO DE ABERTURA :</h3>
+                <div class="time">11:30</div>
+                    <div class="icone-total">
+                        <i class="fa-solid fa-school-circle-check fa-xl"></i>
+                    </div>
+            </div>
+
+            <div class="card">
+                <h3>INTERVALO DE TEMPO:</h3>
+                <div class="time">30<span class="minutos">minutos</span></div>
+                  <div class="icone-total">
+                        <i class="fa-solid fa-clock fa-xl"></i>
+                    </div>
+            </div>
+
+            <div class="card">
+                <h3>HORÁRIO DE FECHAMENTO :</h3>
+                <div class="time">23:30</div>
+               <div class="icone-total">
+                        <i class="fa-solid fa-school-circle-xmark fa-xl"></i>
                 </div>
             </div>
+            </div>
+  </div>
+
+</body>
+</html>
 
         </main>
     </div>
