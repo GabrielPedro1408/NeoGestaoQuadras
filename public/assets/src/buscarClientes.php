@@ -1,5 +1,5 @@
 <?php
-require '../../../conexao.php'; // ajuste o caminho conforme seu projeto
+require '../../../conexao.php';
 
 $termo = $_GET['q'] ?? '';
 $stmt = $pdo->prepare("SELECT id, nome FROM clientes WHERE nome LIKE :termo LIMIT 10");

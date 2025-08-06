@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 })
+
 // Input focus effects
 document.addEventListener("DOMContentLoaded", () => {
   const inputs = document.querySelectorAll(".input-field input")
