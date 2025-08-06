@@ -1,9 +1,8 @@
 <?php 
 session_start();
-if(!isset($_SESSION['username'])) {
-    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
-    exit();
-}
+
+include_once __DIR__ . '../../src/buscarIdEmpresa.php';
+
 include_once 'conexao.php';
 if(!isset($_SESSION['username'])) {
     header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
@@ -12,6 +11,8 @@ if(!isset($_SESSION['username'])) {
 if($_SERVER ['REQUEST_METHOD'] === "POST"){
     include_once './modalCliente/CRUD/createCliente.php';
 }
+$username = $_SESSION['username'];
+$id_empresa = buscarIdEmpresa($username);
 ?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -142,7 +143,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                             </thead>
                             <tbody>
                             <?php
-                                //Start search clients 
+                                //Start search clients
                                 $username = $_SESSION['username'];
                                 $id_empresa = buscarIdEmpresa($username);
                                 $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
@@ -156,7 +157,7 @@ if($_SERVER ['REQUEST_METHOD'] === "POST"){
                                 foreach($result as $row):
                             ?>   
                                     <tr>
-                                        <input type='hidden' id='idCliente' value=<?= $row['id']?> />
+                                        <input type='hidden' id='idCliente' value=<?= $row['id']?>/>
                                         <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
                                         <td scope ='row'><label for='nomeCli'><?= $row['nome']." ". $row['sobrenome'] ?></label></td>
                                         <td><label for='contatoCli'><?= $row['celular'] ?></label></td>

@@ -1,7 +1,6 @@
 <?php
     include_once __DIR__ . '/../../conexao.php';
     include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
-    session_start();
     if(!isset($_SESSION['username'])) {
         header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
         exit();
@@ -26,7 +25,7 @@
         $complementocasaCli = $_POST['complementocasaCli'];
 
         //variavel para teste
-        $username = $_SESSION['username']; //Aqui vai pegar o nome da session
+        $username = $_SESSION['username'];
         
         try {
             $id_empresa = buscarIdEmpresa($username);

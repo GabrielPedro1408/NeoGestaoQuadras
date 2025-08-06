@@ -3,9 +3,12 @@
     session_start();
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){
+
         header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+        
         exit;
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -32,8 +35,8 @@
         COUNT(*) AS total_quadras
         FROM
         quadras
-        /* WHERE 
-        disponibilidade = 1 */
+        WHERE 
+        disponibilidade = 1
         ");
         $quadras -> execute();
         $result_quadras = $quadras -> fetchAll(PDO::FETCH_ASSOC);
@@ -55,8 +58,10 @@
         COUNT(*) AS total_agendamentos
         FROM 
         agendamentos
-        WHERE DATE(horario_agendado) = CURDATE() 
-        AND horario_agendado >= NOW() 
+        WHERE 
+        horario_agendado >= CURRENT_TIME()
+        AND
+        dt = CURRENT_DATE()
         ");
 
         $agendamentos -> execute();
@@ -72,18 +77,31 @@
 
 
         /* card proximos horarios */
+
         $horarios = $pdo -> prepare(
+        
         "SELECT
         q.descr AS nome_quadra,
         DATE_FORMAT(a.horario_agendado, '%H:%i') AS horario_agendado
+        
         FROM 
         agendamentos a
+
         JOIN
         quadras q ON a.id_quadra = q.id
-        WHERE 
-        a.horario_agendado >= NOW()
+
+        WHERE
+        a.horario_agendado >= CURRENT_TIME()
+        AND
+        a.dt = CURRENT_DATE()
+
+        ORDER BY
+        a.horario_agendado
+        ASC
         ");
-        $horarios -> execute();
+
+        $horarios ->execute();
+
         $result_horarios = $horarios -> fetchAll(PDO::FETCH_ASSOC);
 
         

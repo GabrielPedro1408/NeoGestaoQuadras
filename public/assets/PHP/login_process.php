@@ -7,7 +7,6 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
        
-
         try{
 
             $buscaUsuario = $pdo->prepare("SELECT username, senha FROM usuario WHERE username = :username");
@@ -34,7 +33,6 @@
             echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
             header("Location: login.php?error=" . urlencode("Erro ao conectar ao banco de dados."));
             exit;
-            
         }
     }
 ?>

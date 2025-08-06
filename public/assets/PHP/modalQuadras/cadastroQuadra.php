@@ -23,8 +23,8 @@
                 <label for="disponibilidadeQuadra" class="form-label">Disponibilidade</label>
                 <select class="form-select" id="disponibilidadeQuadra" name="disponibilidadeQuadra">
                     <option selected disabled>Selecione a disponibilidade</option>
-                    <option value="Disponível">Disponível</option>
-                    <option value="Indisponível">Indisponível</option>
+                    <option value="1">Disponível</option>
+                    <option value="0">Indisponível</option>
                 </select>
             </div>
             <div class="col-md-6">

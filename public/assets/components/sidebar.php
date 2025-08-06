@@ -25,7 +25,7 @@
             </li>
             <li class="side-item" data-item="quadras">
                 <a href="../PHP/Quadras.php">
-                    <i class="fas fa-person-walking-luggage fa-xl"></i>
+                    <i class="fa-solid fa-futbol fa-xl"></i>
                     <span class="item-description">
                         Quadras
                     </span>
@@ -47,7 +47,7 @@
             </li>
             <li class="side-item" data-item="clientes">
                 <a href="../PHP/Clientes.php">
-                    <i class="fas fa-user fa-xl"></i>
+                    <i class="fa fa-user fa-xl"></i>
                     <span class="item-description">
                         Clientes
                     </span>

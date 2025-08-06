@@ -1,11 +1,16 @@
 <?php
 session_start();
-if(!isset($_SESSION['username'])) {
-    header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
-    exit();
+include_once __DIR__ . '../../src/buscarIdEmpresa.php';
+if(!isset($_SESSION['username'])){
+    header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+    exit;
 }
 include_once 'conexao.php';
-include_once './modalQuadras/CRUD/createQuadras.php';
+if($_SERVER ['REQUEST_METHOD'] === "POST"){
+    include_once './modalCliente/CRUD/createQuadras.php';
+}
+$username = $_SESSION['username'];
+$id_empresa = buscarIdEmpresa($username);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +25,6 @@ include_once './modalQuadras/CRUD/createQuadras.php';
     <link rel="stylesheet" href="../CSS/PopUpExcluir.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
-    <script type="module" src="../JS/PopUpBuscar.js"></script>
-    <script type="module" src="../JS/PopUpCadastro.js"></script>
-    <script type="module" src="../JS/PopUpEditar.js"></script>
-    <script type="module" src="../JS/PopUpExcluir.js"></script>
-    <script type="module" src="../JS/PopUpInfo.js"></script>
     <title>Quadras</title>
 </head>
 <body>
@@ -47,20 +47,49 @@ include_once './modalQuadras/CRUD/createQuadras.php';
 
         <main>
              <?php
-            $query = $pdo ->prepare(
+            /* mensagem de sucesso */
+                if (isset($_SESSION['message'])):
+                    $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+                ?>
+                    <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                        <?= $_SESSION['message'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                endif;
+
+            /* card total quadras */
+            $queryTotal = $pdo ->prepare(
                 "SELECT
                 count(*) AS total_quadras
                 FROM
                 quadras"
             );
-            $query -> execute();
-            $resultQuadras = $query -> fetchAll(PDO::FETCH_ASSOC);
+            $queryTotal -> execute();
+            $resultQuadras = $queryTotal -> fetchAll(PDO::FETCH_ASSOC);
 
             $totalQuadras = [];
             foreach($resultQuadras as $quadra){
                 $totalQuadras[] = $quadra['total_quadras'];
             }
 
+            $quadras = $pdo->prepare(
+            "SELECT
+            q.id,
+            q.descr,
+            q.id_modalidade,
+            q.disponibilidade,
+            q.valor_hora
+
+            FROM
+            quadras q
+
+            JOIN
+            modalidade_quadra ON q.id_modalidade = modalidade
+
+            ");
             ?>
             <div class="container">
                 <section class="top-area">
@@ -106,11 +135,15 @@ include_once './modalQuadras/CRUD/createQuadras.php';
                                 </form>
                         </div>
                     </div>
-                    <div class="total-Quadras">
-                        <h6>TOTAL DE QUADRAS</h6>
-                        <div class="main-total-quadras">
-                            <i class="fa-solid fa-futbol fa-xl"></i>
-                            <h3><label for="totalQuadras"><?=$totalQuadras[0]?></label></h3>
+                    <div class="total-quadras">
+                        <div class="grupo">
+                            <h6>TOTAL DE QUADRAS</h6>
+                            <div class="main-total-quadras">
+                                <h1><label for="totalQuadras"><?=$totalQuadras[0]?></label></h1>
+                                <div class="icone-total">
+                                    <i class="fa-solid fa-futbol fa-xl"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,9 +161,10 @@ include_once './modalQuadras/CRUD/createQuadras.php';
                             </thead>
                             <tbody>                                    
                             <?php
-                            // foreach ($clientes as $cliente) {
-                                echo"
-                                <td scope ='row'><label for='nomeQuadra'>Quadra 1 </label></dh>
+                            /* foreach ($clientes as $cliente): */
+                            ?>
+
+                                <td scope ='row'><label for='nomeQuadra'>Quadra 1 </label></td>
                                 <td><label for='modalidadeQuadra'>Society</label></td>
                                 <td><label for='disponibilidadeQuadra'>Disponível</label></td>
                                 <td><label for='valoragendQuadra'>R$ 160,00</label></td>
@@ -138,8 +172,10 @@ include_once './modalQuadras/CRUD/createQuadras.php';
                                     <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                     <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
                                     <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                </td>";
-                            // }
+                                </td>   
+                            
+                            <?php
+                            /* endforeach; */
                             ?>
                             </tbody>
                         </table>
