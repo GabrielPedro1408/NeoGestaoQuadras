@@ -12,6 +12,7 @@ $id_empresa = buscarIdEmpresa($username);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/agendamentos.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
@@ -198,6 +199,7 @@ $id_empresa = buscarIdEmpresa($username);
                             <?php
                                 endforeach;
                             ?>
+                            </tbody>
                         </table>
                         <div class="footer-table">
                             <div class='esquerda'>
@@ -214,25 +216,25 @@ $id_empresa = buscarIdEmpresa($username);
                             // endforeach 
                             ?>
                             <?php if (isset($_GET['editar'])): ?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var modal = document.getElementById('modalEditar');
-  if (modal) {
-    modal.addEventListener('hidden.bs.modal', function () {
-      if (window.location.search.includes('editar=')) {
-        // Remove o parâmetro editar da URL sem recarregar a página
-        const url = new URL(window.location);
-        url.searchParams.delete('editar');
-        window.history.replaceState({}, document.title, url.pathname + url.search);
-      }
-    });
-    // Abre o modal automaticamente
-    var bsModal = new bootstrap.Modal(modal);
-    bsModal.show();
-  }
-});
-</script>
-<?php endif; ?>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                            var modal = document.getElementById('modalEditar');
+                            if (modal) {
+                                modal.addEventListener('hidden.bs.modal', function () {
+                                if (window.location.search.includes('editar=')) {
+                                    // Remove o parâmetro editar da URL sem recarregar a página
+                                    const url = new URL(window.location);
+                                    url.searchParams.delete('editar');
+                                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                                }
+                                });
+                                // Abre o modal automaticamente
+                                var bsModal = new bootstrap.Modal(modal);
+                                bsModal.show();
+                            }
+                            });
+                            </script>
+                            <?php endif; ?>
                         </div>
                     </div>     
                 </div>

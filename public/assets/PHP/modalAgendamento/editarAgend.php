@@ -1,3 +1,11 @@
+<?php 
+
+if (!isset($_GET['editar'])) {
+    exit('ID do agendamento não especificado.');
+}
+$id_agendamento = $_GET['editar'];
+echo $id_agendamento;
+?>
  <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
