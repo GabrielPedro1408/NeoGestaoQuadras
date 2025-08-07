@@ -3,11 +3,6 @@ session_start();
 
 include_once __DIR__ . '../../src/buscarIdEmpresa.php';
 
-if(!isset($_SESSION['username'])){
-    header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
-    exit;
-}
-
 include_once 'conexao.php';
 if(!isset($_SESSION['username'])) {
     header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
