@@ -12,16 +12,12 @@ $id_empresa = buscarIdEmpresa($username);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/agendamentos.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <script type="module" src="../JS/PopUpBuscar.js"></script>
-    <script type="module" src="../JS/PopUpCadastro.js"></script>
-    <script type="module" src="../JS/PopUpEditar.js"></script>
-    <script type="module" src="../JS/PopUpExcluir.js"></script>
-    <script type="module" src="../JS/PopUpInfo.js"></script>
+    <link rel="stylesheet" href="../CSS/all.css">
 
     <title>Neo Gestão</title>
 </head>
@@ -32,19 +28,16 @@ $id_empresa = buscarIdEmpresa($username);
     <header><?php require '../components/header.php';?> </header> 
 
     <!-- start main -->
-    <!-- PopUps -->
-        <!-- cadastrar cli/modalClienteente -->
+        <!-- PopUps -->
+            <!-- cadastrar cliente -->
         <?php include_once "./modalAgendamento/cadastroAgend.php"; ?>
-        <!-- buscar cliente -->
-        <?php include_once "./modalAgendamento/buscarAgend.php"; ?>
             <!-- editar cliente -->
         <?php include_once "./modalAgendamento/editarAgend.php"; ?>
             <!-- excluir cliente -->
         <?php include_once "./modalAgendamento/excluirAgend.php"; ?>
             <!-- iformação cliente -->
-        <?php include_once "./modalAgendamento/infoAgend.php"; ?>
-    <!-- buscar cli -->
-                <!-- PopUps -->
+        <?php include_once "./modalAgendamento/infoAgend.php"; ?>  
+        <!-- PopUps -->
         <main>
             <?php
             if (isset($_SESSION['message'])):
@@ -185,19 +178,43 @@ $id_empresa = buscarIdEmpresa($username);
                                 </label></td>
                                 
                                 <td><label>
-                                <?=empty($agendamento['estado_conta']) ? '<span>Vazio</span>' :
-                                $agendamento['estado_conta']?>
+                                <?php 
+                                if($agendamento['estado_conta'] == 1) { 
+                                echo 'Pendente'; 
+                                } elseif($agendamento['estado_conta'] == 2){ 
+                                echo 'Pago'; 
+                                } else if($agendamento['estado_conta'] == 3) { 
+                                echo 'Cancelado'; 
+                                } else{
+                                    echo 'Vazio';
+                                } ?>
                                 </label></td>
 
                                <td class='icons-item'>
-                                    <a href="?editar= <?= $agendamento['id']; ?>"><i class="fa-solid fa-pen-to-square first"></i></a>
-                                    <a id='openPopUpExcluir' href="?excluir=<?= $agendamento['id']; ?>"><i class='fa-solid fa-trash second'></i></a>
-                                    <a id='openPopUpInfo' href="?info=<?= $agendamento['id']; ?>"><i class='fa-solid fa-circle-info third'></i></a>
+                                    <a href="#" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalEditar" 
+                                    data-id="<?= $agendamento['id']; ?>">
+                                    <i class="fa-solid fa-pen-to-square first"></i>
+                                    </a>
+                                    <a href="#" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalExcluir" 
+                                    data-id="<?= $agendamento['id']; ?>">
+                                    <i class="fa-solid fa-trash second"></i>
+                                    </a>
+                                    <a href="#" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalInfo" 
+                                    data-id="<?= $agendamento['id']; ?>">
+                                    <i class="fa-solid fa-circle-info third"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <?php
                                 endforeach;
                             ?>
+                            </tbody>
                         </table>
                         <div class="footer-table">
                             <div class='esquerda'>
@@ -214,33 +231,34 @@ $id_empresa = buscarIdEmpresa($username);
                             // endforeach 
                             ?>
                             <?php if (isset($_GET['editar'])): ?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var modal = document.getElementById('modalEditar');
-  if (modal) {
-    modal.addEventListener('hidden.bs.modal', function () {
-      if (window.location.search.includes('editar=')) {
-        // Remove o parâmetro editar da URL sem recarregar a página
-        const url = new URL(window.location);
-        url.searchParams.delete('editar');
-        window.history.replaceState({}, document.title, url.pathname + url.search);
-      }
-    });
-    // Abre o modal automaticamente
-    var bsModal = new bootstrap.Modal(modal);
-    bsModal.show();
-  }
-});
-</script>
-<?php endif; ?>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                            var modal = document.getElementById('modalEditar');
+                            if (modal) {
+                                modal.addEventListener('hidden.bs.modal', function () {
+                                if (window.location.search.includes('editar=')) {
+                                    // Remove o parâmetro editar da URL sem recarregar a página
+                                    const url = new URL(window.location);
+                                    url.searchParams.delete('editar');
+                                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                                }
+                                });
+                                // Abre o modal automaticamente
+                                var bsModal = new bootstrap.Modal(modal);
+                                bsModal.show();
+                            }
+                            });
+                            </script>
+                            <?php endif; ?>
                         </div>
-                    </div>     
+                    </div>   
                 </div>
             </div>
         </main>
     </div>
 </div>
 </div>
+    <script src="./modalAgendamento/CRUD/updateAgendamento.js"></script>
     <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

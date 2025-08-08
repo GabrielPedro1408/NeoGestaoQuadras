@@ -56,16 +56,18 @@
                     </div>
                 </a>
             </li>
-            <li class="side-item" data-item="financeiro">
-                <a href="../PHP/Financeiro.php">
+            <li class="side-item" data-item="financeiro" id="financeiro-item">
+                <a href="#" id="financeiro-toggle">
                     <i class="fa-solid fa-dollar-sign fa-xl"></i>
-                    <span class="item-description">
-                        Financeiro
-                    </span>
+                    <span class="item-description">Financeiro</span>
                     <div class="direita">
                         <i class="fa-solid fa-chevron-right fa-sm"></i>
                     </div>
                 </a>
+                <ul class="submenu-financeiro" style="display: none;">
+                    <li><a href="../PHP/ListagemContas.php">Listagem de Contas</a></li>
+                    <li><a href="../PHP/FluxoFinanceiro.php">Fluxo Financeiro</a></li>
+                </ul>
             </li>
             <li class="side-item" data-item="logout">
                 <a href="../PHP/logout.php" style="text-decoration:none">

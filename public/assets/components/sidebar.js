@@ -28,4 +28,20 @@ sideItems.forEach(item => {
   });
 });
 
+const financeiroToggle = document.getElementById('financeiro-toggle');
+const submenuFinanceiro = document.querySelector('.submenu-financeiro');
+
+if (financeiroToggle && submenuFinanceiro) {
+    financeiroToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        submenuFinanceiro.style.display = submenuFinanceiro.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Obriga escolher uma opção do submenu antes de sair
+    submenuFinanceiro.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+            submenuFinanceiro.style.display = 'none';
+        });
+    });
+}
 restoreActiveItem();

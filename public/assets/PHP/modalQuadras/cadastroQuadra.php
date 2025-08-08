@@ -4,16 +4,16 @@
 
  ?>
  <!-- cadastro cli -->
-    
+
 <div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content modal-left">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="modalCadastroLabel">Cadastro de Quadra</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
       <form action="" method="POST">
-        <div class="modal-body">
+        <div class="modal-body mt-2 mb-4">
           <div class="row g-3">
             <div class="col-md-6">
               <label for="nomeQuadra" class="form-label">Nome</label>
