@@ -88,7 +88,18 @@
                             <div class="main-total-contas-receber">
                                 <h1><label for="totalContasReceber"><?= $totalContasReceber; ?></label></h1>
                                 <div class="icone-total-receber">
-                                    <i class="fa-solid fa-receipt fa-lg"></i>
+                                    <i class="fa-solid fa-dollar-sign fa-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="valor-contas-pagar">
+                        <div class="grupo">
+                            <h6>VALOR CONTAS A PAGAR</h6>
+                            <div class="main-valor-contas-pagar">
+                                <h1><label for="valorTotalContasPagar">R$ <?= number_format($valorTotalPagar, 2, ',', '.'); ?></label></h1>
+                                <div class="icone-valor-pagar">
+                                    <i class="fa-solid fa-dollar-sign fa-xl"></i>
                                 </div>
                             </div>
                         </div>
@@ -182,16 +193,15 @@
                                     echo "Não definido";
                                 }?></td>
 
-                                <?php if($conta['tipo_conta'] == 0): ?>
-                                    <td> <div class="pagar"><?= 'Pagar' ?></div> </td>
-
-                                 <?php elseif ($conta['tipo_conta'] == 1): ?>
-                                    <td> <div class="receber"><?= 'Receber' ?></div> </td>
-
-                                <?php else: ?>
-                                    <td> <div class="nao-definido"><?= 'Não definido' ?></div> </td>
-                                <?php endif; ?>
-
+                                <td><?php if($conta['tipo_conta'] == 0){
+                                    echo "Pagar";
+                                } else if($conta['tipo_conta'] == 1){
+                                    echo "Receber";
+                                } 
+                                else{
+                                    echo "Não definido";
+                                }?></td>
+                                <td><?= date('d/m/Y', strtotime($conta['data_vencimento'])) ?></td>
                                 <td><?php if($conta['recorrencia'] == 0){
                                     echo "Única";
                                 } else if($conta['recorrencia'] == 1){
