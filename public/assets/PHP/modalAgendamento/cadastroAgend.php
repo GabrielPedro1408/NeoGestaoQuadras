@@ -2,9 +2,10 @@
 include_once __DIR__ . '/CRUD/createAgendamento.php';
 ?>
     <div class="modal fade" id="modalCadastro" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <form class="row g-3" action="" method="POST">
+                
                 <div class="modal-header">
                     <h5 class="modal-title">Informações do Agendamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
@@ -53,7 +54,12 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                         </div>
                         <div class="col-md-6">
                             <label for="estadoContaAgend" class="form-label">Estado da Conta</label>
-                            <input type="text" class="form-control" id="estadoContaAgend" placeholder="aberta" name="estadoContaAgend">
+                            <select name="estadoContaAgend" aria-placeholder="selecione uma opção" class="form-select" id="bosta">
+                                <option value="estado_conta_agendamento" selected disabled>Selecione uma Opção</option>
+                                <option value="1">Pendente</option>
+                                <option value="2">Pago</option>
+                                <option value="3">Cancelado</option>
+                            </select>
                         </div>
                     </div>
                 </div>    

@@ -1,11 +1,11 @@
 <?php
     include_once 'conexao.php';
+    include_once '../src/buscarIdEmpresa.php';
     session_start();
+    $id_empresa = buscarIdEmpresa($_SESSION['username']);
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){
-
         header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
-        
         exit;
     }
 
@@ -37,7 +37,10 @@
         quadras
         WHERE 
         disponibilidade = 1
+        AND
+        id_empresa = :id_empresa
         ");
+        $quadras -> bindParam(':id_empresa', $id_empresa);
         $quadras -> execute();
         $result_quadras = $quadras -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -62,8 +65,11 @@
         horario_agendado >= CURRENT_TIME()
         AND
         dt = CURRENT_DATE()
+        AND
+        id_empresa = :id_empresa
         ");
 
+        $agendamentos -> bindParam(':id_empresa', $id_empresa);
         $agendamentos -> execute();
         $result_agendamentos = $agendamentos -> fetchAll(PDO::FETCH_ASSOC);
         $total_agendamentos = [];
@@ -94,12 +100,14 @@
         a.horario_agendado >= CURRENT_TIME()
         AND
         a.dt = CURRENT_DATE()
+        AND
+        q.id_empresa = :id_empresa
 
         ORDER BY
         a.horario_agendado
         ASC
         ");
-
+        $horarios -> bindParam(':id_empresa', $id_empresa);
         $horarios ->execute();
 
         $result_horarios = $horarios -> fetchAll(PDO::FETCH_ASSOC);
@@ -119,6 +127,8 @@
 
         WHERE 
         data_cadastro BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND NOW()
+        AND
+        id_empresa = :id_empresa
 
         GROUP BY
         mes_ano
@@ -132,6 +142,7 @@
         }
 
         /* passando para um vetor, para usar no gráfico */
+        $clientes -> bindParam(':id_empresa', $id_empresa);
         $clientes -> execute();
         $result = $clientes->fetchAll(PDO::FETCH_ASSOC);
 
@@ -232,7 +243,21 @@
             </div>
             
             <!-- relatorios -->
-
+        <?php 
+            $queryAgendamentos = $pdo->query("SELECT * FROM agendamentos WHERE estado_conta = '1' AND dt >= NOW()");
+            $queryTodosAgendamentos = $queryAgendamentos->fetchAll(PDO::FETCH_ASSOC);
+            if (count($queryTodosAgendamentos) == 0):
+        ?>
+        <div class="sem-agendamento">
+            <i class="fa-solid fa-calendar fa-xl"></i>
+            <h2>NENHUM AGENDAMENTO ENCONTRADO HOJE</h2>
+            <div class="bottom-text-sem-agendamento">
+                <a href="Agendamentos.php"><small>Cadastre um agendamento <i class="fa-solid fa-arrow-right fa-2xs"></i></small></a>
+            </div> 
+        </div>
+        <?php 
+        else:
+        ?>
         <div class="agenda">    
             <div class="quadras-lista">
                 <h4>PRÓXIMOS AGENDAMENTOS:</h4>
@@ -266,6 +291,9 @@
                 <a href="Agendamentos.php"><span>VER POR COMPLETO</span><i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div> 
+        <?php 
+        endif;
+        ?>
     </div>
 
     <!-- end main -->

@@ -7,7 +7,7 @@ if(!isset($_SESSION['username'])){
 }
 include_once 'conexao.php';
 if($_SERVER ['REQUEST_METHOD'] === "POST"){
-    include_once './modalCliente/CRUD/createQuadras.php';
+    include_once './modalQuadras/CRUD/createQuadras.php';
 }
 $username = $_SESSION['username'];
 $id_empresa = buscarIdEmpresa($username);
@@ -65,31 +65,18 @@ $id_empresa = buscarIdEmpresa($username);
                 "SELECT
                 count(*) AS total_quadras
                 FROM
-                quadras"
+                quadras
+                WHERE
+                id_empresa = :id_empresa"
             );
+            $queryTotal -> bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
             $queryTotal -> execute();
             $resultQuadras = $queryTotal -> fetchAll(PDO::FETCH_ASSOC);
 
             $totalQuadras = [];
-            foreach($resultQuadras as $quadra){
-                $totalQuadras[] = $quadra['total_quadras'];
+            foreach($resultQuadras as $quadraCount){
+                $totalQuadras[] = $quadraCount['total_quadras'];
             }
-
-            $quadras = $pdo->prepare(
-            "SELECT
-            q.id,
-            q.descr,
-            q.id_modalidade,
-            q.disponibilidade,
-            q.valor_hora
-
-            FROM
-            quadras q
-
-            JOIN
-            modalidade_quadra ON q.id_modalidade = modalidade
-
-            ");
             ?>
             <div class="container">
                 <section class="top-area">
@@ -161,21 +148,49 @@ $id_empresa = buscarIdEmpresa($username);
                             </thead>
                             <tbody>                                    
                             <?php
-                            /* foreach ($clientes as $cliente): */
-                            ?>
+                            $username = $_SESSION['username'];
+                            $id_empresa = buscarIdEmpresa($username);
+                                $queryQuadra = $pdo->prepare(
+                                "SELECT
+                                q.id,
+                                q.descr,
+                                q.id_modalidade,
+                                q.disponibilidade,
+                                q.valor_hora,
+                                modalidade_quadra.descr AS modalidade_descr
 
-                                <td scope ='row'><label for='nomeQuadra'>Quadra 1 </label></td>
-                                <td><label for='modalidadeQuadra'>Society</label></td>
-                                <td><label for='disponibilidadeQuadra'>Disponível</label></td>
-                                <td><label for='valoragendQuadra'>R$ 160,00</label></td>
-                                <td class='icons-item'>
-                                    <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
-                                    <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
-                                    <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                </td>   
-                            
+                                FROM
+                                quadras q
+
+                                JOIN
+                                modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
+                                
+                                WHERE 
+                                id_empresa = :id_empresa LIMIT 10
+                                ");
+                                $queryQuadra->execute(array(':id_empresa' => $id_empresa));
+                                $Quadras = $queryQuadra->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($Quadras as $quadra): 
+                                ?>
+                                <tr>
+                                    <td scope ='row'><label for='nomeQuadra'><?=$quadra['descr']?></label></td>
+                                    <td><label for='modalidadeQuadra'><?=$quadra['modalidade_descr']?></label></td>
+                                    <td><label for='disponibilidadeQuadra'><?php if ($quadra['disponibilidade'] == 0){
+                                        echo "Disponível";
+                                    }
+                                    else {
+                                        echo "Indisponível";
+                                    }
+                                    ?></label></td>
+                                    <td><label for='valoragendQuadra'>R$ <?=$quadra['valor_hora']?></label></td>
+                                    <td class='icons-item'>
+                                        <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
+                                        <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
+                                        <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                                    </td>   
+                                </tr>
                             <?php
-                            /* endforeach; */
+                             endforeach; 
                             ?>
                             </tbody>
                         </table>
@@ -183,12 +198,13 @@ $id_empresa = buscarIdEmpresa($username);
                             <div class='esquerda'>
                                 <h3>Listando</h3>
                             <?php 
-                            // foreach($pages as $page){
-                                echo"
+                             /* foreach($pages as $page): */
+                            ?>
                                 <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div></div>
                                 <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
-                                ";
-                            // }
+
+                            <?php
+                             /* endforeach;  */
                             ?>
                         </div>
                     </div>     

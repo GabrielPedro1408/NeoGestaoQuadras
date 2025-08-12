@@ -29,7 +29,7 @@
 #main-content {
     flex: 1;
     background: whitesmoke;
-    margin-left: 15vw;
+    margin-left: 15.8vw;
     margin-top: 80px; 
     padding: 24px 0px 0px 0px;
 }   
@@ -61,6 +61,7 @@
     cursor: pointer;
     text-align: center;
     transition: all 0.3s ease;
+    position: relative;
 }
 .esquerda{
     display: flex;
@@ -114,4 +115,33 @@
     height: 20px;
     color: rgb(255, 255, 255);
     margin-left: 10px;
+}
+.submenu-financeiro {
+    position: absolute;
+    list-style: none;
+    top: 0;
+    left: 100.3%;
+    background: rgb(5, 62, 99);
+    border-radius: 0px 8px 8px 8px;
+    box-shadow: 5px 5px 15px -5px rgba(5, 62, 97, 1);
+}
+
+.submenu-financeiro li {
+    padding: 8px 0;
+    margin-right: 100px;
+    width: 100%;
+}
+
+.submenu-financeiro li a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    margin-right: 15px;
+    display: flex;
+    transition: background 0.5s;
+}
+
+.submenu-financeiro li a:hover {
+    background: rgb(221, 187, 33);
+    color: #053e61;
 }
