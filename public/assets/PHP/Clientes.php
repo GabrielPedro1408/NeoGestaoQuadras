@@ -25,13 +25,13 @@ $id_empresa = buscarIdEmpresa($username);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/clientes.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
     <script type="module" src="../JS/PopUpBuscar.js"></script>
-    <script type="module" src="../JS/PopUpCadastro.js"></script>
     <script type="module" src="../JS/PopUpEditar.js"></script>
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
@@ -75,7 +75,10 @@ $id_empresa = buscarIdEmpresa($username);
             count(*) AS total_clientes
             FROM
             clientes
+            WHERE
+            id_empresa = :id_empresa
             ");
+            $queryClientes -> bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
             $queryClientes -> execute();
             $resultClientes = $queryClientes ->fetchAll(PDO::FETCH_ASSOC);
             $total_clientes = [];
@@ -157,8 +160,7 @@ $id_empresa = buscarIdEmpresa($username);
                                     ':id_empresa' => $id_empresa
                                 ));
                                 $result = $buscarClientes->fetchAll(PDO::FETCH_ASSOC);
-                            ?>
-                            <?php
+                            
                                 foreach($result as $row):
                             ?>   
                                     <tr>
@@ -170,7 +172,7 @@ $id_empresa = buscarIdEmpresa($username);
                                         <td><label for='cpfCli'><?= $row['cpf'] ?></label></td>
                                         <td><label for='enderecoCli'><?= $row['rua'] .", Nº ". $row['nCasa'] ?></label></td>
                                         <td class='icons-item'>
-                                            <a id='openPopUpEditar' class='".$row['id']."' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
+                                            <a id='openPopUpEditar' class=".$row['id']." href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
                                             <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
                                             <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
                                         </td>
@@ -184,10 +186,9 @@ $id_empresa = buscarIdEmpresa($username);
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>
-
-                                <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div></div>
-                                <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
-                                
+                                <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div>
+                            </div>
+                            <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
                         </div>
                     </div>
                 </div>

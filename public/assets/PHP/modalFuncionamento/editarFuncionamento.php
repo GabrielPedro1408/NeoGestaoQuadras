@@ -1,5 +1,5 @@
  <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <form class="row g-3" action="" method="POST">
                 <div class="modal-header">

@@ -22,7 +22,7 @@ html, body {
 }
 
 .title label{
-    color: rgb(243, 219, 0);
+    color: rgba(5, 62, 97, 1);
     text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
 }
 .divisao{
@@ -222,7 +222,7 @@ html, body {
     padding: 32px 24px;
 }
 .quadras-lista h4{
-    color: rgb(243, 219, 0);
+    color: rgba(5, 62, 97, 0.733);
     text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
     font-weight: 900;
 }
@@ -252,11 +252,11 @@ html, body {
     display:  flex;
     align-items: center;
     justify-content: center; 
-    min-height: 56px;      /* altura mínima visível */
-    width: 100%;           /* ocupa toda a largura da agenda */
+    min-height: 56px;
+    width: 100%;
     font-size: 1.2rem;
     position: relative ;
-    z-index: 2;            /* fica acima da relogio */
+    z-index: 2;
     margin-top: 16px;
     border-radius: 0 0 8px 8px;
     text-align: center;
@@ -271,8 +271,42 @@ html, body {
     opacity: 1;
     gap: 12px;
 }
+.bottom-horario a span{
+    color: rgb(243, 219, 0);
+}
 .bottom-horario i{
-    margin-bottom: 0; /* Remove o deslocamento vertical */
-    margin-left: 0;   /* Remove o deslocamento lateral, pois gap já faz o espaçamento */
-    font-size: 1.2em; /* Ajuste o tamanho se quiser */
+    margin-bottom: 0;
+    margin-left: 0;  
+    font-size: 1.2em; 
+    color: rgb(243, 219, 0);
+}
+.sem-agendamento{
+    margin-top: 20px;
+    min-height: 300px;
+    border-radius: 6px;
+    box-shadow: 2px 3px 10px -7px rgb(0, 0, 0);
+    background-color: rgb(250, 250, 250);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+.sem-agendamento i:not(:last-child){
+    color: rgba(0, 0, 0, 0.356);
+    font-size: 5rem;
+    margin-bottom: 40px;
+}
+.sem-agendamento a{
+    text-decoration: none;
+    color: black;
+}
+.sem-agendamento i:not(:first-child){
+    color: rgba(0, 0, 0, 0.356);
+}
+.bottom-text-sem-agendamento{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
