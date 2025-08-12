@@ -1,3 +1,4 @@
+@ -0,0 +1,407 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -20,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `neogestão`
 --
+CREATE DATABASE IF NOT EXISTS `neogestão` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `neogestão`;
 
 -- --------------------------------------------------------
 
