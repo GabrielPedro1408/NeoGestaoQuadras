@@ -52,7 +52,6 @@
                 ':cpfCnpjConta' => $cpfCnpjConta,
                 ':observacoesConta' => $observacoesConta
             ));
-
             if (!$queryConta) {
                 $_SESSION['message'] = 'Erro ao inserir os dados!';
                 $_SESSION['message_type'] = 'danger';
