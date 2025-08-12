@@ -19,11 +19,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/listagemContas.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
+    <link rel="stylesheet" href="../CSS/all.css">
     <title>NPL Quadras</title>
 </head>
 <body>
@@ -31,6 +32,19 @@
         <?php require '../components/sidebar.php';?> 
         <div id="main-content">
             <header><?php require '../components/header.php';?> </header> 
+            <?php
+            if (isset($_SESSION['message'])):
+                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+            ?>
+            <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                <?= $_SESSION['message'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            endif;
+            ?>
             <?php include_once './modalFinanceiro/listagemContas/cadastroConta.php';?>
             <div class="container">
                 <section class="top-area d-flex justify-content-between align-items-center">
@@ -43,19 +57,27 @@
                 </section>
                 <?php 
                 /* Total de contas a pagar */
-                $contasPagar = $pdo->query("SELECT COUNT(*) FROM contas WHERE tipo_conta = 0");
+                $contasPagar = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE tipo_conta = 0 AND id_empresa = :id_empresa");
+                $contasPagar->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                $contasPagar->execute();
                 $totalContasPagar = $contasPagar->fetchColumn();
 
                 /* Total de contas a receber */
-                $contasReceber = $pdo->query("SELECT COUNT(*) FROM contas WHERE tipo_conta = 1");
+                $contasReceber = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE tipo_conta = 1 AND id_empresa = :id_empresa");
+                $contasReceber->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                $contasReceber->execute();
                 $totalContasReceber = $contasReceber->fetchColumn();
 
                 /* Valor total contas a pagar */
-                $valorPagar = $pdo->query("SELECT SUM(valor) FROM contas WHERE tipo_conta = 0");
+                $valorPagar = $pdo->prepare("SELECT SUM(valor) FROM contas WHERE tipo_conta = 0 AND id_empresa = :id_empresa");
+                $valorPagar->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                $valorPagar->execute();
                 $valorTotalPagar = $valorPagar->fetchColumn();
 
                 /* Valor total contas a receber */
-                $valorReceber = $pdo->query("SELECT SUM(valor) FROM contas WHERE tipo_conta = 1");
+                $valorReceber = $pdo->prepare("SELECT SUM(valor) FROM contas WHERE tipo_conta = 1 AND id_empresa = :id_empresa");
+                $valorReceber->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                $valorReceber->execute();
                 $valorTotalReceber = $valorReceber->fetchColumn();
                 
                 ?>
@@ -66,7 +88,7 @@
                             <div class="main-total-contas-pagar">
                                 <h1><label for="totalContasPagar"><?= $totalContasPagar; ?></label></h1>
                                 <div class="icone-total-pagar">
-                                    <i class="fa-solid fa-receipt fa-lg"></i>
+                                    <i class="fa-solid fa-receipt"></i>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +99,7 @@
                             <div class="main-valor-contas-pagar">
                                 <h1><label for="valorTotalContasPagar">R$ <?= number_format($valorTotalPagar, 2, ',', '.'); ?></label></h1>
                                 <div class="icone-valor-pagar">
-                                    <i class="fa-solid fa-dollar-sign fa-lg"></i>
+                                    <i class="fa-solid fa-dollar-sign"></i>
                                 </div>
                             </div>
                         </div>
@@ -88,18 +110,7 @@
                             <div class="main-total-contas-receber">
                                 <h1><label for="totalContasReceber"><?= $totalContasReceber; ?></label></h1>
                                 <div class="icone-total-receber">
-                                    <i class="fa-solid fa-dollar-sign fa-xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="valor-contas-pagar">
-                        <div class="grupo">
-                            <h6>VALOR CONTAS A PAGAR</h6>
-                            <div class="main-valor-contas-pagar">
-                                <h1><label for="valorTotalContasPagar">R$ <?= number_format($valorTotalPagar, 2, ',', '.'); ?></label></h1>
-                                <div class="icone-valor-pagar">
-                                    <i class="fa-solid fa-dollar-sign fa-xl"></i>
+                                    <i class="fa-solid fa-receipt"></i>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +121,7 @@
                             <div class="main-valor-contas-receber">
                                 <h1><label for="valorTotalContasReceber">R$ <?= number_format($valorTotalReceber, 2, ',', '.'); ?></label></h1>
                                 <div class="icone-valor-receber">
-                                    <i class="fa-solid fa-dollar-sign fa-lg"></i>
+                                    <i class="fa-solid fa-dollar-sign"></i>
                                 </div>
                             </div>
                         </div>
@@ -118,9 +129,9 @@
                 </div>
                 <div class="filters-section mb-4">
                     <h2><i class="fas fa-filter"></i> Filtros</h2>
-                            <form action="" method="POST">
+                            <form  method="GET" id="form-buscar">
                                 <div class="filters mt-3">   
-                                    <input type="text" name="filtro_descricao" id="filtro_descricao" placeholder="Buscar por Descrição">
+                                    <input type="text" name="busca" id="busca" placeholder="Buscar por Descrição">
                                     <select name="filtro_categoria" id="filtro_categoria">
                                         <option disabled selected>Categoria</option>
                                         <option value="entrada">Pagar</option>
@@ -134,16 +145,17 @@
                                         <option value="despesa">Troca</option>
                                     </select>
                                     <input type="date" name="filtro_data" id="filtro_data" placeholder="Data"> 
-                                    <button type="submit" class="btn">Buscar</button>
+                                    <button class="btn">Limpar</button>
                                 </div>
                             </form>
                         </div>
                 <?php 
-                
-                $stmt = $pdo->query("SELECT * FROM contas");
+                $stmt = $pdo->prepare("SELECT * FROM contas WHERE id_empresa = :id_empresa");
+                $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                $stmt->execute();
                 $contas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                if (count($contas) == 0):?>
-
+                if (count($contas) == 0):
+                ?>
                     <div class='sem-conta'>
                         <i class="fa-solid fa-bag-shopping fa-2xl"></i>
                         <h2>Nenhuma conta cadastrada</h2>
@@ -169,9 +181,27 @@
                         /* if ($contas['tipo_conta']== 0) */ 
                         foreach($contas as $conta):
                         ?>
-                        <tbody>
-                            <tr class="text-center text-align-center">
-                                <td><label for="<?= $conta['id']?>"><?= $conta['descricao']?></label></td>
+                        <tbody id="body_table">
+                        </tbody>
+                        <?php endforeach?>
+                        <tfoot>
+                            <tr class="ms-2">
+                                <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../JS/filtroListagemContas.js"></script>
+    <script src="../components/sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+</body>
+</html>
+<!-- <td><label for="<?= $conta['id']?>"><?= $conta['descricao']?></label></td>
                                 <td>R$ <?= number_format($conta['valor'], 2, ',', '.') ?></td>
 
                                 <td><?php if ($conta['tipo'] == 1){
@@ -193,15 +223,16 @@
                                     echo "Não definido";
                                 }?></td>
 
-                                <td><?php if($conta['tipo_conta'] == 0){
-                                    echo "Pagar";
-                                } else if($conta['tipo_conta'] == 1){
-                                    echo "Receber";
-                                } 
-                                else{
-                                    echo "Não definido";
-                                }?></td>
-                                <td><?= date('d/m/Y', strtotime($conta['data_vencimento'])) ?></td>
+                                <?php if($conta['tipo_conta'] == 0): ?>
+                                    <td> <div class="pagar"><?= 'Pagar' ?></div> </td>
+
+                                 <?php elseif ($conta['tipo_conta'] == 1): ?>
+                                    <td> <div class="receber"><?= 'Receber' ?></div> </td>
+
+                                <?php else: ?>
+                                    <td> <div class="nao-definido"><?= 'Não definido' ?></div> </td>
+                                <?php endif; ?>
+
                                 <td><?php if($conta['recorrencia'] == 0){
                                     echo "Única";
                                 } else if($conta['recorrencia'] == 1){
@@ -217,23 +248,4 @@
                                 <td>
                                     <button  class="btn btn-primary btn-sm">Editar</button>
                                     <button  class="btn btn-danger btn-sm">Excluir</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <?php endforeach?>
-                        <tfoot>
-                            <tr class="ms-2">
-                                <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../components/sidebar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-</body>
-</html>
+                                </td> -->
