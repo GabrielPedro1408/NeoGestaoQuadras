@@ -16,13 +16,28 @@
         $tipo = $_POST['tipo'];
         $cpfCnpjConta = $_POST['cpfCnpjConta'];
         $observacoesConta = $_POST ['observacoesConta'];
-
         $username = $_SESSION['username'];
 
         try {
             $id_empresa = buscarIdEmpresa($username);
+        
+            /* caso já exista uma conta com esse nome */
+            $queryDescricao = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE descricao = :descrConta AND id_empresa = :id_empresa");
+            $queryDescricao->bindValue(':descrConta', $descrConta);
+            $queryDescricao->bindValue(':id_empresa', $id_empresa);
+            $queryDescricao->execute();
 
-            $cadastroConta = $pdo->prepare(
+            $countDescricao = $queryDescricao->fetchColumn();
+            if($countDescricao > 0) {
+                $_SESSION['message'] = 'Já existe uma conta com essa descrição!';
+                $_SESSION['message_type'] = 'danger';
+                header("Location: ../PHP/ListagemContas.php");
+                exit;
+            }
+            
+            /* caso não exista uma conta com esse nome */
+            else{      
+                $cadastroConta = $pdo->prepare(
                 "INSERT INTO contas (id_empresa, descricao, tipo_conta, recorrencia, valor, data_vencimento, tipo, cpf_cnpj, observacao) 
                 VALUES (:id_empresa, :descrConta, :tipoConta, :recorrencia, :valorConta, :dataVencimentoConta, :tipo,:cpfCnpjConta, :observacoesConta)");
 
@@ -48,9 +63,11 @@
                 header("Location: ../PHP/ListagemContas.php");
                 exit;
             }
-        } catch (PDOException $e) {
-            echo "Erro ao inserir os dados, Número do erro: " . $e;
         }
     }
+    catch (PDOException $e) {
+            echo "Erro ao inserir os dados, Número do erro: " . $e;
+    }
+}
 
 ?>

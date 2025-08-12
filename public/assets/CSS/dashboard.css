@@ -280,3 +280,33 @@ html, body {
     font-size: 1.2em; 
     color: rgb(243, 219, 0);
 }
+.sem-agendamento{
+    margin-top: 20px;
+    min-height: 300px;
+    border-radius: 6px;
+    box-shadow: 2px 3px 10px -7px rgb(0, 0, 0);
+    background-color: rgb(250, 250, 250);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+.sem-agendamento i:not(:last-child){
+    color: rgba(0, 0, 0, 0.356);
+    font-size: 5rem;
+    margin-bottom: 40px;
+}
+.sem-agendamento a{
+    text-decoration: none;
+    color: black;
+}
+.sem-agendamento i:not(:first-child){
+    color: rgba(0, 0, 0, 0.356);
+}
+.bottom-text-sem-agendamento{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

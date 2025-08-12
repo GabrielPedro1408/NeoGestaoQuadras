@@ -70,7 +70,10 @@ $id_empresa = buscarIdEmpresa($username);
             count(*) AS total_clientes
             FROM
             clientes
+            WHERE
+            id_empresa = :id_empresa
             ");
+            $queryClientes -> bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
             $queryClientes -> execute();
             $resultClientes = $queryClientes ->fetchAll(PDO::FETCH_ASSOC);
             $total_clientes = [];

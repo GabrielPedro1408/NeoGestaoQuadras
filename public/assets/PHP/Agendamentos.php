@@ -3,8 +3,8 @@ session_start();
 include_once __DIR__ . '../../src/buscarIdEmpresa.php';
 include_once 'conexao.php';
 include_once './modalAgendamento/CRUD/createAgendamento.php';
-$username = $_SESSION['username'];
-$id_empresa = buscarIdEmpresa($username);
+
+$id_empresa = buscarIdEmpresa($_SESSION['username']);
 ?><!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -56,8 +56,11 @@ $id_empresa = buscarIdEmpresa($username);
             "SELECT
             count(*) AS total_agendamentos
             FROM
-            agendamentos"
+            agendamentos
+            WHERE
+            id_empresa = :id_empresa"
             );
+            $query -> bindParam(':id_empresa', $id_empresa);
             $query -> execute();
             $resultAgendamentos = $query -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -122,10 +125,11 @@ $id_empresa = buscarIdEmpresa($username);
                             </thead>
                             <?php 
                             try {
-                                $stmt = $pdo->query(
+                                $stmt = $pdo->prepare(
                                 "SELECT
                                 cli.nome AS nome_cliente,
                                 q.descr AS quadras,
+                                ag.id_empresa,
                                 ag.id,
                                 ag.dt,
                                 ag.horario_agendado,
@@ -135,7 +139,12 @@ $id_empresa = buscarIdEmpresa($username);
                                 FROM agendamentos ag
                                 JOIN clientes cli ON ag.id_cliente = cli.id
                                 JOIN quadras q ON ag.id_quadra = q.id
+                                WHERE
+                                ag.id_empresa = :id_empresa
                                 ");
+                                
+                                $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                                $stmt->execute();
                                 $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
                             } catch ( PDOException $e) {
                                 echo 'erro ao buscar clientes' . $e -> getMessage();

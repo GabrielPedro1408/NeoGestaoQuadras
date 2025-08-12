@@ -65,8 +65,11 @@ $id_empresa = buscarIdEmpresa($username);
                 "SELECT
                 count(*) AS total_quadras
                 FROM
-                quadras"
+                quadras
+                WHERE
+                id_empresa = :id_empresa"
             );
+            $queryTotal -> bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
             $queryTotal -> execute();
             $resultQuadras = $queryTotal -> fetchAll(PDO::FETCH_ASSOC);
 
