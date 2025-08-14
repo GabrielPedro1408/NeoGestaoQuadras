@@ -1,6 +1,8 @@
 <?php
     include_once 'conexao.php';
+    include_once '../src/buscarIdEmpresa.php';
     session_start();
+    $id_empresa = buscarIdEmpresa($_SESSION['username']);
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){
 
@@ -46,6 +48,8 @@
             endif;
             ?>
             <?php include_once './modalFinanceiro/listagemContas/cadastroConta.php';?>
+            <?php include_once './modalFinanceiro/listagemContas/editarConta.php';?>
+            
             <div class="container">
                 <section class="top-area d-flex justify-content-between align-items-center">
                         <div class="titulo">
@@ -57,25 +61,25 @@
                 </section>
                 <?php 
                 /* Total de contas a pagar */
-                $contasPagar = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE tipo_conta = 0 AND id_empresa = :id_empresa");
+                $contasPagar = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE categoria = 0 AND id_empresa = :id_empresa");
                 $contasPagar->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                 $contasPagar->execute();
                 $totalContasPagar = $contasPagar->fetchColumn();
 
                 /* Total de contas a receber */
-                $contasReceber = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE tipo_conta = 1 AND id_empresa = :id_empresa");
+                $contasReceber = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE categoria = 1 AND id_empresa = :id_empresa");
                 $contasReceber->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                 $contasReceber->execute();
                 $totalContasReceber = $contasReceber->fetchColumn();
 
                 /* Valor total contas a pagar */
-                $valorPagar = $pdo->prepare("SELECT SUM(valor) FROM contas WHERE tipo_conta = 0 AND id_empresa = :id_empresa");
+                $valorPagar = $pdo->prepare("SELECT SUM(valor) FROM contas WHERE categoria = 0 AND id_empresa = :id_empresa");
                 $valorPagar->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                 $valorPagar->execute();
                 $valorTotalPagar = $valorPagar->fetchColumn();
 
                 /* Valor total contas a receber */
-                $valorReceber = $pdo->prepare("SELECT SUM(valor) FROM contas WHERE tipo_conta = 1 AND id_empresa = :id_empresa");
+                $valorReceber = $pdo->prepare("SELECT SUM(valor) FROM contas WHERE categoria = 1 AND id_empresa = :id_empresa");
                 $valorReceber->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                 $valorReceber->execute();
                 $valorTotalReceber = $valorReceber->fetchColumn();
@@ -131,18 +135,19 @@
                     <h2><i class="fas fa-filter"></i> Filtros</h2>
                             <form  method="GET" id="form-buscar">
                                 <div class="filters mt-3">   
-                                    <input type="text" name="busca" id="busca" placeholder="Buscar por Descrição">
+                                    <input type="text" name="busca_descricao" id="busca_descricao" placeholder="Buscar por Descrição">
                                     <select name="filtro_categoria" id="filtro_categoria">
-                                        <option disabled selected>Categoria</option>
-                                        <option value="entrada">Pagar</option>
-                                        <option value="saida">Receber</option>
+                                        <option disabled> Categoria</option>
+                                        <option value="0">Pagar</option>
+                                        <option value="1">Receber</option>
                                     </select>
-                                    <select name="tipo_categoria" id="tipo_categoria">
-                                        <option disabled selected>Tipo</option>
-                                        <option value="receita">Venda</option>
-                                        <option value="despesa">Serviço</option>
-                                        <option value="despesa">Garantia</option>
-                                        <option value="despesa">Troca</option>
+                                    <select name="filtro_tipo" id="filtro_tipo">
+                                        <option disabled> Tipo</option>
+                                        <option value="1">Fornecedor</option>
+                                        <option value="2">Funcionário</option>
+                                        <option value="3">Cliente</option>
+                                        <option value="4">Gasto Fixo</option>
+                                        <option value="5">Outros</option>
                                     </select>
                                     <input type="date" name="filtro_data" id="filtro_data" placeholder="Data"> 
                                     <button class="btn">Limpar</button>
@@ -193,55 +198,8 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../JS/filtroListagemContas.js"></script>
+    <script src="modalFinanceiro/listagemContas/CRUD/updateListagem.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>
-<!-- <td><label for="<?= $conta['id']?>"><?= $conta['descricao']?></label></td>
-                                <td>R$ <?= number_format($conta['valor'], 2, ',', '.') ?></td>
-
-                                <td><?php if ($conta['tipo'] == 1){
-                                    echo "Fornecedor";
-                                }
-                                else if ($conta['tipo'] == 2){
-                                    echo "Funcionário";
-                                }
-                                else if ($conta['tipo'] == 3){
-                                    echo "Cliente";
-                                }
-                                else if ($conta['tipo'] == 4){
-                                    echo "Gasto Fixo";
-                                }
-                                else if ($conta['tipo'] == 5){
-                                    echo "Outros";
-                                }
-                                else{
-                                    echo "Não definido";
-                                }?></td>
-
-                                <?php if($conta['tipo_conta'] == 0): ?>
-                                    <td> <div class="pagar"><?= 'Pagar' ?></div> </td>
-
-                                 <?php elseif ($conta['tipo_conta'] == 1): ?>
-                                    <td> <div class="receber"><?= 'Receber' ?></div> </td>
-
-                                <?php else: ?>
-                                    <td> <div class="nao-definido"><?= 'Não definido' ?></div> </td>
-                                <?php endif; ?>
-
-                                <td><?php if($conta['recorrencia'] == 0){
-                                    echo "Única";
-                                } else if($conta['recorrencia'] == 1){
-                                    echo "Semanal";
-                                } else if($conta['recorrencia'] == 2){
-                                    echo "15 dias";
-                                } else if($conta['recorrencia'] == 3){
-                                    echo "Mensal";
-                                } else if($conta['recorrencia'] == 4){
-                                    echo "Anual";
-                                }?></td>
-                                <td><?= date('d/m/Y', strtotime($conta['data_vencimento'])) ?></td>
-                                <td>
-                                    <button  class="btn btn-primary btn-sm">Editar</button>
-                                    <button  class="btn btn-danger btn-sm">Excluir</button>
-                                </td> -->

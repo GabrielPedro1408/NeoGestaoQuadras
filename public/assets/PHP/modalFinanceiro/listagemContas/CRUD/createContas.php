@@ -9,7 +9,7 @@
     if ($_SERVER["REQUEST_METHOD"] == 'POST'){
 
         $descrConta = $_POST['descrConta'];
-        $tipoConta = $_POST['tipoConta'];
+        $categoria = $_POST['categoria'];
         $recorrencia = $_POST['recorrencia'];
         $valorConta = $_POST['valorConta'];
         $dataVencimentoConta = $_POST['dataVencimentoConta'];
@@ -39,13 +39,13 @@
             /* caso não exista uma conta com esse nome */
             else{      
                 $cadastroConta = $pdo->prepare(
-                "INSERT INTO contas (id_empresa, descricao, tipo_conta, recorrencia, valor, data_vencimento, tipo, cpf_cnpj, observacao) 
-                VALUES (:id_empresa, :descrConta, :tipoConta, :recorrencia, :valorConta, :dataVencimentoConta, :tipo,:cpfCnpjConta, :observacoesConta)");
+                "INSERT INTO contas (id_empresa, descricao, categoria, recorrencia, valor, data_vencimento, tipo, cpf_cnpj, observacao) 
+                VALUES (:id_empresa, :descrConta, :categoria, :recorrencia, :valorConta, :dataVencimentoConta, :tipo,:cpfCnpjConta, :observacoesConta)");
 
             $queryConta = $cadastroConta->execute(array(
                 ':id_empresa' => $id_empresa,
                 ':descrConta' => $descrConta,
-                ':tipoConta' => $tipoConta,
+                ':categoria' => $categoria,
                 ':recorrencia' => $recorrencia,
                 ':valorConta' => $valorConta,
                 ':dataVencimentoConta' => $dataVencimentoConta,

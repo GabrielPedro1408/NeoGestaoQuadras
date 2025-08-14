@@ -14,7 +14,7 @@ $quadras = $pdo->query("SELECT id, descr FROM quadras")->fetchAll();
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label for="id_cliente" class="form-label">Cliente</label>
-                            <input type="text" class="form-control" id="cliente" name="clienteAgend" placeholder="Nome"> 
+                            <input type="text" class="form-control" id="cliente" name="clienteAgend" readonly placeholder="Nome"> 
                         </div>
                         <div class="col-md-6">
                             <label for="id_quadra" class="form-label">Quadra Selecionada</label>
