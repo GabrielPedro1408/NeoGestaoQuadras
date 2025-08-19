@@ -12,11 +12,19 @@ if (isset($_GET['id'])) {
         $stmt = $pdo->prepare(
             "SELECT
             cli.nome AS nome_cliente,
-            cli.sobrenome AS sobrenome_cliente
+            cli.sobrenome AS sobrenome_cliente,
+            q.descr AS nome_quadra,
+            q.id AS id_quadra,
+            ag.dt,
+            ag.horario_agendado,
+            ag.tempo_alocado,
+            ag.valor,
+            ag.estado_conta
 
             FROM agendamentos ag
             
             LEFT JOIN clientes cli ON ag.id_cliente = cli.id
+            LEFT JOIN quadras q ON ag.id_quadra = q.id
                 
             WHERE ag.id = :id"
         );

@@ -13,44 +13,44 @@ $quadras = $pdo->query("SELECT id, descr FROM quadras")->fetchAll();
                 <div class="modal-body">
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <label for="id_cliente" class="form-label">Cliente</label>
-                            <input type="text" class="form-control" id="cliente" name="clienteAgend" placeholder="Nome">
+                            <label for="cliente_agend_edit" class="form-label">Cliente</label>
+                            <input type="text" class="form-control" id="cliente_agend_edit" name="cliente_agend_edit"
+                                placeholder="Nome">
                         </div>
                         <div class="col-md-6">
-                            <label for="bosta" class="form-label">Quadra Selecionada</label>
-                            <select name="bosta" id="" class="form-select">
-                                <option id="nome_quadra" value="nome_quadra" selected disabled></option>
+                            <label for="quadra_edit" class="form-label">Quadra Selecionada</label>
+                            <select name="quadra_edit" id="quadra_edit" class="form-select">
                                 <?php
                                 foreach ($quadras as $quadra):
                                     ?>
-                                    <option value=' <?= $quadra['id'] ?>'><?= $quadra['descr'] ?></option>
+                                    <option value="<?= $quadra['id'] ?>"><?= $quadra['descr'] ?></option>
                                     <?php
                                 endforeach;
                                 ?>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label for="" class="form-label">Data do Agendamento</label>
-                            <input type="date" class="form-control" id="data_agendamento" name="dataAgend">
+                            <label for="data_agendamento_edit" class="form-label">Data do Agendamento</label>
+                            <input type="date" class="form-control" id="data_agendamento_edit"
+                                name="data_agendamento_edit">
                         </div>
                         <div class="col-md-4">
-                            <label for="horarioAgend" class="form-label">Horário Início</label>
-                            <input type="time" class="form-control" id="horario_agendamento" name="horarioAgend">
+                            <label for="horario_agend_edit" class="form-label">Horário Início</label>
+                            <input type="time" class="form-control" id="horario_agend_edit" name="horario_agend_edit">
                         </div>
                         <div class="col-md-4">
-                            <label for="horarioFimAgend" class="form-label">Horário Fim</label>
-                            <input type="time" class="form-control" id="horario_fim_agendamento" name="horarioFimAgend">
+                            <label for="horario_fim_agend_edit" class="form-label">Horário Fim</label>
+                            <input type="time" class="form-control" id="horario_fim_agend_edit"
+                                name="horario_fim_agend_edit">
                         </div>
                         <div class="col-md-6">
-                            <label for="valorAgend" class="form-label">Valor</label>
-                            <input type="number" class="form-control" id="valor_agendamento" name="valorAgend"
+                            <label for="valor_agend_edit" class="form-label">Valor</label>
+                            <input type="number" class="form-control" id="valor_agend_edit" name="valor_agend_edit"
                                 placeholder="R$ 00,00" step="0.01" min="0">
                         </div>
                         <div class="col-md-6">
-                            <label for="estadoContaAgend" class="form-label">Estado da Conta</label>
-                            <select name="estadoContaAgend" class="form-select" id="bosta">
-                                <option id="estado_conta_agendamento" value="estado_conta_agendamento" selected
-                                    disabled></option>
+                            <label for="estado_cont_agend_edit" class="form-label">Estado da Conta</label>
+                            <select name="estado_cont_agend_edit" class="form-select" id="estado_cont_agend_edit">
                                 <option value="1">Pendente</option>
                                 <option value="2">Pago</option>
                                 <option value="3">Cancelado</option>
