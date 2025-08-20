@@ -129,7 +129,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             <?php
                             try {
                                 $stmt = $pdo->prepare(
-                                    "SELECT
+                                "SELECT
                                 cli.nome AS nome_cliente,
                                 q.descr AS quadras,
                                 ag.id_empresa,
@@ -144,14 +144,13 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                 JOIN quadras q ON ag.id_quadra = q.id
                                 WHERE
                                 ag.id_empresa = :id_empresa
-                                "
-                                );
-
+                                ");
+                                
                                 $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                                 $stmt->execute();
-                                $agendamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            } catch (PDOException $e) {
-                                echo 'erro ao buscar clientes' . $e->getMessage();
+                                $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            } catch ( PDOException $e) {
+                                echo 'erro ao buscar clientes' . $e -> getMessage();
                             }
 
                             ?>
@@ -243,33 +242,33 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             // endforeach 
                             ?>
                             <?php if (isset($_GET['editar'])): ?>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        var modal = document.getElementById('modalEditar');
-                                        if (modal) {
-                                            modal.addEventListener('hidden.bs.modal', function () {
-                                                if (window.location.search.includes('editar=')) {
-                                                    // Remove o parâmetro editar da URL sem recarregar a página
-                                                    const url = new URL(window.location);
-                                                    url.searchParams.delete('editar');
-                                                    window.history.replaceState({}, document.title, url.pathname + url.search);
-                                                }
-                                            });
-                                            // Abre o modal automaticamente
-                                            var bsModal = new bootstrap.Modal(modal);
-                                            bsModal.show();
-                                        }
-                                    });
-                                </script>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                            var modal = document.getElementById('modalEditar');
+                            if (modal) {
+                                modal.addEventListener('hidden.bs.modal', function () {
+                                if (window.location.search.includes('editar=')) {
+                                    // Remove o parâmetro editar da URL sem recarregar a página
+                                    const url = new URL(window.location);
+                                    url.searchParams.delete('editar');
+                                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                                }
+                                });
+                                // Abre o modal automaticamente
+                                var bsModal = new bootstrap.Modal(modal);
+                                bsModal.show();
+                            }
+                            });
+                            </script>
                             <?php endif; ?>
                         </div>
-                    </div>
+                    </div>   
                 </div>
         </div>
         </main>
     </div>
-    </div>
-    </div>
+</div>
+</div>
     <script src="./modalAgendamento/CRUD/updateAgendamento.js"></script>
     <script src="./modalAgendamento/CRUD/deleteAgendamento.js"></script>
     <script src="./modalAgendamento/CRUD/infoAgendamento.js"></script>

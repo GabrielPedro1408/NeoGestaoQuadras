@@ -54,7 +54,7 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                         </div>
                         <div class="col-md-6">
                             <label for="estadoContaAgend" class="form-label">Estado da Conta</label>
-                            <select name="estadoContaAgend" aria-placeholder="selecione uma opção" class="form-select" id="bosta">
+                            <select name="estadoContaAgend" aria-placeholder="selecione uma opção" class="form-select" id="bosta" required>
                                 <option value="estado_conta_agendamento" selected disabled>Selecione uma Opção</option>
                                 <option value="1">Pendente</option>
                                 <option value="2">Pago</option>

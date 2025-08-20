@@ -262,7 +262,7 @@ tfoot tr td{
     width: 75px ;
     height: 25px ;
     border-radius: 20px;
-    margin-left: 1px;
+    margin-left: 35px;
 
 }
 .receber{
@@ -272,7 +272,7 @@ tfoot tr td{
     width: 75px ;
     height: 25px;
     border-radius: 20px;
-    margin-left: 1px;
+    margin-left: 35px;
     padding-bottom: 3px;
 }
 .nao-definido{
@@ -282,6 +282,6 @@ tfoot tr td{
     width: 100px ;
     height: 25px;
     border-radius: 20px;
-    margin-left: -12px;
+    margin-left: 20px;
     padding-bottom: 3px;
 }

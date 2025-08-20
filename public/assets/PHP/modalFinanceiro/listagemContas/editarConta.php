@@ -1,32 +1,30 @@
-    <?php 
-    include_once __DIR__ . '/CRUD/createContas.php';
-    ?>
-    <div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title">Cadastro de Conta</h3>
+                        <h3 class="modal-title">Alterações da Conta</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                     </div>
                     <div class="modal-body mb-5">
                         <form class="row g-3" action="" method="POST">
+                        <input type="hidden" id="inputIdEditar" name="id_Contas" value="">
                         <div class="row g-4">
                             <div class="col-md-4">
-                                <label for="descrConta" class="form-label">Descrição</label>
-                                <input type="text" class="form-control" id="descrConta" name="descrConta" placeholder="Ex: Conta de Luz" required>
+                                <label for="descr_conta" class="form-label">Descrição</label>
+                                <input type="text" class="form-control" id="descr_conta" name="descr_conta" placeholder="Ex: Conta de Luz" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Categoria</label>
-                                <select name="categoria" id="categoria" required class="form-select">
-                                    <option aria-readonly="" selected>Selecione a categoria</option>
+                                <label for="categoria" class="form-label">Categoria</label>
+                                <select name="categoria" id="" class="form-select" required>
+                                    <option id="categoria" value="categoria" selected disabled></option>
                                     <option value="0">Pagar</option>
                                     <option value="1">Receber</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="recorrencia" class="form-label">Recorrência</label>
-                                <select name="recorrencia" id="recorrencia" class="form-select" required>
-                                    <option aria-readonly="" value="" selected>Selecione a recorrência</option>
+                                <select name="recorrencia" required class="form-select">
+                                    <option id="recorrencia"></option>
                                     <option value="0">Única</option>
                                     <option value="1">Semanal</option>
                                     <option value="2">15 dias</option>
@@ -35,17 +33,17 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label for="valorConta" class="form-label">Valor</label>
-                                <input type="number" step="10" class="form-control" id="valorConta" name="valorConta" placeholder="Valor da conta" required>
+                                <label for="valor_conta" class="form-label">Valor</label>
+                                <input type="number" step="10" class="form-control" id="valor_conta" name="valor_conta" placeholder="Valor da conta" required>
                             </div>
                             <div class="col-md-4">
-                                <label for="dataVencimentoConta" class="form-label">Data Vencimento</label>
-                                <input type="date" class="form-control" id="dataVencimentoConta" name="dataVencimentoConta" required>
+                                <label for="data_vencimento" class="form-label">Data Vencimento</label>
+                                <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="tipo" class="form-label">Tipo</label>
-                                <select name="tipo" id="tipo"class="form-select" required>
-                                    <option aria-readonly="" value="" selected>Selecione o tipo</option>
+                                <select name="tipo" id="tipo" required class="form-select">
+                                    <option disabled selected>Selecione o tipo</option>
                                     <option value="1">Fornecedor</option>
                                     <option value="2">Funcionário</option>
                                     <option value="3">Cliente</option>
@@ -54,12 +52,12 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label for="cpfCnpjConta" class="form-label">CPF/CNPJ</label>
-                                <input type="text" class="form-control" id="cpfCnpjConta" name="cpfCnpjConta"  placeholder="CPF ou CNPJ">
+                                <label for="cpf_cnpj" class="form-label">CPF/CNPJ</label>
+                                <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj"  placeholder="CPF ou CNPJ">
                             </div>
                             <div class="col-md-8">
-                                <label for="observacoesConta" class="form-label">Observações</label>
-                                <input class="form-control"  id="observacoesConta" name="observacoesConta"  placeholder="Observações adicionais">
+                                <label for="observacao_conta" class="form-label">Observações</label>
+                                <input class="form-control"  id="observacao_conta" name="observacao_conta"  placeholder="Observações adicionais">
                             </div>
                         </div>
                     </div>   
