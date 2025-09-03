@@ -12,14 +12,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //Testa se o update foi bem sucedido
         if ($result) {
-            header("Location: ../../Agendamentos.php?msg=" . urlencode("Agendamento excluído com sucesso!"));
+            $_SESSION['message'] = 'Agendamento excluído com sucesso!';
+            $_SESSION['message_type'] = 'success';
+            header("Location: ../PHP/Agendamentos.php");
+            exit;
         } else {
-            header("Location: ../../Agendamentos.php?msg=" . urlencode("Não foi possivel excluir o agendamento!"));
+            $_SESSION['message'] = 'Erro ao excluir o agendamento!';
+            $_SESSION['message_type'] = 'success';
+            header("Location: ../PHP/Agendamentos.php");
+            exit;
         }
 
 
     } catch (Exception $e) {
-        header("Location: ../../Agendamentos.php?msg=" . urlencode("Houve um erro ao se conectar com o banco!" . $e->getMessage()));
+        echo "Erro ao inserir os dados" .
+            "Número do erro: " . $e->getMessage();
     }
 }
 ?>
