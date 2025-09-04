@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <h6>Deseja realmete excluir este agendamento?</h6>
+                            <h6>Deseja realmete excluir este <span style="color: blue;">AGENDAMENTO</span>?</h6>
                         </div>
                     </div>
                     <div class="row g-4">

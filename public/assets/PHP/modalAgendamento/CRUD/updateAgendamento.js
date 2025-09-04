@@ -8,9 +8,8 @@ document.getElementById('modalEditar').addEventListener('show.bs.modal', functio
         .then(response => response.json())
         .then(data => {
             // Preenche os campos do modal com os dados recebidos
-            document.getElementById('cliente_agend_edit').value = data.nome_cliente || '';
+            document.getElementById('cliente_agend_edit').value = data.nome_cliente + ' ' + data.sobrenome_cliente || '';
             document.getElementById('quadra_edit').value = String(data.id_quadra) || 'selecione uma opção';
-            /* alert('id: ' + data.id_quadra + ' nome: ' + data.nome_quadra); */
             document.getElementById('data_agendamento_edit').value = data.dt || '';
             document.getElementById('horario_agend_edit').value = data.horario_agendado || '';
             document.getElementById('horario_fim_agend_edit').value = data.tempo_alocado || '';
