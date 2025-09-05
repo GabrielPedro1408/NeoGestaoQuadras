@@ -1,4 +1,5 @@
 <?php
+//Busca os dados do agendamento para preencher o formulário de edição
 include_once __DIR__ . '/../../conexao.php';
 
 header('Content-Type: application/json');
@@ -12,6 +13,7 @@ if (isset($_GET['id'])) {
         $stmt = $pdo->prepare(
             "SELECT
             cli.nome AS nome_cliente,
+            cli.sobrenome AS sobrenome_cliente,
             q.descr AS nome_quadra,
             q.id AS id_quadra,
             ag.dt,

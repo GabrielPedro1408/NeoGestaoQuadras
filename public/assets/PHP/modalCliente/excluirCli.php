@@ -1,22 +1,37 @@
-<div class="modal excluir" id="modalExcluir">
-            <div class="modal-inner">
-                <div class="top-pop-up-excluir">
-                    <h3>Deseja realmente excluir esse cadastro? </h3>
-                    <a href="#" id="closePopUpExcluir" ><i class="fa-solid fa-x"></i></a>
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form class="row g-3" action="modalCliente/CRUD/proccesDelete.php" method="POST">
+                <input type="hidden" id="inputIdExcluir" name="id_cliente" value="">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exlusão do Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
-            <form class="row g-3" action="Clientes.php" method="POST">
-                <div class="col-md-6">
-                    <label for="nomeCli" class="form-label">Primeiro Nome</label>
-                    <input type="text" value="bosta" class="form-control" id="nomeCli" disabled>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6>Deseja realmete excluir este <span style="color: blue;">CLIENTE</span>?</h6>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label for="nome_cliente_del" class="form-label">Nome</label>
+                            <input type="text" name="nome_cliente_del" id="nome_cliente_del" class="form-control"
+                                disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="sobrenome_cliente_del" class="form-label">Sobrenome</label>
+                            <input type="text" name="sobrenome_cliente_del" id="sobrenome_cliente_del"
+                                class="form-control" disabled>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="sobrenomeCli" class="form-label">Sobrenome</label>
-                    <input type="text" value="pietrinho" class="form-control" id="sobrenomeCli" disabled>
+                <div class="modal-footer">
+                    <div class="col-12">
+                        <button type="submit" name="exclusão" class="btn btn-primary">Excluir</button>
+                    </div>
                 </div>
-                <div class="buttons">
-                    <button type="submit" id="excluirCli" class="deletar">Excluir</button>
-                    <button id="closePopUpExcluir" class="bt-cancelar" >Cancelar</button>
-                </div>
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
+</div>

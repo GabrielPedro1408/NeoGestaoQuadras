@@ -4,12 +4,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_agendamento = $_POST['id_agendamento'];
 
     try {
-        //Pega o id do novo cliente
-        $buscaNovoNome = $pdo->prepare('SELECT id FROM clientes WHERE nome = :nome');
-        $buscaNovoNome->execute(array(':nome' => $_POST['cliente_agend_edit']));
-        $buscaNovoNome = $buscaNovoNome->fetch(PDO::FETCH_ASSOC);
-        $idNovoNome = $buscaNovoNome['id'];
-
         //Pega o id da nova quadra
         $idNovaQuadra = $_POST['quadra_edit']; //O value do select ja tras o id
 
@@ -22,13 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //Prepara a query MySQL para alterar os registros no banco
         $alteraAgend = $pdo->prepare('UPDATE agendamentos
-        SET id_cliente = :id_cliente, id_quadra = :id_quadra, dt = :dt, horario_agendado = :horario_agendado, tempo_alocado = :tempo_alocado, valor = :valor, estado_conta = :estado_conta
+        SET id_quadra = :id_quadra, dt = :dt, horario_agendado = :horario_agendado, tempo_alocado = :tempo_alocado, valor = :valor, estado_conta = :estado_conta
         WHERE id = :id_agendamento
         ');
 
         //Executa a query passando os valores necessários
         $result = $alteraAgend->execute(array(
-            ':id_cliente' => $idNovoNome,
             ':id_quadra' => $idNovaQuadra,
             ':dt' => $dateAgend,
             ':horario_agendado' => $horarioAgend,
@@ -49,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
     } catch (Exception $e) {
-        header("Location: ../../Agendamentos.php?msg=" . urlencode("Houve um erro ao se conectar com o banco! " . $e->getMessage()));
-        exit;
+        echo "Erro ao inserir os dados" .
+            "Número do erro: " . $e->getMessage();
     }
 }
 ?>
