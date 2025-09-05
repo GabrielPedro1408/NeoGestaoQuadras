@@ -35,10 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             $_SESSION['message'] = 'Dados alterados com sucesso!';
             $_SESSION['message_type'] = 'success';
-            header("Location: ../../Agendamentos.php");
+            header("Location: ../PHP/Agendamentos.php");
             exit;
         } else {
-            header("Location: ../../Agendamentos.php?msg=" . urlencode("Não foi possivel realizar a alteração!"));
+            header("Location: ../PHP/Agendamentos.php?msg=" . urlencode("Não foi possivel realizar a alteração!"));
             exit;
         }
     } catch (Exception $e) {
