@@ -1,15 +1,15 @@
 <?php
-    include_once 'conexao.php';
-    include_once '../src/buscarIdEmpresa.php';
-    session_start();
-    $id_empresa = buscarIdEmpresa($_SESSION['username']);
-    // Verifica se foi efetuado o login
-    if(!isset($_SESSION['username'])){
+include_once 'conexao.php';
+include_once '../src/buscarIdEmpresa.php';
+session_start();
+$id_empresa = buscarIdEmpresa($_SESSION['username']);
+// Verifica se foi efetuado o login
+if (!isset($_SESSION['username'])) {
 
-        header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
-        exit;
-    }
-    if($_SERVER ['REQUEST_METHOD'] === "POST"){
+    header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     include_once './modalFinanceiro/listagemContas/cadastroConta.php';
 
 }
@@ -17,6 +17,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,37 +30,39 @@
     <link rel="stylesheet" href="../CSS/all.css">
     <title>NPL Quadras</title>
 </head>
+
 <body>
     <div class="full-content">
-        <?php require '../components/sidebar.php';?> 
+        <?php require '../components/sidebar.php'; ?>
         <div id="main-content">
-            <header><?php require '../components/header.php';?> </header> 
+            <header><?php require '../components/header.php'; ?> </header>
             <?php
             if (isset($_SESSION['message'])):
                 $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
-            ?>
-            <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
-                <?= $_SESSION['message'] ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <?php
+                ?>
+                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                    <?= $_SESSION['message'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
                 unset($_SESSION['message']);
                 unset($_SESSION['message_type']);
             endif;
             ?>
-            <?php include_once './modalFinanceiro/listagemContas/cadastroConta.php';?>
-            <?php include_once './modalFinanceiro/listagemContas/editarConta.php';?>
-            
+            <?php include_once './modalFinanceiro/listagemContas/cadastroConta.php'; ?>
+            <?php include_once './modalFinanceiro/listagemContas/editarConta.php'; ?>
+
             <div class="container">
                 <section class="top-area d-flex justify-content-between align-items-center">
-                        <div class="titulo">
-                            <h3><strong>LISTAGEM DE CONTAS</strong></h3>
-                        </div>
-                        <div class="adicionar gap-4">
-                            <button id='openPopUpCadastroConta'  type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Adicionar Conta</button>
-                        </div>
+                    <div class="titulo">
+                        <h3><strong>LISTAGEM DE CONTAS</strong></h3>
+                    </div>
+                    <div class="adicionar gap-4">
+                        <button id='openPopUpCadastroConta' type="button" data-bs-toggle="modal"
+                            data-bs-target="#modalCadastro">+ Adicionar Conta</button>
+                    </div>
                 </section>
-                <?php 
+                <?php
                 /* Total de contas a pagar */
                 $contasPagar = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE categoria = 0 AND id_empresa = :id_empresa");
                 $contasPagar->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
@@ -83,7 +86,7 @@
                 $valorReceber->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                 $valorReceber->execute();
                 $valorTotalReceber = $valorReceber->fetchColumn();
-                
+
                 ?>
                 <div class="mid-area">
                     <div class="total-contas-pagar">
@@ -101,7 +104,8 @@
                         <div class="grupo">
                             <h6>VALOR CONTAS A PAGAR</h6>
                             <div class="main-valor-contas-pagar">
-                                <h1><label for="valorTotalContasPagar">R$ <?= number_format($valorTotalPagar, 2, ',', '.'); ?></label></h1>
+                                <h1><label for="valorTotalContasPagar">R$
+                                        <?= number_format($valorTotalPagar, 2, ',', '.'); ?></label></h1>
                                 <div class="icone-valor-pagar">
                                     <i class="fa-solid fa-dollar-sign"></i>
                                 </div>
@@ -123,7 +127,8 @@
                         <div class="grupo">
                             <h6>VALOR CONTAS A RECEBER</h6>
                             <div class="main-valor-contas-receber">
-                                <h1><label for="valorTotalContasReceber">R$ <?= number_format($valorTotalReceber, 2, ',', '.'); ?></label></h1>
+                                <h1><label for="valorTotalContasReceber">R$
+                                        <?= number_format($valorTotalReceber, 2, ',', '.'); ?></label></h1>
                                 <div class="icone-valor-receber">
                                     <i class="fa-solid fa-dollar-sign"></i>
                                 </div>
@@ -143,7 +148,6 @@
                                 <option value="0">Pagar</option>
                                 <option value="1">Receber</option>
                             </select>
-
                             <select name="filtro_tipo" id="filtro_tipo">
                                 <option disabled> Tipo</option>
                                 <option value="1">Fornecedor</option>
@@ -197,13 +201,13 @@
                 $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
             
                 if (count($contas) == 0):
-                ?>
+                    ?>
                     <div class='sem-conta'>
                         <i class="fa-solid fa-bag-shopping fa-2xl"></i>
                         <h2>Nenhuma conta cadastrada</h2>
                         <small>Adicione sua primeira conta</small>
                     </div>
-                <?php
+                    <?php
                 else:
                 ?>
                 <div class="table-reponsive">
@@ -295,6 +299,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="modalFinanceiro/listagemContas/CRUD/updateListagem.js"></script>
     <script src="../components/sidebar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

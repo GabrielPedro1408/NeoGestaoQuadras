@@ -1,5 +1,4 @@
 <?php
-//Busca os dados do agendamento para preencher o formulário de edição
 include_once __DIR__ . '/../../conexao.php';
 
 header('Content-Type: application/json');

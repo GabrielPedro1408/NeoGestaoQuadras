@@ -1,65 +1,105 @@
-<div class="modal" id="modalEditar">
-            <div class="modal-inner">
-                <div class="top-pop-up">
-                    <h3>Edição das Informações</h3>
-                    <a href="#" id="closePopUpEditar" ><i class="fa-solid fa-x"></i></a>
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form class="row g-3" action="modalCliente/CRUD/proccesUpdate.php" method="POST">
+                <input type="hidden" id="inputIdEditar" name="id_cliente" value="">
+                <div class="modal-header">
+                    <h5 class="modal-title">Alterações do Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
-            <form class="row g-3" action="Clientes.php" method="POST">
-                <div class="col-md-6">
-                    <label for="nomeCli" class="form-label">Primeiro Nome</label>
-                    <input type="text" class="form-control" id="nomeCli">
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label for="name_cli_edit" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="name_cli_edit" name="name_cli_edit"
+                                placeholder="Nome">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="lastname_cli_edit" class="form-label">Sobrenome</label>
+                            <input type="text" class="form-control" id="lastname_cli_edit" name="lastname_cli_edit"
+                                placeholder="Sobrenome">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dataNasc_cli_edit" class="form-label">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="dataNasc_cli_edit" name="dataNasc_cli_edit">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dataCadast_cli_edit" class="form-label">Data de Cadastro</label>
+                            <input type="date" class="form-control" id="dataCadast_cli_edit" name="dataCadast_cli_edit"
+                                disabled>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="email_cli_edit" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email_cli_edit" name="email_cli_edit"
+                                placeholder="email@email.com">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="cpf_cli_edit" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpf_cli_edit" name="cpf_cli_edit"
+                                placeholder="000.000.000-00" maxlength="14">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="cnpj_cli_edit" class="form-label">CNPJ</label>
+                            <input type="text" class="form-control" id="cnpj_cli_edit" name="cnpj_cli_edit"
+                                placeholder="00.000.000/0000-00" maxlength="18">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="cel_cli_edit" class="form-label">Celular</label>
+                            <input type="text" class="form-control" id="cel_cli_edit" name="cel_cli_edit"
+                                placeholder="(00) 00000-0000" maxlength="15">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="cep_cli_edit" class="form-label">CEP</label>
+                            <input type="text" class="form-control" id="cep_cli_edit" name="cep_cli_edit"
+                                placeholder="00.000-000" maxlength="14">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="cidade_cli_edit" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="cidade_cli_edit" name="cidade_cli_edit"
+                                placeholder="Várzea Paulista" readonly>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="uf_cli_edit" class="form-label">UF</label>
+                            <input type="text" class="form-control" id="uf_cli_edit" name="uf_cli_edit" placeholder="SP"
+                                readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="rua_cli_edit" class="form-label">Rua</label>
+                            <input type="text" class="form-control" id="rua_cli_edit" name="rua_cli_edit"
+                                placeholder="Rua" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="numCasa_cli_edit" class="form-label">Número</label>
+                            <input type="text" class="form-control" id="numCasa_cli_edit" name="numCasa_cli_edit"
+                                placeholder="123">
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="complementos_cli_edit" class="form-label">Complementos</label>
+                            <input type="text" class="form-control" id="complementos_cli_edit"
+                                name="complementos_cli_edit" placeholder="Apartamento, casa, etc.">
+                        </div>
+
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="sobrenomeCli" class="form-label">Sobrenome</label>
-                    <input type="text" class="form-control" id="sobrenomeCli">
+                <div class="modal-footer">
+                    <div class="col-12">
+                        <button type="submit" name="alteracoes" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="dataNascCli" class="form-label">Data de Nascimento</label>
-                    <input type="date" class="form-control" id="dataNascCli">
-                </div>
-                <div class="col-md-4">
-                    <label for="cpfCli" class="form-label">CPF</label>
-                    <input type="int" class="form-control" id="cpfCli">
-                </div>
-                <div class="col-md-4">
-                    <label for="rgCli" class="form-label">RG (Registro Geral)</label>
-                    <input type="int" class="form-control" id="rgCli">
-                </div>
-                <div class="col-md-6">
-                    <label for="cepCli" class="form-label">CEP</label>
-                    <input type="int" class="form-control" id="cepCli">
-                </div>
-                <div class="col-md-6">
-                    <label for="cidadeCli" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="cidadeCli">
-                </div>
-                <div class="col-md-6">
-                    <label for="ruaCli" class="form-label">Rua</label>
-                    <input type="text" class="form-control" id="ruaCli">
-                </div>
-                <div class="col-md-3">
-                    <label for="estadoCli" class="form-label">Estado</label>
-                    <input type="text" class="form-control" id="estadoCli">
-                </div>
-                <div class="col-md-3">
-                    <label for="casaCli" class="form-label">Nº Da Residência</label>
-                    <input type="int" class="form-control" id="casaCli">
-                </div>
-                <div class="col-md-6">
-                    <label for="contatoCli" class="form-label">Contato</label>
-                    <input type="int" class="form-control" id="contatoCli">
-                </div>
-                <div class="col-6">
-                    <label for="emailCli" class="form-label">Email</label>
-                    <input type="email" value="" class="form-control" id="emailCli">
-                </div>
-                <div class="col-md-12">
-                    <label for="descCli" class="form-label">Complementos</label>
-                    <input type="text" class="form-control" id="descCli">
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Confirmar Edição</button>
-                </div>
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
+</div>
