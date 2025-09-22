@@ -2,6 +2,7 @@
     include_once 'conexao.php';
     include_once '../src/buscarIdEmpresa.php';
     session_start();
+    include_once './modalFinanceiro/listagemContas/CRUD/createContas.php';
     $id_empresa = buscarIdEmpresa($_SESSION['username']);
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){
@@ -9,10 +10,6 @@
         header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
         exit;
     }
-    if($_SERVER ['REQUEST_METHOD'] === "POST"){
-    include_once './modalFinanceiro/listagemContas/cadastroConta.php';
-
-}
 
 ?>
 <!DOCTYPE html>
@@ -27,7 +24,7 @@
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
-    <title>NPL Quadras</title>
+    <title>Neo Gestão</title>
 </head>
 <body>
     <div class="full-content">
@@ -133,32 +130,76 @@
                 </div>
                 <div class="filters-section mb-4">
                     <h2><i class="fas fa-filter"></i> Filtros</h2>
-                            <form  method="GET" id="form-buscar">
-                                <div class="filters mt-3">   
-                                    <input type="text" name="busca_descricao" id="busca_descricao" placeholder="Buscar por Descrição">
-                                    <select name="filtro_categoria" id="filtro_categoria">
-                                        <option disabled> Categoria</option>
-                                        <option value="0">Pagar</option>
-                                        <option value="1">Receber</option>
-                                    </select>
-                                    <select name="filtro_tipo" id="filtro_tipo">
-                                        <option disabled> Tipo</option>
-                                        <option value="1">Fornecedor</option>
-                                        <option value="2">Funcionário</option>
-                                        <option value="3">Cliente</option>
-                                        <option value="4">Gasto Fixo</option>
-                                        <option value="5">Outros</option>
-                                    </select>
-                                    <input type="date" name="filtro_data" id="filtro_data" placeholder="Data"> 
-                                    <button class="btn">Limpar</button>
-                                </div>
-                            </form>
+                    <form method="GET" action="ListagemContas.php" id="form-buscar">
+                        <div class="filters mt-3">   
+
+                            <input type="text" name="filtro_descricao" id="filtro_descricao" placeholder="Buscar por Descrição">
+
+                            <select name="filtro_categoria" id="filtro_categoria">
+                                <option aria-readonly="" value="" selected> Categoria</option>
+                                <option value="0">Pagar</option>
+                                <option value="1">Receber</option>
+                            </select>
+
+                            <select name="filtro_tipo" id="filtro_tipo">
+                                <option aria-readonly="" value="" selected> Tipo</option>
+                                <option value="1">Fornecedor</option>
+                                <option value="2">Funcionário</option>
+                                <option value="3">Cliente</option>
+                                <option value="4">Gasto Fixo</option>
+                                <option value="5">Outros</option>
+                            </select>
+
+                            <input type="date" name="filtro_data" id="filtro_data">
+
+                            <div class="buttons">
+                                <a href="ListagemContas.php"><button type="button" class="btn">Limpar</button></a>
+                                <button type="submit" name="filtrar" class="btn">Buscar</button>
+                            </div>
+
                         </div>
-                <?php 
-                $stmt = $pdo->prepare("SELECT COUNT(*) FROM contas WHERE id_empresa = :id_empresa");
-                $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
-                $stmt->execute();
-                $contas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    </form>
+                </div>
+                <?php
+                if (isset($_GET['filtrar'])){
+                    $descricao = $_GET['filtro_descricao'] ?? '';
+                    $categoria = $_GET['filtro_categoria'] ?? '';
+                    $tipo = $_GET['filtro_tipo'] ?? '';
+                    $dataFiltro = $_GET['filtro_data'] ?? '';
+
+                    $stmt = "SELECT * FROM contas WHERE id_empresa = :id_empresa";
+                    $params = [':id_empresa' => $id_empresa];
+
+                    if (!empty($descricao)) {
+                        $stmt .= " AND descricao LIKE :descricao COLLATE utf8mb4_general_ci";
+                        $params[':descricao'] = "%$descricao%";
+                    }
+
+                    if (!empty($categoria)) {
+                        $stmt .= " AND categoria = :categoria";
+                        $params[':categoria'] = $categoria;
+                    }
+
+                    if (!empty($tipo)) {
+                        $stmt .= " AND tipo = :tipo";
+                        $params[':tipo'] = $tipo;
+                    }
+
+                    if (!empty($dataFiltro)) {
+                        $stmt .= " AND DATE_FORMAT(data_vencimento, '%Y-%m-%d') = :dataFiltro";
+                        $params[':dataFiltro'] = $dataFiltro;
+                    }
+
+                    $query= $pdo ->prepare($stmt);
+                    $query ->execute($params);
+                    $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                }
+                else{
+                    $query= $pdo ->prepare("SELECT * FROM contas WHERE id_empresa = :id_empresa ORDER BY data_vencimento ASC");
+                    $query ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                    $query ->execute();
+                    $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                }
                 if (count($contas) == 0):
                 ?>
                     <div class='sem-conta'>
@@ -168,7 +209,6 @@
                     </div>
                 <?php
                 else:
-                    
                 ?>
                 <div class="table-reponsive">
                     <table class="table table-striped table-hover">
@@ -176,15 +216,72 @@
                             <tr class="text-align-center text-center">
                                 <th>Descrição</th>
                                 <th>Valor</th>
-                                <th>Categoria</th>
                                 <th>Tipo</th>
+                                <th>Categoria</th>
                                 <th>Recorrência</th>
                                 <th>Vencimento</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="body_table">
+                        <?php 
+                        /* if ($contas['tipo_conta']== 0) */ 
+                        foreach($contas as $conta):
+                        ?>
+                        <tbody>
+                            <tr class="text-center text-align-center">
+                                <td><label for="<?= $conta['id']?>"><?= $conta['descricao']?></label></td>
+                                <td>R$ <?= number_format($conta['valor'], 2, ',', '.') ?></td>
+
+                                <td><?php if ($conta['tipo'] == 1){
+                                    echo "Fornecedor";
+                                }
+                                else if ($conta['tipo'] == 2){
+                                    echo "Funcionário";
+                                }
+                                else if ($conta['tipo'] == 3){
+                                    echo "Cliente";
+                                }
+                                else if ($conta['tipo'] == 4){
+                                    echo "Gasto Fixo";
+                                }
+                                else if ($conta['tipo'] == 5){
+                                    echo "Outros";
+                                }
+                                else{
+                                    echo "Não definido";
+                                }?></td>
+
+                                <?php if($conta['categoria'] == 0): ?>
+                                    <td> <div class="pagar"><?= 'Pagar' ?></div> </td>
+
+                                 <?php elseif ($conta['categoria'] == 1): ?>
+                                    <td> <div class="receber"><?= 'Receber' ?></div> </td>
+
+                                <?php else: ?>
+                                    <td> <div class="nao-definido"><?= 'Não definido' ?></div> </td>
+                                <?php endif; ?>
+
+                                <td><?php if($conta['recorrencia'] == 0){
+                                    echo "Única";
+                                } else if($conta['recorrencia'] == 1){
+                                    echo "Semanal";
+                                } else if($conta['recorrencia'] == 2){
+                                    echo "15 dias";
+                                } else if($conta['recorrencia'] == 3){
+                                    echo "Mensal";
+                                } else if($conta['recorrencia'] == 4){
+                                    echo "Anual";
+                                }?></td>
+                                <td><?= date('d/m/Y', strtotime($conta['data_vencimento'])) ?></td>
+                                <td>
+                                    <button  class="btn btn-primary btn-sm">Editar</button>
+                                    <button  class="btn btn-danger btn-sm">Excluir</button>
+                                </td>
+                            </tr>
                         </tbody>
+                        <?php 
+                        endforeach;
+                        ?>
                         <tfoot>
                             <tr class="ms-2">
                                 <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
@@ -192,12 +289,14 @@
                         </tfoot>
                     </table>
                 </div>
-                <?php endif; ?>
+                <?php endif ?>
+                <?php /* else: */?>
+                    
+                <?php /* endif */ ?>
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../JS/filtroListagemContas.js"></script>
     <script src="modalFinanceiro/listagemContas/CRUD/updateListagem.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

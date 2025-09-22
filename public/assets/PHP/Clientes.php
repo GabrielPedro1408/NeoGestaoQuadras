@@ -93,14 +93,23 @@ $id_empresa = buscarIdEmpresa($username);
                 </section>
                 <div class="mid-area">
                     <div class="pesquisar">
-                        <h6>BUSCAR</h6>
+                        <div class="title-pesquisar">
+                            <i class="fas fa-filter fa-xl"></i>
+                            <h4> Filtros</h4>
+                        </div>
                         <div class="main-pesquisar">
                             <form action="" method="post">
                                 <div class="group">
-                                    <input type="text"  name="nomeCli" id="nomeCli" placeholder="Nome">
+                                    <input type="text"  name="nomeCli" id="nomeCli" placeholder="Buscar por Nome">
                                 </div>
                                 <div class="group">
-                                    <input type="text" name="cpfCli" id="nomeCli" placeholder="CPF">
+                                    <input type="text" name="cpfCli" id="cpfCli" placeholder="Buscar por CPF">
+                                </div>
+                                <div class="group">
+                                    <input type="text" name="telefoneCli" id="telefoneCli" placeholder="Buscar por Telefone">
+                                </div>
+                                <div class="button">
+                                    <button name="filtrar" type="submit">Filtrar</button>
                                 </div>
                             </form>
                         </div>
@@ -119,22 +128,54 @@ $id_empresa = buscarIdEmpresa($username);
                 </div>
 
                 <?php 
-                try {
-                    $stmt = $pdo->query(
-                    "SELECT
-                    nome, celular, email, cpf, rua, nCasa 
-                    FROM clientes");
-                    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                } catch ( PDOException $e) {
-                    echo 'erro ao buscar clientes' . $e -> getMessage();
+                if (isset($_GET['filtrar'])){
+                    $nome = $_GET['nomeCli'] ?? '';
+                    $cpf = $_GET['cpfCli'] ?? '';
+                    $telefone = $_GET['telefoneCli'] ?? '';
+
+                    $stmt = "SELECT * FROM clientes WHERE id_empresa = :id_empresa";
+                    $params = [':id_empresa' => $id_empresa];
+
+                    if (!empty($nome)) {
+                        $stmt .= " AND nome LIKE :nome COLLATE utf8mb4_general_ci";
+                        $params[':nome'] = "%$nome%";
+                    }
+
+                    if (!empty($cpf)) {
+                        $stmt .= " AND cpf LIKE :cpf COLLATE utf8mb4_general_ci";
+                        $params[':cpf'] = "%$cpf%";
+                    }
+
+                    if (!empty($telefone)) {
+                        $stmt .= " AND telefone LIKE :telefone COLLATE utf8mb4_general_ci";
+                        $params[':telefone'] = "%$telefone%";
+                    }
+
+                    $query= $pdo ->prepare($stmt);
+                    $query ->execute($params);
+                    $clientes  = $query ->fetchAll(PDO::FETCH_ASSOC);
                 }
-                
+                else{
+                    $query= $pdo ->prepare("SELECT * FROM clientes WHERE id_empresa = :id_empresa ORDER BY nome ASC");
+                    $query ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                    $query ->execute();
+                    $clientes  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                }
+                if (count($clientes) == 0):
+                ?>
+                <div class='sem-cliente'>
+                    <i class="fa-solid fa-users fa-2xl"></i>
+                    <h2>Nenhum Cliente Cadastrado</h2>
+                    <small>Adicione seu primeiro Cliente</small>
+                </div>
+                <?php
+                else:
                 ?>
                     <!-- start tableCli  -->
-                    <div class="table-clientes">
-                        <table class="table table-hover">
+                    <div class="table-responsive mt-4">
+                            <table class="table table-striped table-hover">
                             <thead>
-                                <tr>
+                                <tr class="text-align-center text-center">
                                 <th scope="col">ID</th>
                                 <th scope="col">Cliente</th>
                                 <th scope="col">Contato</th>
@@ -143,22 +184,10 @@ $id_empresa = buscarIdEmpresa($username);
                                 <th scope="col">Endereço</th>
                                 <th scope="col">Ações</th>
                                 </tr>
-                            </thead>
+                            </thead> 
                             <tbody>
-                            <?php
-                                //Start search clients
-                                $username = $_SESSION['username'];
-                                $id_empresa = buscarIdEmpresa($username);
-                                $buscarClientes = $pdo->prepare("SELECT id, nome, sobrenome, celular, email, cpf, rua, nCasa
-                                FROM clientes WHERE id_empresa = :id_empresa LIMIT 10"); 
-                                $buscarClientes->execute(array(
-                                    ':id_empresa' => $id_empresa
-                                ));
-                                $result = $buscarClientes->fetchAll(PDO::FETCH_ASSOC);
-                            
-                                foreach($result as $row):
-                            ?>   
-                                    <tr>
+                                <?php foreach($clientes as $row): ?> 
+                                    <tr class="text-center text-align-center">
                                         <input type='hidden' id='idCliente' value=<?= $row['id']?>/>
                                         <td scope ='row'><label for='idCli'><?= $row['id'] ?></label></td>
                                         <td scope ='row'><label for='nomeCli'><?= $row['nome']." ". $row['sobrenome'] ?></label></td>
@@ -172,20 +201,16 @@ $id_empresa = buscarIdEmpresa($username);
                                             <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
                                         </td>
                                     </tr>
-                                <?php
-                                    endforeach
-                                ?>
-                                <!-- End search clients -->
                             </tbody>
-                        </table>
-                        <div class="footer-table">
-                            <div class='esquerda'>
-                                <h3>Listando</h3>
-                                <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div>
-                            </div>
-                            <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
-                        </div>
+                            <?php endforeach;?>
+                            <tfoot>
+                                <tr class="ms-2">
+                                    <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>               
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </main>

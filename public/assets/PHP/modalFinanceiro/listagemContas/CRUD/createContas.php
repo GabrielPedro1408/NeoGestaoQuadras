@@ -68,7 +68,7 @@
         }
     }
     catch (PDOException $e) {
-            echo "Erro ao inserir os dados, Número do erro: " . $e;
+            echo "Erro ao inserir os dados, Erro: " . $e;
     }
 }
 

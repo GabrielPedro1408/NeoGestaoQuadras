@@ -48,8 +48,9 @@ html, body {
 }
 .adicionar button:hover{
     background-color: rgba(15, 74, 126, 0.9);
+    box-shadow: 3px 3px 10px -7px rgb(0, 0, 0);
     color: white;
-    transition: 0.5s;
+    transition: 0.5;
 }
 
 /* buscar */
@@ -137,15 +138,15 @@ html, body {
 
     top: 50%;
     left: 50%;
-    transform: translate(110%, -45%);
+    transform: translate(145%, -45%);
     z-index: 1;
     font-size: 3rem;
 
     border-radius: 50%;
     color: rgb(255, 255, 255);
     background: red;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
 }
 .icone-total-receber{
     position: absolute;
@@ -155,15 +156,15 @@ html, body {
 
     top: 50%;
     left: 50%;
-    transform: translate(110%, -45%);
+    transform: translate(145%, -45%);
     z-index: 1;
     font-size: 3rem;
 
     border-radius: 50%;
     color: rgb(255, 255, 255);
     background: green;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
 }
 .icone-valor-pagar{
     position: absolute;
@@ -173,7 +174,7 @@ html, body {
 
     top: 50%;
     left: 50%;
-    transform: translate(110%, -45%);
+    transform: translate(145%, -45%);
     z-index: 1;
     
     color: rgb(255, 255, 255);
@@ -181,8 +182,8 @@ html, body {
     border-radius: 50%;
     color: rgb(255, 255, 255);
     background: rgb(209, 0, 0);
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
 }
 .icone-valor-receber{
     position: absolute;
@@ -192,15 +193,15 @@ html, body {
 
     top: 50%;
     left: 50%;
-    transform: translate(110%, -45%);
+    transform: translate(145%, -45%);
     z-index: 1;
     font-size: 3rem;
 
     border-radius: 50%;
     color: rgb(255, 255, 255);
     background: green;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
 }
 
 /* pesquisar */
@@ -223,13 +224,28 @@ html, body {
   border-radius: 8px;
   font-size: 0.9rem;
 }
-.filters button{
-    padding: 10px 15px;
+.buttons{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.buttons button{
+    padding: 10px 32px;
     background-color: rgba(15, 63, 105, 0.900);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+.buttons button:hover{
+    background-color: rgba(15, 74, 126, 0.9);
+    color: white;
+    box-shadow: 3px 3px 10px -7px rgb(0, 0, 0);
+    transition: 0.6;
+}
+.buttons a{
+    text-decoration: none;
+    color: black;
 }
 
 /* table */
@@ -245,7 +261,7 @@ html, body {
     align-items: center;
     flex-direction: column;
     font-size: 1.2rem;
-    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
 }
 .sem-conta i{
     color: rgba(0, 0, 0, 0.356);
@@ -256,31 +272,20 @@ tfoot tr td{
     margin: 0px 20px;
 }
 .pagar {
-    position: absolute;
     background-color: rgba(255, 0, 0, 0.158) !important;
     color: rgb(0, 0, 0);
-    width: 75px ;
-    height: 25px ;
     border-radius: 20px;
-    margin-left: 35px;
-
 }
 .receber{
-    position: absolute;
     background-color: rgba(0, 255, 0, 0.144);
     color: rgb(0, 0, 0);
-    width: 75px ;
-    height: 25px;
     border-radius: 20px;
-    margin-left: 35px;
     padding-bottom: 3px;
 }
 .nao-definido{
     position: absolute;
     background-color: rgba(0, 94, 148, 0.192);
     color: rgb(0, 0, 0);
-    width: 100px ;
-    height: 25px;
     border-radius: 20px;
     margin-left: 20px;
     padding-bottom: 3px;
