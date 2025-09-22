@@ -69,8 +69,7 @@
         id_empresa = :id_empresa
         ");
 
-        $agendamentos -> bindParam(':id_empresa', $id_empresa);
-        $agendamentos -> execute();
+        $agendamentos -> execute(array(':id_empresa' => $id_empresa));
         $result_agendamentos = $agendamentos -> fetchAll(PDO::FETCH_ASSOC);
         $total_agendamentos = [];
         foreach($result_agendamentos as $agendamento){

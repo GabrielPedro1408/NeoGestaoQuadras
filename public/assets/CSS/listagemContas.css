@@ -48,8 +48,9 @@ html, body {
 }
 .adicionar button:hover{
     background-color: rgba(15, 74, 126, 0.9);
+    box-shadow: 3px 3px 10px -7px rgb(0, 0, 0);
     color: white;
-    transition: 0.5s;
+    transition: 0.5;
 }
 
 /* buscar */
@@ -223,13 +224,28 @@ html, body {
   border-radius: 8px;
   font-size: 0.9rem;
 }
-.filters button{
-    padding: 10px 15px;
+.buttons{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.buttons button{
+    padding: 10px 32px;
     background-color: rgba(15, 63, 105, 0.900);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+.buttons button:hover{
+    background-color: rgba(15, 74, 126, 0.9);
+    color: white;
+    box-shadow: 3px 3px 10px -7px rgb(0, 0, 0);
+    transition: 0.6;
+}
+.buttons a{
+    text-decoration: none;
+    color: black;
 }
 
 /* table */
@@ -245,7 +261,7 @@ html, body {
     align-items: center;
     flex-direction: column;
     font-size: 1.2rem;
-    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
 }
 .sem-conta i{
     color: rgba(0, 0, 0, 0.356);
@@ -262,7 +278,7 @@ tfoot tr td{
     width: 75px ;
     height: 25px ;
     border-radius: 20px;
-    margin-left: 35px;
+    
 
 }
 .receber{
@@ -272,7 +288,6 @@ tfoot tr td{
     width: 75px ;
     height: 25px;
     border-radius: 20px;
-    margin-left: 35px;
     padding-bottom: 3px;
 }
 .nao-definido{
