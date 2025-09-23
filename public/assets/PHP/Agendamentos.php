@@ -28,8 +28,6 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
         <?php include '../components/sidebar.php'; ?>
         <div id="main-content">
             <header><?php require '../components/header.php'; ?> </header>
-
-            <!-- start main -->
             <!-- PopUps -->
             <!-- cadastrar cliente -->
             <?php include_once "./modalAgendamento/cadastroAgend.php"; ?>
@@ -40,6 +38,8 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
             <!-- iformação cliente -->
             <?php include_once "./modalAgendamento/infoAgend.php"; ?>
             <!-- PopUps -->
+
+            <!-- start main -->
             <main>
                 <?php
                 if (isset($_SESSION['message'])):
@@ -56,16 +56,17 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
 
                 $query = $pdo->prepare(
                     "SELECT
-            count(*) AS total_agendamentos
-            FROM
-            agendamentos
-            WHERE
-            id_empresa = :id_empresa"
+                    count(*) AS total_agendamentos
+                    FROM
+                    agendamentos
+                    WHERE
+                    id_empresa = :id_empresa
+                    "
                 );
+
                 $query->bindParam(':id_empresa', $id_empresa);
                 $query->execute();
                 $resultAgendamentos = $query->fetchAll(PDO::FETCH_ASSOC);
-
                 $totalAgendamentos = [];
                 foreach ($resultAgendamentos as $agendamento) {
                     $totalAgendamentos[] = $agendamento['total_agendamentos'];
@@ -111,7 +112,8 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             </div>
                         </div>
                     </div>
-                    <!-- start tableCli  -->
+
+                    <!-- start table Agendamento -->
                     <div class="table-clientes">
                         <table class="table table-hover">
                             <thead>
@@ -127,10 +129,12 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                 </tr>
                             </thead>
                             <?php
+                            //Start search Agendamentos
                             try {
                                 $stmt = $pdo->prepare(
-                                "SELECT
+                                    "SELECT
                                 cli.nome AS nome_cliente,
+                                cli.sobrenome AS sobrenome_cliente,
                                 q.descr AS quadras,
                                 ag.id_empresa,
                                 ag.id,
@@ -144,13 +148,15 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                 JOIN quadras q ON ag.id_quadra = q.id
                                 WHERE
                                 ag.id_empresa = :id_empresa
-                                ");
-                                
+                                LIMIT 10
+                                "
+                                );
+
                                 $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                                 $stmt->execute();
-                                $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            } catch ( PDOException $e) {
-                                echo 'erro ao buscar clientes' . $e -> getMessage();
+                                $agendamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            } catch (PDOException $e) {
+                                echo 'erro ao buscar clientes' . $e->getMessage();
                             }
 
                             ?>
@@ -161,7 +167,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                     <tr>
                                         <td><label>
                                                 <?= empty($agendamento['nome_cliente']) ? '<span>Vazio</span>' :
-                                                    $agendamento['nome_cliente'] ?>
+                                                    $agendamento['nome_cliente'] . ' ' . $agendamento['sobrenome_cliente'] ?>
                                             </label></td>
 
                                         <td><label>
@@ -242,34 +248,36 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             // endforeach 
                             ?>
                             <?php if (isset($_GET['editar'])): ?>
-                            <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                            var modal = document.getElementById('modalEditar');
-                            if (modal) {
-                                modal.addEventListener('hidden.bs.modal', function () {
-                                if (window.location.search.includes('editar=')) {
-                                    // Remove o parâmetro editar da URL sem recarregar a página
-                                    const url = new URL(window.location);
-                                    url.searchParams.delete('editar');
-                                    window.history.replaceState({}, document.title, url.pathname + url.search);
-                                }
-                                });
-                                // Abre o modal automaticamente
-                                var bsModal = new bootstrap.Modal(modal);
-                                bsModal.show();
-                            }
-                            });
-                            </script>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var modal = document.getElementById('modalEditar');
+                                        if (modal) {
+                                            modal.addEventListener('hidden.bs.modal', function () {
+                                                if (window.location.search.includes('editar=')) {
+                                                    // Remove o parâmetro editar da URL sem recarregar a página
+                                                    const url = new URL(window.location);
+                                                    url.searchParams.delete('editar');
+                                                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                                                }
+                                            });
+                                            // Abre o modal automaticamente
+                                            var bsModal = new bootstrap.Modal(modal);
+                                            bsModal.show();
+                                        }
+                                    });
+                                </script>
                             <?php endif; ?>
                         </div>
-                    </div>   
+                    </div>
                 </div>
         </div>
         </main>
     </div>
-</div>
-</div>
+    </div>
+    </div>
     <script src="./modalAgendamento/CRUD/updateAgendamento.js"></script>
+    <script src="./modalAgendamento/CRUD/deleteAgendamento.js"></script>
+    <script src="./modalAgendamento/CRUD/infoAgendamento.js"></script>
     <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

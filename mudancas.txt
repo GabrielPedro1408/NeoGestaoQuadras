@@ -9,3 +9,8 @@ tabela clientes - adicionei uma nova coluna
 tabela agendamentos - estado_conta para bleano
 
 tabela clientes - add cnpj char(18)
+
+
+ERRO NA ALTERAÇÃO
+Até o momento temos tudo resolvido, exceto a exibição do nome da quadra.
+A exibição esta dando errado porque os ids dos inputs não são unicos
