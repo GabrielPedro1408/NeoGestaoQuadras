@@ -1,12 +1,16 @@
 <?php
     include_once 'conexao.php';
+    include_once '../src/buscarIdEmpresa.php';
     session_start();
+     include_once './modalFinanceiro/fluxoFinanceiro/CRUD/createFluxo.php';
+    $id_empresa = buscarIdEmpresa($_SESSION['username']);
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){
-
+        
         header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
         exit;
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -14,19 +18,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/fluxoFinanceiro.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <title>NPL Quadras</title>
+    <link rel="stylesheet" href="../CSS/all.css">
+    <title>Neo Gestão</title>
 </head>
 <body>
     <div class="full-content">
-        <?php require '../components/sidebar.php';?> 
+        <?php require '../components/sidebar.php';?>
         <div id="main-content">
             <header><?php require '../components/header.php';?> </header> 
-            <?php /* include_once './modalFinanceiro/fluxoFinanceiro/CRUD/createFluxo.php'; */?>
+            <?php
+            if (isset($_SESSION['message'])):
+                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+            ?>
+            <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                <?= $_SESSION['message'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            endif;
+            ?>
+            <?php  include_once './modalFinanceiro/fluxoFinanceiro/cadastroFluxo.php';?>
             <div class="container">
                 <section class="top-area d-flex justify-content-between align-items-center">
                         <div class="titulo">
@@ -36,12 +54,24 @@
                             <button id='openPopUpCadastroTransacao' type="button" data-bs-toggle="modal" data-bs-target="#modalCadastroTransacao">+Adicionar Transação</button>
                         </div>
                 </section>
+                <!-- Cards de resumo -->
+                <?php 
+                $queryFluxo = $pdo->prepare("SELECT 
+                    SUM(CASE WHEN tipo = 0 THEN valor ELSE 0 END) AS total_entrada,
+                    SUM(CASE WHEN tipo = 1 THEN valor ELSE 0 END) AS total_saida,
+                    SUM(CASE WHEN tipo = 0 THEN valor ELSE 0 END) - SUM(CASE WHEN tipo = 1 THEN valor ELSE 0 END) AS saldo
+                    FROM fluxo_financeiro
+                    WHERE id_empresa = :id_empresa
+                    AND dt = CURDATE()");
+                $queryFluxo->execute(['id_empresa' => $id_empresa]);
+                $result = $queryFluxo->fetch(PDO::FETCH_ASSOC);
+                ?>
                 <div class="mid-area">
                     <div class="total primeiro">
                         <div class="grupo">
                             <h6>ENTRADA</h6>
                             <div class="main-total">
-                                <h1><label for="totalContasPagar">R$ 300,00</label></h1>
+                                <h1><label for="totalContasPagar">R$ <?= number_format($result['total_entrada'], 2, ',', '.') ?></label></h1>
                                 <div class="icone entrada">
                                     <i class="fas fa-arrow-up "></i>
                                 </div>
@@ -52,7 +82,7 @@
                         <div class="grupo">
                             <h6>SAÍDA</h6>
                             <div class="main-total">
-                                <h1><label for="totalContasReceber">R$ 100,00</label></h1>
+                                <h1><label for="totalContasReceber">R$ <?= number_format($result['total_saida'], 2, ',', '.') ?></label></h1>
                                 <div class="icone saida">
                                     <i class="fas fa-arrow-down "></i>
                                 </div>
@@ -63,7 +93,7 @@
                         <div class="grupo">
                             <h6>SALDO</h6>
                             <div class="main-total">
-                                <h1><label for="totalContasReceber">R$ 200,00</label></h1>
+                                <h1><label for="totalContasReceber">R$ <?= number_format($result['saldo'], 2, ',', '.') ?></label></h1>
                                 <div class="icone saldo">
                                     <i class="fas fa-wallet"></i>
                                 </div>
@@ -75,62 +105,132 @@
                     <h2><i class="fas fa-filter"></i> Filtros</h2>
                             <form action="" method="POST">
                                 <div class="filters mt-3">   
-                                    <input type="text" name="filtro_descricao" id="filtro_descricao" placeholder="Buscar por Descrição">
-                                    <select name="filtro_categoria" id="filtro_categoria">
+                                    <input type="text" name="descr" id="descr" placeholder="Buscar por Descrição">
+                                    <select name="categoria" id="categoria">
                                         <option disabled selected>Categoria</option>
-                                        <option value="entrada">Entrada</option>
-                                        <option value="saida">Saída</option>
+                                        <option value="0">Entrada</option>
+                                        <option value="1">Saída</option>
                                     </select>
-                                    <select name="tipo_categoria" id="tipo_categoria">
-                                        <option disabled selected>Tipo</option>
-                                        <option value="receita">Venda</option>
-                                        <option value="despesa">Serviço</option>
-                                        <option value="despesa">Garantia</option>
-                                        <option value="despesa">Troca</option>
+                                    <select name="tipo" id="tipo">
+                                        <option aria-readonly="" value="" selected>Selecione a Categoria</option>
+                                        <option value="1">Venda</option>
+                                        <option value="2">Serviço</option>
+                                        <option value="3">Troca</option>
+                                        <option value="4">Outros</option>
                                     </select>
-                                    <input type="date" name="filtro_data" id="filtro_data" placeholder="Data"> 
-                                    <button type="submit" class="btn">Buscar</button>
+                                    <input type="date" name="data" id="data" placeholder="Data"> 
+                                    <div class="buttons">
+                                        <a href="fluxoFinanceiro.php"><button type="button" class="btn">Limpar</button></a>
+                                        <button type="submit" name="filtrarFluxo" class="btn">Buscar</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
+                        <?php
+                        if (isset($_GET['filtrarFluxo'])){
+                            $descricao = $_GET['descr'] ?? '';
+                            $categoria = $_GET['categoria'] ?? '';
+                            $tipo = $_GET['tipo'] ?? '';
+                            $data = $_GET['data'] ?? '';
+
+                            $stmt = "SELECT * FROM fluxo_financeiro WHERE id_empresa = :id_empresa";
+                            $params = [':id_empresa' => $id_empresa];
+
+                            if (!empty($descricao)) {
+                                $stmt .= " AND descricao LIKE :descricao COLLATE utf8mb4_general_ci";
+                                $params[':descricao'] = "%$descricao%";
+                            }
+
+                            if (!empty($categoria)) {
+                                $stmt .= " AND categoria = :categoria";
+                                $params[':categoria'] = $categoria;
+                            }
+
+                            if (!empty($tipo)) {
+                                $stmt .= " AND tipo = :tipo";
+                                $params[':tipo'] = $tipo;
+                            }
+
+                            if (!empty($dataFiltro)) {
+                                $stmt .= " AND DATE_FORMAT(data_vencimento, '%Y-%m-%d') = :dataFiltro";
+                                $params[':dataFiltro'] = $dataFiltro;
+                            }
+
+                            $query= $pdo ->prepare($stmt);
+                            $query ->execute($params);
+                            $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                        }
+                        else{
+                            $query= $pdo ->prepare("SELECT * FROM fluxo_financeiro WHERE id_empresa = :id_empresa ORDER BY dt ASC");
+                            $query ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                            $query ->execute();
+                            $transacoes  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                        }
+                        if (count($transacoes) == 0):
+                        ?>
+                            <div class='sem-transacao'>
+                                <i class="fa-solid fa-credit-card fa-2xl"></i>
+                                <h2>Nenhuma Transação Cadastrada</h2>
+                                <small>Adicione sua primeira Transação</small>
+                            </div>
+                        <?php
+                        else:
+                        ?>
                         <div class="table-responsive mt-4">
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr class="text-align-center text-center">
                                         <th>Descrição</th>
-                                        <th>Categoria</th>
                                         <th>Tipo</th>
+                                        <th>Categoria</th>
                                         <th>Data</th>
                                         <th>Valor</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
+                                <?php foreach ($transacoes as $transacao):?>
                                 <tbody>
                                     <tr class="text-center text-align-center">
-                                        <td>Exemplo de Descrição</td>
-                                        <td>Entrada</td>
-                                        <td>Venda</td>
-                                        <td>2023-10-01</td>
-                                        <td>R$ 100,00</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm">Editar</button>
-                                            <button class="btn btn-danger btn-sm">Excluir</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="text-center text-align-center">
-                                        <td>Exemplo de Descrição</td>
-                                        <td>Entrada</td>
-                                        <td>Venda</td>
-                                        <td>2023-10-01</td>
-                                        <td>R$ 100,00</td>
+                                        <td><label for="<?=$transacao['id']?>"><?=$transacao['descr']?></label></td>
+                                        <?php
+                                        if($transacao['tipo'] == 0):?>
+                                            <td> <div class="entrada-table">Entrada</div></td> 
+                                        
+                                        <?php else: ?> 
+                                            <td> <div class="saida-table">Saída</div></td>
+                                        
+                                        <?php endif?>
+                                        <td><?php 
+                                        if($transacao['categoria'] == 1){
+                                            echo 'Venda';
+                                        }
+                                        elseif($transacao['categoria'] == 2){
+                                            echo 'Serviço';
+                                        }
+                                        elseif($transacao['categoria'] == 3){
+                                            echo 'Troca';
+                                        }
+                                        else{
+                                            echo 'Outros';
+                                        }
+                                        ?></td>
+                                        <td><?= date('d/m/Y', strtotime($transacao['dt']))?></td>
+                                        <td>R$ <?= number_format($transacao['valor'], 2, ',', '.') ?></td>
                                         <td>
                                             <button class="btn btn-primary btn-sm">Editar</button>
                                             <button class="btn btn-danger btn-sm">Excluir</button>
                                         </td>
                                     </tr>
                                 </tbody>
+                                <?php endforeach;?>
+                                <tfoot>
+                                    <tr class="ms-2">
+                                        <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>

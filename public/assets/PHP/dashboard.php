@@ -69,8 +69,7 @@
         id_empresa = :id_empresa
         ");
 
-        $agendamentos -> bindParam(':id_empresa', $id_empresa);
-        $agendamentos -> execute();
+        $agendamentos -> execute(array(':id_empresa' => $id_empresa));
         $result_agendamentos = $agendamentos -> fetchAll(PDO::FETCH_ASSOC);
         $total_agendamentos = [];
         foreach($result_agendamentos as $agendamento){
@@ -80,12 +79,23 @@
             echo 'error' . $e;
         } 
 
-
+        try {
+            $queryContas = $pdo->prepare("SELECT 
+                SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS  total_contas_receber,
+                SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS total_contas_pagar
+                FROM contas
+                WHERE id_empresa = :id_empresa
+                AND data_vencimento = CURDATE()");
+            $queryContas->execute(['id_empresa' => $id_empresa]);
+            $resultContas = $queryContas->fetch(PDO::FETCH_ASSOC);
+        } catch (\Throwable $e) {
+            echo 'erro' . $e;
+        }
 
         /* card proximos horarios */
+        try {
 
         $horarios = $pdo -> prepare(
-        
         "SELECT
         q.descr AS nome_quadra,
         DATE_FORMAT(a.horario_agendado, '%H:%i') AS horario_agendado
@@ -111,6 +121,10 @@
         $horarios ->execute();
 
         $result_horarios = $horarios -> fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Throwable $e) {
+            echo 'erro' . $e;
+        }
+        
 
         
 
@@ -208,7 +222,7 @@
 
                     <div class="text">
                         <h5>Contas a Receber</h5>
-                        <h4>R$<label for="contasReceber">780,00</label></h4>
+                        <h4><label for="contasReceber"> R$ <?= number_format($resultContas['total_contas_receber'], 2, ',', '.') ?></label></h4>
                     </div>
 
                     <div class="bottom-card">
@@ -223,7 +237,7 @@
 
                     <div class="text">
                         <h5>Contas a Pagar</h5>
-                        <h4>R$<label for="contasPagar">420,00</label></h4>
+                        <h4><label for="contasPagar"> R$ <?= number_format($resultContas['total_contas_pagar'], 2, ',', '.') ?></label></h4>
                     </div>
 
                     <div class="bottom-card">
