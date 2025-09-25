@@ -20,6 +20,7 @@ $id_empresa = buscarIdEmpresa($username);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/quadras.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">

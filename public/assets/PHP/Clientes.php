@@ -27,6 +27,10 @@ $id_empresa = buscarIdEmpresa($username);
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
+    <script type="module" src="../JS/PopUpBuscar.js"></script>
+    <script type="module" src="../JS/PopUpEditar.js"></script>
+    <script type="module" src="../JS/PopUpExcluir.js"></script>
+    <script type="module" src="../JS/PopUpInfo.js"></script>
     <title>Neo Gestão</title>
 </head>
 
@@ -34,9 +38,8 @@ $id_empresa = buscarIdEmpresa($username);
     <div class="full-content">
         <?php require '../components/sidebar.php'; ?>
         <div id="main-content">
-            <header><?php require '../components/header.php'; ?> </header>
+            <?php require '../components/header.php'; ?>
             <!-- PopUps -->
-
             <!-- cadastrar cli/modalClienteente -->
             <?php include_once "./modalCliente/cadastroCli.php"; ?>
             <!-- buscar cliente -->
@@ -66,14 +69,13 @@ $id_empresa = buscarIdEmpresa($username);
 
                 $queryClientes = $pdo->prepare(
                     "SELECT
-                    count(*) AS total_clientes
-                    FROM
-                    clientes
-                    WHERE
-                    id_empresa = :id_empresa
-                    "
+            count(*) AS total_clientes
+            FROM
+            clientes
+            WHERE
+            id_empresa = :id_empresa
+            "
                 );
-
                 $queryClientes->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                 $queryClientes->execute();
                 $resultClientes = $queryClientes->fetchAll(PDO::FETCH_ASSOC);
@@ -95,14 +97,24 @@ $id_empresa = buscarIdEmpresa($username);
                     </section>
                     <div class="mid-area">
                         <div class="pesquisar">
-                            <h6>BUSCAR</h6>
+                            <div class="title-pesquisar">
+                                <i class="fas fa-filter fa-xl"></i>
+                                <h4> Filtros</h4>
+                            </div>
                             <div class="main-pesquisar">
                                 <form action="" method="post">
                                     <div class="group">
-                                        <input type="text" name="nomeCli" id="nomeCli" placeholder="Nome">
+                                        <input type="text" name="nomeCli" id="nomeCli" placeholder="Buscar por Nome">
                                     </div>
                                     <div class="group">
-                                        <input type="text" name="cpfCli" id="nomeCli" placeholder="CPF">
+                                        <input type="text" name="cpfCli" id="cpfCli" placeholder="Buscar por CPF">
+                                    </div>
+                                    <div class="group">
+                                        <input type="text" name="telefoneCli" id="telefoneCli"
+                                            placeholder="Buscar por Telefone">
+                                    </div>
+                                    <div class="button">
+                                        <button name="filtrar" type="submit">Filtrar</button>
                                     </div>
                                 </form>
                             </div>
@@ -120,128 +132,101 @@ $id_empresa = buscarIdEmpresa($username);
                         </div>
                     </div>
 
-                    <!-- start table Clientes  -->
-                    <div class="table-clientes">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nome Cliente</th>
-                                    <th scope="col">Contato</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">CPF</th>
-                                    <th scope="col">Endereço</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <?php
-                            //Start search clients
-                            try {
-                                $buscarClientes = $pdo->prepare(
-                                    "SELECT
-                                    id_empresa,
-                                    id, 
-                                    nome, 
-                                    sobrenome, 
-                                    celular, 
-                                    email, 
-                                    cpf, 
-                                    rua, 
-                                    nCasa
-                                    FROM clientes
-                                    WHERE
-                                    id_empresa = :id_empresa 
-                                    LIMIT 10
-                                "
-                                );
+                    <?php
+                    if (isset($_GET['filtrar'])) {
+                        $nome = $_GET['nomeCli'] ?? '';
+                        $cpf = $_GET['cpfCli'] ?? '';
+                        $telefone = $_GET['telefoneCli'] ?? '';
 
-                                $buscarClientes->execute(array(
-                                    ':id_empresa' => $id_empresa
-                                ));
+                        $stmt = "SELECT * FROM clientes WHERE id_empresa = :id_empresa";
+                        $params = [':id_empresa' => $id_empresa];
 
-                                $clientes = $buscarClientes->fetchAll(PDO::FETCH_ASSOC);
-                            } catch (PDOException $e) {
-                                echo "Erro na busca de clientes: " . $e->getMessage();
-                            }
-                            ?>
-                            <tbody>
-                                <?php
-                                foreach ($clientes as $cliente):
-                                    ?>
-                                    <tr>
-                                        <td><label>
-                                                <?= empty($cliente['nome']) ? '<span>Vazio</span>' :
-                                                    $cliente['nome'] . " " . $cliente['sobrenome'] ?>
-                                            </label></td>
+                        if (!empty($nome)) {
+                            $stmt .= " AND nome LIKE :nome COLLATE utf8mb4_general_ci";
+                            $params[':nome'] = "%$nome%";
+                        }
 
-                                        <td><label>
-                                                <?= empty($cliente['celular']) ? '<span>Vazio</span>' :
-                                                    $cliente['celular'] ?>
-                                            </label></td>
+                        if (!empty($cpf)) {
+                            $stmt .= " AND cpf LIKE :cpf COLLATE utf8mb4_general_ci";
+                            $params[':cpf'] = "%$cpf%";
+                        }
 
-                                        <td><label>
-                                                <?= empty($cliente['email']) ? '<span>Vazio</span>' :
-                                                    $cliente['email'] ?>
-                                            </label></td>
+                        if (!empty($telefone)) {
+                            $stmt .= " AND telefone LIKE :telefone COLLATE utf8mb4_general_ci";
+                            $params[':telefone'] = "%$telefone%";
+                        }
 
-                                        <td><label>
-                                                <?= empty($cliente['cpf']) ? '<span>Vazio</span>' :
-                                                    $cliente['cpf'] ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?= empty($cliente['rua']) ? '<span>Vazio</span>' :
-                                                    $cliente['rua'] . ", Nº " . $cliente['nCasa'] ?>
-                                            </label></td>
-
-                                        <td class='icons-item'>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                                                data-id="<?= $cliente['id']; ?>">
-                                                <i class='fa-solid fa-pen-to-square first'></i>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                data-id="<?= $cliente['id']; ?>">
-                                                <i class='fa-solid fa-trash second'></i>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                data-id="<?= $cliente['id']; ?>">
-                                                <i class='fa-solid fa-circle-info third'></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                endforeach
-                                ?>
-                                <!-- End search clients -->
-                            </tbody>
-                        </table>
-                        <div class="footer-table">
-                            <div class='esquerda'>
-                                <h3>Listando</h3>
-                                <div class='labels'><label for='paginaAtual'>1</label>
-                                    <p>/</p> <label for='totalPaginas'>7</label>
-                                </div>
-                            </div>
-                            <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label
-                                    for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a>
-                            </div>
+                        $query = $pdo->prepare($stmt);
+                        $query->execute($params);
+                        $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
+                    } else {
+                        $query = $pdo->prepare("SELECT * FROM clientes WHERE id_empresa = :id_empresa ORDER BY nome ASC");
+                        $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                        $query->execute();
+                        $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                    if (count($clientes) == 0):
+                        ?>
+                        <div class='sem-cliente'>
+                            <i class="fa-solid fa-users fa-2xl"></i>
+                            <h2>Nenhum Cliente Cadastrado</h2>
+                            <small>Adicione seu primeiro Cliente</small>
                         </div>
-                    </div>
+                        <?php
+                    else:
+                        ?>
+                        <!-- start tableCli  -->
+                        <div class="table-responsive mt-4">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr class="text-align-center text-center">
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Contato</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">CPF</th>
+                                        <th scope="col">Endereço</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($clientes as $row): ?>
+                                        <tr class="text-center text-align-center">
+                                            <input type='hidden' id='idCliente' value=<?= $row['id'] ?> />
+                                            <td scope='row'><label for='idCli'><?= $row['id'] ?></label></td>
+                                            <td scope='row'><label
+                                                    for='nomeCli'><?= $row['nome'] . " " . $row['sobrenome'] ?></label></td>
+                                            <td><label for='contatoCli'><?= $row['celular'] ?></label></td>
+                                            <td><label for='emailCli'><?= $row['email'] ?></label></td>
+                                            <td><label for='cpfCli'><?= $row['cpf'] ?></label></td>
+                                            <td><label for='enderecoCli'><?= $row['rua'] . ", Nº " . $row['nCasa'] ?></label></td>
+                                            <td class='icons-item'>
+                                                <a id='openPopUpEditar' class=".$row['id']." href='#'><i
+                                                        class='fa-solid fa-pen-to-square first'></i></a>
+                                                <a id='openPopUpExcluir' href='#'><i class='fa-solid fa-trash second'></i></a>
+                                                <a id='openPopUpInfo' href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                <?php endforeach; ?>
+                                <tfoot>
+                                    <tr class="ms-2">
+                                        <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    <?php endif; ?>
                 </div>
         </div>
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="./modalCliente/CRUD/updateCliente.js"></script>
-    <script src="./modalCliente/CRUD/deleteCliente.js"></script>
-    <script src="./modalCliente/CRUD/infoCliente.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="../src/consultaCep.js"></script>
     <script src="../src/consultaRG.js"></script>
     <script src="../src/consultaCPF.js"></script>
     <script src="../src/consultaCNPJ.js"></script>
-    <script src="../src/consultaCel.js"></script>
-    <script src="../src/consultaEmail.js"></script>
-    <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
@@ -250,6 +235,7 @@ $id_empresa = buscarIdEmpresa($username);
             $('#nomeCli').focus();
         });
     </script>
+
     </div>
 </body>
 
