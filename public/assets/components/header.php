@@ -4,6 +4,6 @@
     <h2 id="title-sidebar">NEO GESTÃO</h2>
   </div>
   <div id="user-info">
-    <h2 id="usuario"><label for="nomUsuario">Nome Usuário</label></h2>
+    <h2 id="usuario"><label for="nomUsuario"><?= $_SESSION['username'] ?></label></h2>
   </div>
 </div>

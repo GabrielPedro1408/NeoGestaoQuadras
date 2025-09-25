@@ -9,7 +9,7 @@ document.getElementById('modalEditar').addEventListener('show.bs.modal', functio
         .then(data => {
             // Preenche os campos do modal com os dados recebidos
             document.getElementById('descr_conta').value = data.descricao || '';
-            document.getElementById('categoria').textContent = data.categoria || 'nada';
+            document.getElementById('categoria').textContent = data.categoria || '';
             document.getElementById('recorrencia').textContent = data.recorrencia || '';
             document.getElementById('valor_conta').value = data.valor || '';
             document.getElementById('data_vencimento').value = data.data_vencimento || '';
