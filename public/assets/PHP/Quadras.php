@@ -228,8 +228,7 @@ $id_empresa = buscarIdEmpresa($username);
                                                     data-id="<?= $quadra['id']; ?>"><i
                                                         class='fa-solid fa-pen-to-square first'></i></a>
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                    data-id="<?= $quadra['id']; ?>"><i
-                                                        class='fa-solid fa-trash second'></i></a>
+                                                    data-id="<?= $quadra['id']; ?>"><i class='fa-solid fa-trash second'></i></a>
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
                                                     data-id="<?= $quadra['id']; ?>"><i
                                                         class='fa-solid fa-circle-info third'></i></a>
