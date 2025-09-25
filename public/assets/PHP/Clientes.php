@@ -102,7 +102,7 @@ $id_empresa = buscarIdEmpresa($username);
                                 <h4> Filtros</h4>
                             </div>
                             <div class="main-pesquisar">
-                                <form action="" method="post">
+                                <form action="" method="get">
                                     <div class="group">
                                         <input type="text" name="nomeCli" id="nomeCli" placeholder="Buscar por Nome">
                                     </div>
