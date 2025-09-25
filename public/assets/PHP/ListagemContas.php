@@ -161,7 +161,25 @@
                     </form>
                 </div>
                 <?php
-                if (isset($_GET['filtrar'])){
+                try {
+                    /* paginação */
+                    $itensPorPagina = 10;
+                    $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                    if ($paginaAtual < 1) $paginaAtual = 1;
+                    $offset = ($paginaAtual - 1) * $itensPorPagina;
+
+                    $stmtTotal = $pdo->prepare(
+                    "SELECT COUNT(*) AS total
+                    FROM contas
+                    WHERE id_empresa = :id_empresa
+                    ");
+                    $stmtTotal -> execute(array(":id_empresa" => $id_empresa));
+                    $totalRegistros = $stmtTotal -> fetch(PDO::FETCH_ASSOC)['total'];
+                    $totalPaginas = ceil($totalRegistros/$itensPorPagina);
+                    
+                    
+                    /* filtragem */
+                    if (isset($_GET['filtrar'])){
                     $descricao = $_GET['filtro_descricao'] ?? '';
                     $categoria = $_GET['filtro_categoria'] ?? '';
                     $tipo = $_GET['filtro_tipo'] ?? '';
@@ -189,16 +207,28 @@
                         $stmt .= " AND DATE_FORMAT(data_vencimento, '%Y-%m-%d') = :dataFiltro";
                         $params[':dataFiltro'] = $dataFiltro;
                     }
+                    $stmt .= ' ORDER BY data_vencimento ASC LIMIT :limit OFFSET :offset';
 
-                    $query= $pdo ->prepare($stmt);
+                    $query = $pdo->prepare($stmt);
+                    $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                    $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                     $query ->execute($params);
                     $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
                 }
                 else{
-                    $query= $pdo ->prepare("SELECT * FROM contas WHERE id_empresa = :id_empresa ORDER BY data_vencimento ASC");
-                    $query ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                    $query= $pdo ->prepare("SELECT * FROM contas 
+                    WHERE id_empresa = :id_empresa 
+                    ORDER BY data_vencimento ASC LIMIT :limit OFFSET :offset");
+
+                    $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                    $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                    $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                     $query ->execute();
                     $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                }
+
+                } catch (PDOException $e) {
+                    echo 'Erro ao buscar dados no b.d' . $e->getMessage();
                 }
                 if (count($contas) == 0):
                 ?>
@@ -284,7 +314,22 @@
                         ?>
                         <tfoot>
                             <tr class="ms-2">
-                                <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                <td colspan="12" class="">
+                                    <nav aria-label="Navegação de página">
+                                        <ul class="pagination d-flex justify-content-between">
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Página:</span>
+                                            </li>
+                                            <div class="paginacao-info d-flex">
+                                                <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                                                <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                                    <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                                </li>
+                                                <?php endfor; ?>
+                                            </div>
+                                        </ul>
+                                    </nav>  
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
