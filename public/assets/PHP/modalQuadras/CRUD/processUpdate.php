@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valorQuadra = $_POST['valor_quadra_edit'];
     try {
         $stmt = $pdo->prepare(
-            'UPDATE quadras
+        'UPDATE quadras
         SET
         descr = :descrQuadra,
         disponibilidade = :dispQuadra,

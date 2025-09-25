@@ -133,7 +133,24 @@ $id_empresa = buscarIdEmpresa($username);
                     </div>
 
                     <?php
-                    if (isset($_GET['filtrar'])) {
+                    $clientes = [];
+                    try {
+                        $itensPorPagina = 10;
+                        $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                        if ($paginaAtual < 1) $paginaAtual = 1;
+                        $offset = ($paginaAtual - 1) * $itensPorPagina;
+
+                        $stmtTotal = $pdo->prepare(
+                        "SELECT COUNT(*) AS total
+                        FROM clientes
+                        WHERE id_empresa = :id_empresa
+                        ");
+                        $stmtTotal -> execute(array(":id_empresa" => $id_empresa));
+                        $totalRegistros = $stmtTotal -> fetch(PDO::FETCH_ASSOC)['total'];
+                        $totalPaginas = ceil($totalRegistros/$itensPorPagina);
+                    
+
+                        if (isset($_GET['filtrar'])) {
                         $nome = $_GET['nomeCli'] ?? '';
                         $cpf = $_GET['cpfCli'] ?? '';
                         $telefone = $_GET['telefoneCli'] ?? '';
@@ -155,15 +172,26 @@ $id_empresa = buscarIdEmpresa($username);
                             $stmt .= " AND telefone LIKE :telefone COLLATE utf8mb4_general_ci";
                             $params[':telefone'] = "%$telefone%";
                         }
+                        $stmt .= ' ORDER BY nome ASC LIMIT :limit OFFSET :offset';
 
                         $query = $pdo->prepare($stmt);
+                        $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                         $query->execute($params);
                         $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
+
                     } else {
-                        $query = $pdo->prepare("SELECT * FROM clientes WHERE id_empresa = :id_empresa ORDER BY nome ASC");
+                        $query = $pdo->prepare("SELECT * FROM clientes WHERE id_empresa = :id_empresa 
+                        ORDER BY nome ASC LIMIT :limit OFFSET :offset");
+                        
                         $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                        $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                         $query->execute();
                         $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                    } catch ( PDOException $e) {
+                        echo 'Erro na tentativa de buscas dados: ' . $e->getMessage();
                     }
                     if (count($clientes) == 0):
                         ?>
@@ -201,26 +229,42 @@ $id_empresa = buscarIdEmpresa($username);
                                             <td><label
                                                     for='enderecoCli'><?= $cliente['rua'] . ", Nº " . $cliente['nCasa'] ?></label>
                                             </td>
-                                            <td class='icons-item'>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                                                    data-id="<?= $cliente['id']; ?>">
-                                                    <i class='fa-solid fa-pen-to-square first'></i>
-                                                </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                    data-id="<?= $cliente['id']; ?>">
-                                                    <i class='fa-solid fa-trash second'></i>
-                                                </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                    data-id="<?= $cliente['id']; ?>">
-                                                    <i class='fa-solid fa-circle-info third'></i>
-                                                </a>
+                                            <td>
+                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                                data-id="<?= $cliente['id']; ?>"class="btn btn-primary btn-sm">
+                                                <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                                <!-- botão de Excluir -->
+                                                <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                                data-id="<?= $cliente['id']; ?>" class="btn btn-danger btn-sm">
+                                                <i class='fa-solid fa-trash second'></i></button>
+
+                                                <!-- botão de Info -->
+                                                <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                                data-id="<?= $cliente['id']; ?>" class="btn btn-secondary btn-sm">
+                                                <i class='fa-solid fa-info-circle third'></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 <?php endforeach; ?>
-                                <tfoot>
+                               <tfoot>
                                     <tr class="ms-2">
-                                        <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                        <td colspan="12" class="">
+                                            <nav aria-label="Navegação de página">
+                                                <ul class="pagination d-flex justify-content-between">
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">Página:</span>
+                                                    </li>
+                                                    <div class="paginacao-info d-flex">
+                                                        <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                                                        <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                                            <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                                        </li>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                </ul>
+                                            </nav>  
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>

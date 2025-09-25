@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $complementocasaCli = $_POST['complementos_cli_edit'];
     try {
         $stmt = $pdo->prepare(
-            'UPDATE clientes
+        'UPDATE clientes
         SET
         nome = :nome,
         sobrenome = :sobrenome,

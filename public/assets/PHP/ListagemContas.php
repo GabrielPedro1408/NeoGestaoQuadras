@@ -46,6 +46,8 @@
             ?>
             <?php include_once './modalFinanceiro/listagemContas/cadastroConta.php';?>
             <?php include_once './modalFinanceiro/listagemContas/editarConta.php';?>
+            <?php include_once './modalFinanceiro/listagemContas/excluirConta.php';?>
+            <?php include_once './modalFinanceiro/listagemContas/infoConta.php';?>
             
             <div class="container">
                 <section class="top-area d-flex justify-content-between align-items-center">
@@ -161,7 +163,25 @@
                     </form>
                 </div>
                 <?php
-                if (isset($_GET['filtrar'])){
+                try {
+                    /* paginação */
+                    $itensPorPagina = 10;
+                    $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                    if ($paginaAtual < 1) $paginaAtual = 1;
+                    $offset = ($paginaAtual - 1) * $itensPorPagina;
+
+                    $stmtTotal = $pdo->prepare(
+                    "SELECT COUNT(*) AS total
+                    FROM contas
+                    WHERE id_empresa = :id_empresa
+                    ");
+                    $stmtTotal -> execute(array(":id_empresa" => $id_empresa));
+                    $totalRegistros = $stmtTotal -> fetch(PDO::FETCH_ASSOC)['total'];
+                    $totalPaginas = ceil($totalRegistros/$itensPorPagina);
+                    
+                    
+                    /* filtragem */
+                    if (isset($_GET['filtrar'])){
                     $descricao = $_GET['filtro_descricao'] ?? '';
                     $categoria = $_GET['filtro_categoria'] ?? '';
                     $tipo = $_GET['filtro_tipo'] ?? '';
@@ -189,16 +209,28 @@
                         $stmt .= " AND DATE_FORMAT(data_vencimento, '%Y-%m-%d') = :dataFiltro";
                         $params[':dataFiltro'] = $dataFiltro;
                     }
+                    $stmt .= ' ORDER BY data_vencimento ASC LIMIT :limit OFFSET :offset';
 
-                    $query= $pdo ->prepare($stmt);
+                    $query = $pdo->prepare($stmt);
+                    $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                    $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                     $query ->execute($params);
                     $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
                 }
                 else{
-                    $query= $pdo ->prepare("SELECT * FROM contas WHERE id_empresa = :id_empresa ORDER BY data_vencimento ASC");
-                    $query ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                    $query= $pdo ->prepare("SELECT * FROM contas 
+                    WHERE id_empresa = :id_empresa 
+                    ORDER BY data_vencimento ASC LIMIT :limit OFFSET :offset");
+
+                    $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                    $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                    $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                     $query ->execute();
                     $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                }
+
+                } catch (PDOException $e) {
+                    echo 'Erro ao buscar dados no b.d' . $e->getMessage();
                 }
                 if (count($contas) == 0):
                 ?>
@@ -274,8 +306,20 @@
                                 }?></td>
                                 <td><?= date('d/m/Y', strtotime($conta['data_vencimento'])) ?></td>
                                 <td>
-                                    <button  class="btn btn-primary btn-sm">Editar</button>
-                                    <button  class="btn btn-danger btn-sm">Excluir</button>
+                                    <!-- botão de Editar -->
+                                    <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                    data-id="<?= $conta['id']; ?>"class="btn btn-primary btn-sm">
+                                    <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                    <!-- botão de Excluir -->
+                                    <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                    data-id="<?= $conta['id']; ?>" class="btn btn-danger btn-sm">
+                                    <i class='fa-solid fa-trash second'></i></button>
+
+                                    <!-- botão de Info -->
+                                    <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                    data-id="<?= $conta['id']; ?>" class="btn btn-secondary btn-sm">
+                                    <i class='fa-solid fa-info-circle third'></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -284,20 +328,34 @@
                         ?>
                         <tfoot>
                             <tr class="ms-2">
-                                <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                <td colspan="12" class="">
+                                    <nav aria-label="Navegação de página">
+                                        <ul class="pagination d-flex justify-content-between">
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Página:</span>
+                                            </li>
+                                            <div class="paginacao-info d-flex">
+                                                <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                                                <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                                    <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                                </li>
+                                                <?php endfor; ?>
+                                            </div>
+                                        </ul>
+                                    </nav>  
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 <?php endif ?>
-                <?php /* else: */?>
-                    
-                <?php /* endif */ ?>
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="modalFinanceiro/listagemContas/CRUD/updateListagem.js"></script>
+    <script src="modalFinanceiro/listagemContas/CRUD/updateContas.js"></script>
+    <script src="modalFinanceiro/listagemContas/CRUD/deleteContas.js"></script>
+    <script src="modalFinanceiro/listagemContas/CRUD/infoContas.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
