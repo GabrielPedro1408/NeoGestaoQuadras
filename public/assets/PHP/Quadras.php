@@ -19,6 +19,7 @@ $id_empresa = buscarIdEmpresa($username);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/quadras.css">
+    <link rel="stylesheet" href="../components/mensagem.css">
     <link rel="stylesheet" href="../components/header.css">
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="stylesheet" href="../CSS/PopUp.css">
@@ -91,12 +92,12 @@ $id_empresa = buscarIdEmpresa($username);
                         <div class="pesquisar">
                             <h6>BUSCAR</h6>
                             <div class="main-pesquisar">
-                                <form action="" method="post">
+                                <form action="" method="get">
                                     <div class="group">
-                                        <input type="text"  name="nomeQuadra" id="nomeQuadra" placeholder="Nome da Quadra">
+                                        <input type="text"  name="nomeQuadraFiltro" id="nomeQuadra" placeholder="Nome da Quadra">
                                     </div>
                                     <div class="group">
-                                         <select class="form-select" aria-label="Default select example" name="modalidadeQuadra">
+                                         <select class="form-select" aria-label="Default select example" name="modalidadeQuadraFiltro">
                                             <option id="opFutebolSociety" value="1">Futebol Society</option>
                                             <option id="opFutsal" value="2">Futsal</option>
                                             <option id="opVoleiPraia" value="3">Vôlei de Praia</option>
@@ -119,26 +120,97 @@ $id_empresa = buscarIdEmpresa($username);
                                             <option id="opRugbyTouch" value="20">Rugby Touch</option>
                                         </select>
                                     </div>
+                                    <div class="group">
+                                        <select class="form-select" name="disponibilidadeFiltro" id="disponibilidade">
+                                            <option value="" select disabled>Selecione uma Opção</option>
+                                            <option value="1">Disponível</option>
+                                            <option value="0">Indisponível</option>
+                                        </select>
+                                    </div>
+                                    <div class="button">
+                                        <button name="filtrar" type="submit">Filtrar</button>
+                                    </div>
                                 </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="total-quadras">
-                        <div class="grupo">
-                            <h6>TOTAL DE QUADRAS</h6>
-                            <div class="main-total-quadras">
-                                <h1><label for="totalQuadras"><?=$totalQuadras[0]?></label></h1>
-                                <div class="icone-total">
-                                    <i class="fa-solid fa-futbol fa-xl"></i>
+                        <div class="total-quadras">
+                            <div class="grupo">
+                                <h6>TOTAL DE QUADRAS</h6>
+                                <div class="main-total-quadras">
+                                    <h1><label for="totalQuadras"><?=$totalQuadras[0]?></label></h1>
+                                    <div class="icone-total">
+                                        <i class="fa-solid fa-futbol fa-xl"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php
+                    $quadras =[];
+                    try {
+                        if (isset($_GET['filtrar'])){
+                        $nomeQuadraFiltro = $_GET['nomeQuadraFiltro'] ?? '';
+                        $modalidadeQuadraFiltro = $_GET['modalidadeQuadraFiltro'] ?? '';
+                        $disponibilidadeFiltro = $_GET['disponibilidadeFiltro'] ?? '';
+
+                        $stmt = "SELECT q.*, 
+                        modalidade_quadra.descr AS modalidade_descr
+
+                        FROM quadras q
+                        JOIN modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
+
+                        WHERE q.id_empresa = :id_empresa";
+                        $params = [':id_empresa' => $id_empresa];
+
+                        if (!empty($nomeQuadraFiltro)) {
+                            $stmt .= " AND q.descr LIKE :nomeQuadraFiltro COLLATE utf8mb4_general_ci";
+                            $params[':nomeQuadraFiltro'] = "%$nomeQuadraFiltro%";
+                        }
+
+                        if (!empty($modalidadeQuadraFiltro)) {
+                            $stmt .= " AND modalidade_quadra.descr = :modalidadeQuadraFiltro";
+                            $params[':modalidadeQuadraFiltro'] = $modalidadeQuadraFiltro;
+                        }
+
+                        if (!empty($disponibilidadeFiltro)) {
+                            $stmt .= " AND q.disponibilidade = :disponibilidadeFiltro";
+                            $params[':disponibilidadeFiltro'] = $disponibilidadeFiltro;
+                        }
+                        $stmt .= ' ORDER BY q.descr ASC';
+
+                        $queryTable= $pdo ->prepare($stmt);
+                        $queryTable ->execute($params);
+                        $quadras  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                    else{
+                        $queryTable = $pdo ->prepare(
+                        "SELECT q.*, 
+                        modalidade_quadra.descr AS modalidade_descr
+                        FROM quadras q
+                        JOIN modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
+                        WHERE q.id_empresa = :id_empresa");
+                        $queryTable ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                        $queryTable ->execute();
+                        $aquadras  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                    } catch (PDOException $e) {
+                       echo 'erro ' . $e->getMessage();
+                    }
+                if (count($quadras) == 0):
+                ?>
+                <div class='sem-quadra'>
+                    <i class="fa-solid fa-futbol fa-2xl"></i>
+                    <h2>Nenhuma Quadra Encontrada</h2>
+                    <small>Adicione sua primeira Quadra</small>
                 </div>
+                <?php
+                else:
+                ?>
                     <!-- start tableCli  -->
-                    <div class="table-clientes">
-                        <table class="table table-hover">
+                    <div class="table-responsive mt-4">
+                        <table class="table table-striped table-hover">
                             <thead>
-                                <tr>
+                                <tr class="text-align-center text-center">
                                 <th scope="col">Nome</th>
                                 <th scope="col">Modalidade</th>
                                 <th scope="col">Disponibilidade</th>
@@ -147,31 +219,7 @@ $id_empresa = buscarIdEmpresa($username);
                                 </tr>
                             </thead>
                             <tbody>                                    
-                            <?php
-                            $username = $_SESSION['username'];
-                            $id_empresa = buscarIdEmpresa($username);
-                                $queryQuadra = $pdo->prepare(
-                                "SELECT
-                                q.id,
-                                q.descr,
-                                q.id_modalidade,
-                                q.disponibilidade,
-                                q.valor_hora,
-                                modalidade_quadra.descr AS modalidade_descr
-
-                                FROM
-                                quadras q
-
-                                JOIN
-                                modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
-                                
-                                WHERE 
-                                id_empresa = :id_empresa LIMIT 10
-                                ");
-                                $queryQuadra->execute(array(':id_empresa' => $id_empresa));
-                                $Quadras = $queryQuadra->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($Quadras as $quadra): 
-                                ?>
+                            <?php foreach ($quadras as $quadra):?>
                                 <tr>
                                     <td scope ='row'><label for='nomeQuadra'><?=$quadra['descr']?></label></td>
                                     <td><label for='modalidadeQuadra'><?=$quadra['modalidade_descr']?></label></td>
@@ -194,6 +242,7 @@ $id_empresa = buscarIdEmpresa($username);
                             ?>
                             </tbody>
                         </table>
+                        <?php endif?>
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>

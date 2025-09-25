@@ -55,20 +55,19 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                 endif;
 
                 $query = $pdo->prepare(
-                    "SELECT
-            count(*) AS total_agendamentos
-            FROM
-            agendamentos
-            WHERE
-            id_empresa = :id_empresa"
-                );
+                "SELECT
+                count(*) AS total_agendamentos
+                FROM
+                agendamentos
+                WHERE
+                id_empresa = :id_empresa");
                 $query->bindParam(':id_empresa', $id_empresa);
                 $query->execute();
                 $resultAgendamentos = $query->fetchAll(PDO::FETCH_ASSOC);
 
                 $totalAgendamentos = [];
-                foreach ($resultAgendamentos as $agendamento) {
-                    $totalAgendamentos[] = $agendamento['total_agendamentos'];
+                foreach ($resultAgendamentos as $resultAgendamento) {
+                    $totalAgendamentos[] = $resultAgendamento['total_agendamentos'];
                 }
                 ?>
                 <div class="container">
@@ -85,16 +84,39 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                         <div class="pesquisar">
                             <h6>BUSCAR</h6>
                             <div class="main-pesquisar">
-                                <form action="" method="post">
+                                <form action="" method="get">
                                     <div class="group">
-                                        <input type="text" name="nomeCli" id="nomeCli" placeholder="Nome do Cliente">
+                                        <input type="text" name="nomeCliFiltro" id="nomeCli" placeholder="Nome do Cliente">
                                     </div>
                                     <div class="group">
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="modalidadeQuadra" aria-placeholder="modalidade">
-                                            <option value="0">Aberta</option>
-                                            <option value="1">Fechada</option>
+                                        <select class="form-select" name="quadraFiltro" aria-placeholder="estadoConta">
+                                            <option value="" selected disabled>Selecione a Quadra</option>
+                                            <?php
+                                            try {
+                                                $query = $pdo->prepare("SELECT id, descr  FROM quadras WHERE id_empresa = :id_empresa");
+                                                $query->bindParam(':id_empresa', $id_empresa);
+                                                $query->execute();
+                                                $quadras = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                                                foreach ($quadras as $quadra) {
+                                                    echo "<option value=\"{$quadra['id']}\">{$quadra['descr']}</option>";
+                                                }
+                                            } catch (PDOException $e) {
+                                                echo "Erro: " . $e->getMessage();
+                                            }
+                                            ?>
                                         </select>
+                                    </div>
+                                    <div class="group">
+                                        <select class="form-select" name="estadoContaFiltro" aria-placeholder="estadoConta">
+                                            <option value="" selected disabled>Selecione o estado da Conta</option>
+                                            <option value="1">Pendente</option>
+                                            <option value="2">Pago</option>
+                                            <option value="3">Cancelado</option>
+                                        </select>
+                                    </div>
+                                    <div class="button">
+                                        <button name="filtrar" type="submit">Filtrar</button>
                                     </div>
                                 </form>
                             </div>
@@ -111,11 +133,75 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             </div>
                         </div>
                     </div>
+                    <?php
+                    $agendamentos =[];
+                    try {
+                        if (isset($_GET['filtrar'])){
+                        $nomeCliFiltro = $_GET['nomeCliFiltro'] ?? '';
+                        $estadoContaFiltro = $_GET['estadoContaFiltro'] ?? '';
+                        $quadraFiltro = $_GET['quadraFiltro'] ?? '';
+
+                        $stmt = "SELECT ag.*, 
+                        cli.nome AS nome_cliente,
+                        q.descr AS quadra_nome
+                        FROM agendamentos ag
+                        JOIN clientes cli ON ag.id_cliente = cli.id
+                        JOIN quadras q ON ag.id_quadra = q.id
+                        WHERE ag.id_empresa = :id_empresa";
+                        $params = [':id_empresa' => $id_empresa];
+
+                        if (!empty($nomeCliFiltro)) {
+                            $stmt .= " AND cli.nome LIKE :nomeCli COLLATE utf8mb4_general_ci";
+                            $params[':nomeCli'] = "%$nomeCliFiltro%";
+                        }
+
+                        if (!empty($estadoContaFiltro)) {
+                            $stmt .= " AND ag.estado_conta = :estado_conta";
+                            $params[':estado_conta'] = $estadoContaFiltro;
+                        }
+
+                        if (!empty($quadraFiltro)) {
+                            $stmt .= " AND q.id = :quadra";
+                            $params[':quadra'] = $quadraFiltro;
+                        }
+                        $stmt .= ' ORDER BY cli.nome ASC';
+
+                        $queryTable= $pdo ->prepare($stmt);
+                        $queryTable ->execute($params);
+                        $agendamentos  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                    else{
+                        $queryTable = $pdo ->prepare(
+                        "SELECT ag.*,
+                        cli.nome AS nome_cliente,
+                        q.descr AS quadra_nome
+                        FROM agendamentos ag
+                        JOIN clientes cli ON ag.id_cliente = cli.id
+                        JOIN quadras q ON ag.id_quadra = q.id
+                        WHERE ag.id_empresa = :id_empresa 
+                        ORDER BY cli.nome ASC");
+                        $queryTable ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                        $queryTable ->execute();
+                        $agendamentos  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
+                    }
+                    } catch (PDOException $e) {
+                       echo 'erro ' . $e->getMessage();
+                    }
+                if (count($agendamentos) == 0):
+                ?>
+                <div class='sem-agendamento'>
+                    <i class="fa-solid fa-calendar fa-2xl"></i>
+                    <h2>Nenhum Agendamento Encontrado</h2>
+                    <small>Adicione seu primeiro Agendamento</small>
+                </div>
+                <?php
+                else:
+                ?>
                     <!-- start tableCli  -->
-                    <div class="table-clientes">
-                        <table class="table table-hover">
+                    <div class="table-responsive mt-4">
+                        <table class="table table-striped table-hover">
                             <thead>
-                                <tr>
+                                <tr class="text-align-center text-center">
                                     <th scope="col">Nome Cliente</th>
                                     <th scope="col">Quadra</th>
                                     <th scope="col">Data</th>
@@ -127,46 +213,22 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                 </tr>
                             </thead>
                             <?php
-                            try {
-                                $stmt = $pdo->prepare(
-                                "SELECT
-                                cli.nome AS nome_cliente,
-                                q.descr AS quadras,
-                                ag.id_empresa,
-                                ag.id,
-                                ag.dt,
-                                ag.horario_agendado,
-                                ag.tempo_alocado,
-                                ag.valor,
-                                ag.estado_conta
-                                FROM agendamentos ag
-                                JOIN clientes cli ON ag.id_cliente = cli.id
-                                JOIN quadras q ON ag.id_quadra = q.id
-                                WHERE
-                                ag.id_empresa = :id_empresa
-                                ");
-                                
-                                $stmt->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
-                                $stmt->execute();
-                                $agendamentos= $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            } catch ( PDOException $e) {
-                                echo 'erro ao buscar clientes' . $e -> getMessage();
-                            }
+                            
 
                             ?>
                             <tbody>
                                 <?php
                                 foreach ($agendamentos as $agendamento):
                                     ?>
-                                    <tr>
+                                    <tr class="text-center text-align-center">
                                         <td><label>
                                                 <?= empty($agendamento['nome_cliente']) ? '<span>Vazio</span>' :
                                                     $agendamento['nome_cliente'] ?>
                                             </label></td>
 
                                         <td><label>
-                                                <?= empty($agendamento['quadras']) ? '<span>Vazio</span>' :
-                                                    $agendamento['quadras'] ?>
+                                                <?= empty($agendamento['quadra_nome']) ? '<span>Vazio</span>' :
+                                                    $agendamento['quadra_nome'] ?>
                                             </label></td>
 
                                         <td><label>
@@ -237,9 +299,9 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                     for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a>
                             </div>
 
-
+                                
                             <?php
-                            // endforeach 
+                            endif
                             ?>
                             <?php if (isset($_GET['editar'])): ?>
                             <script>
@@ -264,7 +326,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                         </div>
                     </div>   
                 </div>
-        </div>
+            </div>
         </main>
     </div>
 </div>

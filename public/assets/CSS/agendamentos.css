@@ -60,7 +60,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 49%;
+    width: 65%;
     height: 100%;
     padding: 15px 0px;
     margin-bottom: 20px;
@@ -85,18 +85,40 @@
     width: 48%;
 }
  input{
-    width: 100%;
+    width: 98%;
     outline: none;
     border: 0.1px solid rgba(185, 185, 185, 0.61);
-    border-radius: 3px;
-    padding: 2px 2px;
+    border-radius: 10px;
+    padding: 7px 4px;
+}
+.group select{
+    width: 98%;
+}
+.button{
+    display: flex;
+
+}
+.button button{
+    padding: 5px 40px;
+    width: 100%;
+    background-color: rgba(15, 63, 105, 0.900);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.button button:hover{
+    background-color: rgba(15, 74, 126, 0.9);
+    color: white;
+    box-shadow: 3px 3px 10px -7px rgb(0, 0, 0);
+    transition: 0.6;
 }
 
 .total-agendamentos{
     display: flex;
-    width: 49%;
+    width: 34%;
     height: 100%;
-    padding: 18px 0px;
+    padding: 21px 0px;
     margin-bottom: 20px;
     border-radius: 2px;
     box-shadow: 2px 3px 10px -7px rgb(0, 0, 0);
@@ -245,4 +267,22 @@ table td i{
 }
 .table-clientes span{
     color: #7a7a7a;
+}
+.sem-agendamento{
+    min-width: 600px;
+    min-height: 500px;
+    border-radius: 6px;
+    box-shadow: 2px 3px 10px -7px rgb(0, 0, 0);
+    background-color: rgb(250, 250, 250);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+.sem-agendamento i{
+    color: rgba(0, 0, 0, 0.356);
+    font-size: 5rem;
+    margin-bottom: 40px;
 }

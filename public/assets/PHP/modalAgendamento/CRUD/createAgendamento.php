@@ -19,6 +19,18 @@
                 $horarioFimAgend = $_POST["horarioFimAgend"];
                 $valorAgend = $_POST["valorAgend"];
                 $estadoContaAgend = $_POST["estadoContaAgend"];
+
+                if ($estadoContaAgend == '2'){
+                    $insertFluxoCaixa = $pdo->prepare("INSERT into fluxo_financeiro(id_empresa, descr, categoria, tipo ,dt, valor)
+                    VALUES (:id_empresa, :descr, 2, 0 ,:dataAgend, :valorAgend)");
+                    $insertFluxoCaixa -> execute(array(
+                        ':id_empresa' => $id_empresa,
+                        ':descr' => 'Agendamento de quadra',
+                        ':dataAgend' => $dataAgend,
+                        ':valorAgend' => $valorAgend
+                    ));
+
+                }
                 
                 /* inserçaõ no b.d. */
                 $sql = "INSERT into agendamentos(id_empresa,id_cliente,id_quadra,dt,horario_agendado,tempo_alocado,valor,estado_conta)" .

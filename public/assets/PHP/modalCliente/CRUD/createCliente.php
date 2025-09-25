@@ -7,7 +7,7 @@
     }
 
     
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (isset($_POST['cadastrarCliente'])) {
         // Guardar em variaveis os dados do formulário
         $nomeCli = $_POST['nomeCli'];
         $sobrenomeCli = $_POST['sobrenomeCli'];

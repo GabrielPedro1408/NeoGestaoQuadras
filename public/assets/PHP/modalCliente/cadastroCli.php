@@ -72,7 +72,7 @@
                     </div>   
                         <div class="modal-footer">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Adicionar Cliente</button>
+                                <button name="cadastrarCliente" type="submit" class="btn btn-primary">Adicionar Cliente</button>
                             </div>
                         </div>
                     </form>
