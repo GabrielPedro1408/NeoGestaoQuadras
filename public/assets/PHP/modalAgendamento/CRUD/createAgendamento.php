@@ -20,47 +20,63 @@ try {
         $valorAgend = $_POST["valorAgend"];
         $estadoContaAgend = $_POST["estadoContaAgend"];
 
-        if ($estadoContaAgend == '2') {
-            $insertFluxoCaixa = $pdo->prepare("INSERT into fluxo_financeiro(id_empresa, descr, categoria, tipo ,dt, valor)
-                    VALUES (:id_empresa, :descr, 2, 0 ,:dataAgend, :valorAgend)");
-            $insertFluxoCaixa->execute(array(
+        /*  teste para verificar se algum agendamento coincide com oq vai ser inserido */
+        $queryDoTeste = $pdo->prepare("SELECT id 
+        FROM agendamentos
+        WHERE id_empresa = :id_empresa 
+        AND dt = :dataAgend
+        AND id_quadra = :id_quadra
+        AND horario_agendado < :horarioFimAgend
+        AND tempo_alocado > :horarioAgend
+        ");
+        $queryDoTeste->execute(array(
+            ':id_empresa' => $id_empresa,
+            ':id_quadra' => $id_quadra,
+            ':dataAgend' => $dataAgend,
+            ':horarioAgend' => $horarioAgend,
+            ':horarioFimAgend' => $horarioFimAgend,
+        ));
+        //Se esse teste gerar o 0 ele executa a inserção
+        if ($queryDoTeste->rowCount() == 0) { //sem comflito
+            $insertAgendamento = $pdo->prepare("INSERT INTO agendamentos
+            ( id_empresa, id_cliente, id_quadra, dt, horario_agendado, tempo_alocado, valor, estado_conta )
+            VALUES
+            ( :id_empresa, :id_cliente, :id_quadra, :dataAgend, :horarioAgend, :horarioFimAgend, :valorAgend, :estadoContaAgend )
+            ");
+            $resultAgendamento = $insertAgendamento->execute(array(
                 ':id_empresa' => $id_empresa,
-                ':descr' => 'Agendamento de quadra',
+                ':id_cliente' => $id_cliente,
+                ':id_quadra' => $id_quadra,
                 ':dataAgend' => $dataAgend,
-                ':valorAgend' => $valorAgend
+                ':horarioAgend' => $horarioAgend,
+                ':horarioFimAgend' => $horarioFimAgend,
+                ':valorAgend' => $valorAgend,
+                ':estadoContaAgend' => $estadoContaAgend,
             ));
-        }
-
-        /* inserçaõ no b.d. */
-        $sql = "INSERT into agendamentos(id_empresa,id_cliente,id_quadra,dt,horario_agendado,tempo_alocado,valor,estado_conta)" .
-            "values (:id_empresa, :id_cliente, :id_quadra,:dataAgend,:horarioAgend,:horarioFimAgend,:valorAgend,:estadoContaAgend )";
-
-        /*preparando o envio para o $pdo dentro de conexao.php */
-        $stmt = $pdo->prepare($sql);
-
-
-        /* mostrando qual valores vão ser passados dentro de stmt */
-        $stmt->bindParam(':id_empresa', $id_empresa);
-        $stmt->bindParam(':id_cliente', $id_cliente);
-        $stmt->bindParam(':id_quadra', $id_quadra);
-        $stmt->bindParam(':dataAgend', $dataAgend);
-        $stmt->bindParam(':horarioAgend', $horarioAgend);
-        $stmt->bindParam(':horarioFimAgend', $horarioFimAgend);
-        $stmt->bindParam(':valorAgend', $valorAgend);
-        $stmt->bindParam(':estadoContaAgend', $estadoContaAgend);
-
-        /* executando o que eu fiz aí em cima */
-
-        $result = $stmt->execute();
-
-        if (!$result) {
-            $_SESSION['message'] = 'Erro ao inserir os dados!';
-            $_SESSION['message_type'] = 'danger'; // Bootstrap: vermelho
-            header("Location: ../PHP/Agendamentos.php");
-            exit;
+            if ($resultAgendamento) {
+                if ($estadoContaAgend == '2') {
+                    $insertFluxoCaixa = $pdo->prepare("INSERT INTO fluxo_financeiro(id_empresa, descr, categoria, tipo ,dt, valor)
+                    VALUES (:id_empresa, :descr, 2, 0 ,:dataAgend, :valorAgend)");
+                    $insertFluxoCaixa->execute(array(
+                        ':id_empresa' => $id_empresa,
+                        ':descr' => 'Agendamento de quadra',
+                        ':dataAgend' => $dataAgend,
+                        ':valorAgend' => $valorAgend
+                    ));
+                    $_SESSION['message'] = 'Dados inseridos com sucesso!';
+                    $_SESSION['message_type'] = 'success'; // Bootstrap: verde
+                    header("Location: ../PHP/Agendamentos.php");
+                    exit;
+                }
+            } else {
+                $_SESSION['message'] = 'Erro ao inserir os dados!';
+                $_SESSION['message_type'] = 'danger'; // Bootstrap: vermelho
+                header("Location: ../PHP/Agendamentos.php");
+                exit;
+            }
         } else {
-            $_SESSION['message'] = 'Dados inseridos com sucesso!';
-            $_SESSION['message_type'] = 'success'; // Bootstrap: verde
+            $_SESSION['message'] = 'Já existe um agendamento nesse horário!';
+            $_SESSION['message_type'] = 'warning'; // Bootstrap: amarelo
             header("Location: ../PHP/Agendamentos.php");
             exit;
         }
