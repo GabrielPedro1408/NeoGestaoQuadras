@@ -235,8 +235,8 @@ $id_empresa = buscarIdEmpresa($username);
                                 </thead>
                                 <tbody>
                                     <?php foreach ($quadras as $quadra): ?>
-                                        <tr>
-                                            <td scope='row'><label for='nomeQuadra'><?= $quadra['descr'] ?></label></td>
+                                        <tr class="text-center text-align-center">
+                                            <td><label for='nomeQuadra'><?= $quadra['descr'] ?></label></td>
                                             <td><label for='modalidadeQuadra'><?= $quadra['modalidade_descr'] ?></label></td>
                                             <td><label for='disponibilidadeQuadra'><?php if ($quadra['disponibilidade'] == 1) {
                                                 echo "Disponível";
@@ -245,15 +245,20 @@ $id_empresa = buscarIdEmpresa($username);
                                             }
                                             ?></label></td>
                                             <td><label for='valoragendQuadra'>R$ <?= $quadra['valor_hora'] ?></label></td>
-                                            <td class='icons-item'>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                                                data-id="<?= $quadra['id']; ?>"><i
-                                                class='fa-solid fa-pen-to-square first'></i></a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                data-id="<?= $quadra['id']; ?>"><i class='fa-solid fa-trash second'></i></a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                data-id="<?= $quadra['id']; ?>"><i
-                                                class='fa-solid fa-circle-info third'></i></a>
+                                            <td>
+                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                                data-id="<?= $cliente['id']; ?>"class="btn btn-primary btn-sm">
+                                                <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                                <!-- botão de Excluir -->
+                                                <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                                data-id="<?= $cliente['id']; ?>" class="btn btn-danger btn-sm">
+                                                <i class='fa-solid fa-trash second'></i></button>
+
+                                                <!-- botão de Info -->
+                                                <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                                data-id="<?= $cliente['id']; ?>" class="btn btn-secondary btn-sm">
+                                                <i class='fa-solid fa-info-circle third'></i></button>
                                             </td>
                                         </tr>
                                         <?php

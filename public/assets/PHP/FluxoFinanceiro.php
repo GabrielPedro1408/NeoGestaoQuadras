@@ -244,8 +244,19 @@
                                         <td><?= date('d/m/Y', strtotime($transacao['dt']))?></td>
                                         <td>R$ <?= number_format($transacao['valor'], 2, ',', '.') ?></td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm">Editar</button>
-                                            <button class="btn btn-danger btn-sm">Excluir</button>
+                                            <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                            data-id="<?= $transacao['id']; ?>"class="btn btn-primary btn-sm">
+                                            <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                            <!-- botão de Excluir -->
+                                            <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                            data-id="<?= $transacao['id']; ?>" class="btn btn-danger btn-sm">
+                                            <i class='fa-solid fa-trash second'></i></button>
+
+                                            <!-- botão de Info -->
+                                            <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                            data-id="<?= $transacao['id']; ?>" class="btn btn-secondary btn-sm">
+                                            <i class='fa-solid fa-info-circle third'></i></button>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -304,8 +304,20 @@
                                 }?></td>
                                 <td><?= date('d/m/Y', strtotime($conta['data_vencimento'])) ?></td>
                                 <td>
-                                    <button  class="btn btn-primary btn-sm">Editar</button>
-                                    <button  class="btn btn-danger btn-sm">Excluir</button>
+                                    <!-- botão de Editar -->
+                                    <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                    data-id="<?= $conta['id']; ?>"class="btn btn-primary btn-sm">
+                                    <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                    <!-- botão de Excluir -->
+                                    <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                    data-id="<?= $conta['id']; ?>" class="btn btn-danger btn-sm">
+                                    <i class='fa-solid fa-trash second'></i></button>
+
+                                    <!-- botão de Info -->
+                                    <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                    data-id="<?= $conta['id']; ?>" class="btn btn-secondary btn-sm">
+                                    <i class='fa-solid fa-info-circle third'></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -335,9 +347,6 @@
                     </table>
                 </div>
                 <?php endif ?>
-                <?php /* else: */?>
-                    
-                <?php /* endif */ ?>
             </div>
         </div>
     </div>

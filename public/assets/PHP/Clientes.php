@@ -229,19 +229,20 @@ $id_empresa = buscarIdEmpresa($username);
                                             <td><label
                                                     for='enderecoCli'><?= $cliente['rua'] . ", Nº " . $cliente['nCasa'] ?></label>
                                             </td>
-                                            <td class='icons-item'>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                                                    data-id="<?= $cliente['id']; ?>">
-                                                    <i class='fa-solid fa-pen-to-square first'></i>
-                                                </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                    data-id="<?= $cliente['id']; ?>">
-                                                    <i class='fa-solid fa-trash second'></i>
-                                                </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                    data-id="<?= $cliente['id']; ?>">
-                                                    <i class='fa-solid fa-circle-info third'></i>
-                                                </a>
+                                            <td>
+                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                                data-id="<?= $cliente['id']; ?>"class="btn btn-primary btn-sm">
+                                                <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                                <!-- botão de Excluir -->
+                                                <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                                data-id="<?= $cliente['id']; ?>" class="btn btn-danger btn-sm">
+                                                <i class='fa-solid fa-trash second'></i></button>
+
+                                                <!-- botão de Info -->
+                                                <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                                data-id="<?= $cliente['id']; ?>" class="btn btn-secondary btn-sm">
+                                                <i class='fa-solid fa-info-circle third'></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
