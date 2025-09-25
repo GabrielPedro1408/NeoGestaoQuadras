@@ -55,12 +55,13 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                 endif;
 
                 $query = $pdo->prepare(
-                "SELECT
+                    "SELECT
                 count(*) AS total_agendamentos
                 FROM
                 agendamentos
                 WHERE
-                id_empresa = :id_empresa");
+                id_empresa = :id_empresa"
+                );
                 $query->bindParam(':id_empresa', $id_empresa);
                 $query->execute();
                 $resultAgendamentos = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -85,7 +86,8 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             <div class="main-pesquisar">
                                 <form action="" method="get">
                                     <div class="group">
-                                        <input type="text" name="nomeCliFiltro" id="nomeCli" placeholder="Nome do Cliente">
+                                        <input type="text" name="nomeCliFiltro" id="nomeCli"
+                                            placeholder="Nome do Cliente">
                                     </div>
                                     <div class="group">
                                         <select class="form-select" name="quadraFiltro" aria-placeholder="estadoConta">
@@ -107,7 +109,8 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                         </select>
                                     </div>
                                     <div class="group">
-                                        <select class="form-select" name="estadoContaFiltro" aria-placeholder="estadoConta">
+                                        <select class="form-select" name="estadoContaFiltro"
+                                            aria-placeholder="estadoConta">
                                             <option value="" selected disabled>Selecione o estado da Conta</option>
                                             <option value="1">Pendente</option>
                                             <option value="2">Pago</option>
@@ -133,175 +136,177 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                         </div>
                     </div>
                     <?php
-                    $agendamentos =[];
+                    $agendamentos = [];
                     try {
-                        if (isset($_GET['filtrar'])){
-                        $nomeCliFiltro = $_GET['nomeCliFiltro'] ?? '';
-                        $estadoContaFiltro = $_GET['estadoContaFiltro'] ?? '';
-                        $quadraFiltro = $_GET['quadraFiltro'] ?? '';
+                        if (isset($_GET['filtrar'])) {
+                            $nomeCliFiltro = $_GET['nomeCliFiltro'] ?? '';
+                            $estadoContaFiltro = $_GET['estadoContaFiltro'] ?? '';
+                            $quadraFiltro = $_GET['quadraFiltro'] ?? '';
 
-                        $stmt = "SELECT ag.*, 
+                            $stmt = "SELECT ag.*, 
                         cli.nome AS nome_cliente,
+                        cli.sobrenome AS sobrenome_cliente,
                         q.descr AS quadra_nome
                         FROM agendamentos ag
                         JOIN clientes cli ON ag.id_cliente = cli.id
                         JOIN quadras q ON ag.id_quadra = q.id
                         WHERE ag.id_empresa = :id_empresa";
-                        $params = [':id_empresa' => $id_empresa];
+                            $params = [':id_empresa' => $id_empresa];
 
-                        if (!empty($nomeCliFiltro)) {
-                            $stmt .= " AND cli.nome LIKE :nomeCli COLLATE utf8mb4_general_ci";
-                            $params[':nomeCli'] = "%$nomeCliFiltro%";
-                        }
+                            if (!empty($nomeCliFiltro)) {
+                                $stmt .= " AND cli.nome LIKE :nomeCli COLLATE utf8mb4_general_ci";
+                                $params[':nomeCli'] = "%$nomeCliFiltro%";
+                            }
 
-                        if (!empty($estadoContaFiltro)) {
-                            $stmt .= " AND ag.estado_conta = :estado_conta";
-                            $params[':estado_conta'] = $estadoContaFiltro;
-                        }
+                            if (!empty($estadoContaFiltro)) {
+                                $stmt .= " AND ag.estado_conta = :estado_conta";
+                                $params[':estado_conta'] = $estadoContaFiltro;
+                            }
 
-                        if (!empty($quadraFiltro)) {
-                            $stmt .= " AND q.id = :quadra";
-                            $params[':quadra'] = $quadraFiltro;
-                        }
-                        $stmt .= ' ORDER BY cli.nome ASC';
+                            if (!empty($quadraFiltro)) {
+                                $stmt .= " AND q.id = :quadra";
+                                $params[':quadra'] = $quadraFiltro;
+                            }
+                            $stmt .= ' ORDER BY cli.nome ASC';
 
-                        $queryTable= $pdo ->prepare($stmt);
-                        $queryTable ->execute($params);
-                        $agendamentos  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
-                    }
-                    else{
-                        $queryTable = $pdo ->prepare(
-                        "SELECT ag.*,
+                            $queryTable = $pdo->prepare($stmt);
+                            $queryTable->execute($params);
+                            $agendamentos = $queryTable->fetchAll(PDO::FETCH_ASSOC);
+                        } else {
+                            $queryTable = $pdo->prepare(
+                                "SELECT ag.*,
                         cli.nome AS nome_cliente,
+                        cli.sobrenome AS sobrenome_cliente,
                         q.descr AS quadra_nome
                         FROM agendamentos ag
                         JOIN clientes cli ON ag.id_cliente = cli.id
                         JOIN quadras q ON ag.id_quadra = q.id
                         WHERE ag.id_empresa = :id_empresa 
-                        ORDER BY cli.nome ASC");
-                        $queryTable ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
-                        $queryTable ->execute();
-                        $agendamentos  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
-                    }
+                        ORDER BY cli.nome ASC"
+                            );
+                            $queryTable->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                            $queryTable->execute();
+                            $agendamentos = $queryTable->fetchAll(PDO::FETCH_ASSOC);
+                        }
                     } catch (PDOException $e) {
-                       echo 'erro ' . $e->getMessage();
+                        echo 'erro ' . $e->getMessage();
                     }
-                if (count($agendamentos) == 0):
-                ?>
-                <div class='sem-agendamento'>
-                    <i class="fa-solid fa-calendar fa-2xl"></i>
-                    <h2>Nenhum Agendamento Encontrado</h2>
-                    <small>Adicione seu primeiro Agendamento</small>
-                </div>
-                <?php
-                else:
-                ?>
-                    <!-- start tableCli  -->
-                    <div class="table-responsive mt-4">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr class="text-align-center text-center">
-                                    <th scope="col">Nome Cliente</th>
-                                    <th scope="col">Quadra</th>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Horário Início</th>
-                                    <th scope="col">Horário de Termino</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col">Estado da Conta</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <?php
-                            
-
-                            ?>
-                            <tbody>
-                                <?php
-                                foreach ($agendamentos as $agendamento):
-                                    ?>
-                                    <tr class="text-center text-align-center">
-                                        <td><label>
-                                                <?= empty($agendamento['nome_cliente']) ? '<span>Vazio</span>' :
-                                                    $agendamento['nome_cliente'] . ' ' . $agendamento['sobrenome_cliente'] ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?= empty($agendamento['quadra_nome']) ? '<span>Vazio</span>' :
-                                                    $agendamento['quadra_nome'] ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?= empty($agendamento['dt']) ? '<span>Vazio</span>' :
-                                                    $agendamento['dt'] ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?= empty($agendamento['horario_agendado']) ? '<span>Vazio</span>' :
-                                                    $agendamento['horario_agendado'] ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?= empty($agendamento['tempo_alocado']) ? '<span>Vazio</span>' :
-                                                    $agendamento['tempo_alocado'] ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?= empty($agendamento['valor']) ? '<span>Vazio</span>' :
-                                                    'R$ ' . $agendamento['valor'] . ',00' ?>
-                                            </label></td>
-
-                                        <td><label>
-                                                <?php
-                                                if ($agendamento['estado_conta'] == 1) {
-                                                    echo 'Pendente';
-                                                } elseif ($agendamento['estado_conta'] == 2) {
-                                                    echo 'Pago';
-                                                } else if ($agendamento['estado_conta'] == 3) {
-                                                    echo 'Cancelado';
-                                                } else {
-                                                    echo 'Vazio';
-                                                } ?>
-                                            </label></td>
-
-                                        <td class='icons-item'>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                                                data-id="<?= $agendamento['id']; ?>">
-                                                <i class="fa-solid fa-pen-to-square first"></i>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                data-id="<?= $agendamento['id']; ?>">
-                                                <i class="fa-solid fa-trash second"></i>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                data-id="<?= $agendamento['id']; ?>">
-                                                <i class="fa-solid fa-circle-info third"></i>
-                                            </a>
-                                        </td>
+                    if (count($agendamentos) == 0):
+                        ?>
+                        <div class='sem-agendamento'>
+                            <i class="fa-solid fa-calendar fa-2xl"></i>
+                            <h2>Nenhum Agendamento Encontrado</h2>
+                            <small>Adicione seu primeiro Agendamento</small>
+                        </div>
+                        <?php
+                    else:
+                        ?>
+                        <!-- start tableCli  -->
+                        <div class="table-responsive mt-4">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr class="text-align-center text-center">
+                                        <th scope="col">Nome Cliente</th>
+                                        <th scope="col">Quadra</th>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Horário Início</th>
+                                        <th scope="col">Horário de Termino</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col">Estado da Conta</th>
+                                        <th scope="col">Ações</th>
                                     </tr>
-                                    <?php
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
-                        <div class="footer-table">
-                            <div class='esquerda'>
-                                <h3>Listando</h3>
+                                </thead>
                                 <?php
-                                // foreach($pages as $page):
+
+
                                 ?>
+                                <tbody>
+                                    <?php
+                                    foreach ($agendamentos as $agendamento):
+                                        ?>
+                                        <tr class="text-center text-align-center">
+                                            <td><label>
+                                                    <?= empty($agendamento['nome_cliente']) ? '<span>Vazio</span>' :
+                                                        $agendamento['nome_cliente'] . ' ' . $agendamento['sobrenome_cliente'] ?>
+                                                </label></td>
 
-                                <div class='labels'><label for='paginaAtual'>1</label>
-                                    <p>/</p> <label for='totalPaginas'>7</label>
+                                            <td><label>
+                                                    <?= empty($agendamento['quadra_nome']) ? '<span>Vazio</span>' :
+                                                        $agendamento['quadra_nome'] ?>
+                                                </label></td>
+
+                                            <td><label>
+                                                    <?= empty($agendamento['dt']) ? '<span>Vazio</span>' :
+                                                        $agendamento['dt'] ?>
+                                                </label></td>
+
+                                            <td><label>
+                                                    <?= empty($agendamento['horario_agendado']) ? '<span>Vazio</span>' :
+                                                        $agendamento['horario_agendado'] ?>
+                                                </label></td>
+
+                                            <td><label>
+                                                    <?= empty($agendamento['tempo_alocado']) ? '<span>Vazio</span>' :
+                                                        $agendamento['tempo_alocado'] ?>
+                                                </label></td>
+
+                                            <td><label>
+                                                    <?= empty($agendamento['valor']) ? '<span>Vazio</span>' :
+                                                        'R$ ' . $agendamento['valor'] . ',00' ?>
+                                                </label></td>
+
+                                            <td><label>
+                                                    <?php
+                                                    if ($agendamento['estado_conta'] == 1) {
+                                                        echo 'Pendente';
+                                                    } elseif ($agendamento['estado_conta'] == 2) {
+                                                        echo 'Pago';
+                                                    } else if ($agendamento['estado_conta'] == 3) {
+                                                        echo 'Cancelado';
+                                                    } else {
+                                                        echo 'Vazio';
+                                                    } ?>
+                                                </label></td>
+
+                                            <td class='icons-item'>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
+                                                    data-id="<?= $agendamento['id']; ?>">
+                                                    <i class="fa-solid fa-pen-to-square first"></i>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                                    data-id="<?= $agendamento['id']; ?>">
+                                                    <i class="fa-solid fa-trash second"></i>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                                    data-id="<?= $agendamento['id']; ?>">
+                                                    <i class="fa-solid fa-circle-info third"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    endforeach;
+                                    ?>
+                                </tbody>
+                            </table>
+                            <div class="footer-table">
+                                <div class='esquerda'>
+                                    <h3>Listando</h3>
+                                    <?php
+                                    // foreach($pages as $page):
+                                    ?>
+
+                                    <div class='labels'><label for='paginaAtual'>1</label>
+                                        <p>/</p> <label for='totalPaginas'>7</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label
-                                    for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a>
-                            </div>
+                                <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label
+                                        for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a>
+                                </div>
 
-                                
-                            <?php
-                            endif
-                            ?>
+
+                                <?php
+                    endif
+                    ?>
                             <?php if (isset($_GET['editar'])): ?>
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
@@ -325,7 +330,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
         </main>
     </div>
     </div>
