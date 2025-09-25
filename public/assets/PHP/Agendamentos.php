@@ -192,7 +192,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
 
                                         <td><label>
                                                 <?= empty($agendamento['valor']) ? '<span>Vazio</span>' :
-                                                    $agendamento['valor'] ?>
+                                                    'R$ ' . $agendamento['valor'] . ',00' ?>
                                             </label></td>
 
                                         <td><label>

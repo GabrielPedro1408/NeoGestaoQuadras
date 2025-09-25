@@ -1,6 +1,6 @@
 <?php
 $servidor = 'localhost';
-$db = "neo_gestao";
+$db = "neogestão";
 $user = 'root';
 $pass = '';
 try {
