@@ -96,30 +96,21 @@ $id_empresa = buscarIdEmpresa($username);
                             <div class="main-pesquisar">
                                 <form action="" method="get">
                                     <div class="group">
-                                        <input type="text"  name="nomeQuadraFiltro" id="nomeQuadra" placeholder="Nome da Quadra">
+                                        <input type="text" name="nomeQuadraFiltro" id="nomeQuadra"
+                                            placeholder="Nome da Quadra">
                                     </div>
                                     <div class="group">
-                                         <select class="form-select" aria-label="Default select example" name="modalidadeQuadraFiltro">
-                                            <option id="opFutebolSociety" value="1">Futebol Society</option>
-                                            <option id="opFutsal" value="2">Futsal</option>
-                                            <option id="opVoleiPraia" value="3">Vôlei de Praia</option>
-                                            <option id="opBasquete" value="4">Basquete</option>
-                                            <option id="opTenis" value="5">Tênis</option>
-                                            <option id="opBeachTennis" value="6">Beach Tennis</option>
-                                            <option id="opHandebol" value="7">Handebol</option>
-                                            <option id="opPadel" value="8">Padel</option>
-                                            <option id="opPeteca" value="9">Peteca</option>
-                                            <option id="opBadminton" value="10">Badminton</option>
-                                            <option id="opHoqueiIndoor" value="11">Hóquei Indoor</option>
-                                            <option id="opFutebolAreia" value="12">Futebol de Areia</option>
-                                            <option id="opVoleiIndoor" value="13">Vôlei Indoor</option>
-                                            <option id="opBasquete3x3" value="14">Basquete 3x3</option>
-                                            <option id="opSquash" value="15">Squash</option>
-                                            <option id="opFutebolInfantil" value="16">Futebol Infantil</option>
-                                            <option id="opTenisMesa" value="17">Tênis de Mesa</option>
-                                            <option id="opPickleball" value="18">Pickleball</option>
-                                            <option id="opFutebolAmericanoFlag" value="19">Futebol Americano Flag</option>
-                                            <option id="opRugbyTouch" value="20">Rugby Touch</option>
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="modalidadeQuadraFiltro">
+                                            <option value="" selected disabled>Selecione uma opção</option>
+                                            <?php
+                                            $stmtMod = $pdo->prepare("SELECT id, descr FROM modalidade_quadra");
+                                            $stmtMod->execute();
+                                            $modalidades = $stmtMod->fetchAll();
+                                            foreach ($modalidades as $modalidade) {
+                                                echo "<option value='{$modalidade['id']}'>{$modalidade['descr']}</option>";
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="group">
@@ -139,7 +130,7 @@ $id_empresa = buscarIdEmpresa($username);
                             <div class="grupo">
                                 <h6>TOTAL DE QUADRAS</h6>
                                 <div class="main-total-quadras">
-                                    <h1><label for="totalQuadras"><?=$totalQuadras[0]?></label></h1>
+                                    <h1><label for="totalQuadras"><?= $totalQuadras[0] ?></label></h1>
                                     <div class="icone-total">
                                         <i class="fa-solid fa-futbol fa-xl"></i>
                                     </div>
@@ -148,103 +139,103 @@ $id_empresa = buscarIdEmpresa($username);
                         </div>
                     </div>
                     <?php
-                    $quadras =[];
+                    $quadras = [];
                     try {
-                        if (isset($_GET['filtrar'])){
-                        $nomeQuadraFiltro = $_GET['nomeQuadraFiltro'] ?? '';
-                        $modalidadeQuadraFiltro = $_GET['modalidadeQuadraFiltro'] ?? '';
-                        $disponibilidadeFiltro = $_GET['disponibilidadeFiltro'] ?? '';
+                        if (isset($_GET['filtrar'])) {
+                            $nomeQuadraFiltro = $_GET['nomeQuadraFiltro'] ?? '';
+                            $modalidadeQuadraFiltro = $_GET['modalidadeQuadraFiltro'] ?? '';
+                            $disponibilidadeFiltro = $_GET['disponibilidadeFiltro'] ?? '';
 
-                        $stmt = "SELECT q.*, 
+                            $stmt = "SELECT q.*, 
                         modalidade_quadra.descr AS modalidade_descr
 
                         FROM quadras q
                         JOIN modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
 
                         WHERE q.id_empresa = :id_empresa";
-                        $params = [':id_empresa' => $id_empresa];
+                            $params = [':id_empresa' => $id_empresa];
 
-                        if (!empty($nomeQuadraFiltro)) {
-                            $stmt .= " AND q.descr LIKE :nomeQuadraFiltro COLLATE utf8mb4_general_ci";
-                            $params[':nomeQuadraFiltro'] = "%$nomeQuadraFiltro%";
-                        }
+                            if (!empty($nomeQuadraFiltro)) {
+                                $stmt .= " AND q.descr LIKE :nomeQuadraFiltro COLLATE utf8mb4_general_ci";
+                                $params[':nomeQuadraFiltro'] = "%$nomeQuadraFiltro%";
+                            }
 
-                        if (!empty($modalidadeQuadraFiltro)) {
-                            $stmt .= " AND modalidade_quadra.descr = :modalidadeQuadraFiltro";
-                            $params[':modalidadeQuadraFiltro'] = $modalidadeQuadraFiltro;
-                        }
+                            if (!empty($modalidadeQuadraFiltro)) {
+                                $stmt .= " AND modalidade_quadra.descr = :modalidadeQuadraFiltro";
+                                $params[':modalidadeQuadraFiltro'] = $modalidadeQuadraFiltro;
+                            }
 
-                        if (!empty($disponibilidadeFiltro)) {
-                            $stmt .= " AND q.disponibilidade = :disponibilidadeFiltro";
-                            $params[':disponibilidadeFiltro'] = $disponibilidadeFiltro;
-                        }
-                        $stmt .= ' ORDER BY q.descr ASC';
+                            if (!empty($disponibilidadeFiltro)) {
+                                $stmt .= " AND q.disponibilidade = :disponibilidadeFiltro";
+                                $params[':disponibilidadeFiltro'] = $disponibilidadeFiltro;
+                            }
+                            $stmt .= ' ORDER BY q.descr ASC';
 
-                        $queryTable= $pdo ->prepare($stmt);
-                        $queryTable ->execute($params);
-                        $quadras  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
-                    }
-                    else{
-                        $queryTable = $pdo ->prepare(
-                        "SELECT q.*, 
+                            $queryTable = $pdo->prepare($stmt);
+                            $queryTable->execute($params);
+                            $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
+                        } else {
+                            $queryTable = $pdo->prepare(
+                                "SELECT q.*, 
                         modalidade_quadra.descr AS modalidade_descr
                         FROM quadras q
                         JOIN modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
-                        WHERE q.id_empresa = :id_empresa");
-                        $queryTable ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
-                        $queryTable ->execute();
-                        $aquadras  = $queryTable ->fetchAll(PDO::FETCH_ASSOC);
-                    }
+                        WHERE q.id_empresa = :id_empresa"
+                            );
+                            $queryTable->bindParam(':id_empresa', $id_empresa);
+                            $queryTable->execute();
+                            $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
+                        }
                     } catch (PDOException $e) {
-                       echo 'erro ' . $e->getMessage();
+                        echo 'erro ' . $e->getMessage();
                     }
-                if (count($quadras) == 0):
-                ?>
-                <div class='sem-quadra'>
-                    <i class="fa-solid fa-futbol fa-2xl"></i>
-                    <h2>Nenhuma Quadra Encontrada</h2>
-                    <small>Adicione sua primeira Quadra</small>
-                </div>
-                <?php
-                else:
-                ?>
-                    <!-- start tableCli  -->
-                    <div class="table-responsive mt-4">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr class="text-align-center text-center">
-                                <th scope="col">Nome</th>
-                                <th scope="col">Modalidade</th>
-                                <th scope="col">Disponibilidade</th>
-                                <th scope="col">Valor</th>
-                                <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>                                    
-                            <?php foreach ($quadras as $quadra):?>
-                                <tr>
-                                    <td scope ='row'><label for='nomeQuadra'><?=$quadra['descr']?></label></td>
-                                    <td><label for='modalidadeQuadra'><?=$quadra['modalidade_descr']?></label></td>
-                                    <td><label for='disponibilidadeQuadra'><?php if ($quadra['disponibilidade'] == 0){
-                                        echo "Disponível";
-                                    }
-                                    else {
-                                        echo "Indisponível";
-                                    }
-                                    ?></label></td>
-                                    <td><label for='valoragendQuadra'>R$ <?=$quadra['valor_hora']?></label></td>
-                                    <td class='icons-item'>
-                                        <a id='openPopUpEditar' href='#'><i  class='fa-solid fa-pen-to-square first'></i></a>
-                                        <a id='openPopUpExcluir'href='#'><i class='fa-solid fa-trash second'></i></a>
-                                        <a id='openPopUpInfo'href='#'><i class='fa-solid fa-circle-info third'></i></a>
-                                    </td>   
-                                </tr>
-                            <?php
-                             endforeach; 
-                            ?>
-                            </tbody>
-                        </table>
-                        <?php endif?>
+                    if (count($quadras) == 0):
+                        ?>
+                        <div class='sem-quadra'>
+                            <i class="fa-solid fa-futbol fa-2xl"></i>
+                            <h2>Nenhuma Quadra Encontrada</h2>
+                            <small>Adicione sua primeira Quadra</small>
+                        </div>
+                        <?php
+                    else:
+                        ?>
+                        <!-- start tableCli  -->
+                        <div class="table-responsive mt-4">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr class="text-align-center text-center">
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Modalidade</th>
+                                        <th scope="col">Disponibilidade</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($quadras as $quadra): ?>
+                                        <tr>
+                                            <td scope='row'><label for='nomeQuadra'><?= $quadra['descr'] ?></label></td>
+                                            <td><label for='modalidadeQuadra'><?= $quadra['modalidade_descr'] ?></label></td>
+                                            <td><label for='disponibilidadeQuadra'><?php if ($quadra['disponibilidade'] == 0) {
+                                                echo "Disponível";
+                                            } else {
+                                                echo "Indisponível";
+                                            }
+                                            ?></label></td>
+                                            <td><label for='valoragendQuadra'>R$ <?= $quadra['valor_hora'] ?></label></td>
+                                            <td class='icons-item'>
+                                                <a id='openPopUpEditar' href='#'><i
+                                                        class='fa-solid fa-pen-to-square first'></i></a>
+                                                <a id='openPopUpExcluir' href='#'><i class='fa-solid fa-trash second'></i></a>
+                                                <a id='openPopUpInfo' href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    endforeach;
+                                    ?>
+                                </tbody>
+                            </table>
+                        <?php endif ?>
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>
