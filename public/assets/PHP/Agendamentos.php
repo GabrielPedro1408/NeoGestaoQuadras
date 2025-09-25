@@ -278,6 +278,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
     <script src="./modalAgendamento/CRUD/updateAgendamento.js"></script>
     <script src="./modalAgendamento/CRUD/deleteAgendamento.js"></script>
     <script src="./modalAgendamento/CRUD/infoAgendamento.js"></script>
+    <script src="../src/stepTimeAgendamento.js"></script>
     <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

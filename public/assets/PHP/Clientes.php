@@ -180,7 +180,6 @@ $id_empresa = buscarIdEmpresa($username);
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr class="text-align-center text-center">
-                                        <th scope="col">ID</th>
                                         <th scope="col">Cliente</th>
                                         <th scope="col">Contato</th>
                                         <th scope="col">Email</th>
@@ -190,21 +189,31 @@ $id_empresa = buscarIdEmpresa($username);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($clientes as $row): ?>
+                                    <?php foreach ($clientes as $cliente): ?>
                                         <tr class="text-center text-align-center">
-                                            <input type='hidden' id='idCliente' value=<?= $row['id'] ?> />
-                                            <td scope='row'><label for='idCli'><?= $row['id'] ?></label></td>
+                                            <input type='hidden' id='idCliente' value=<?= $cliente['id'] ?> />
                                             <td scope='row'><label
-                                                    for='nomeCli'><?= $row['nome'] . " " . $row['sobrenome'] ?></label></td>
-                                            <td><label for='contatoCli'><?= $row['celular'] ?></label></td>
-                                            <td><label for='emailCli'><?= $row['email'] ?></label></td>
-                                            <td><label for='cpfCli'><?= $row['cpf'] ?></label></td>
-                                            <td><label for='enderecoCli'><?= $row['rua'] . ", Nº " . $row['nCasa'] ?></label></td>
+                                                    for='nomeCli'><?= $cliente['nome'] . " " . $cliente['sobrenome'] ?></label>
+                                            </td>
+                                            <td><label for='contatoCli'><?= $cliente['celular'] ?></label></td>
+                                            <td><label for='emailCli'><?= $cliente['email'] ?></label></td>
+                                            <td><label for='cpfCli'><?= $cliente['cpf'] ?></label></td>
+                                            <td><label
+                                                    for='enderecoCli'><?= $cliente['rua'] . ", Nº " . $cliente['nCasa'] ?></label>
+                                            </td>
                                             <td class='icons-item'>
-                                                <a id='openPopUpEditar' class=".$row['id']." href='#'><i
-                                                        class='fa-solid fa-pen-to-square first'></i></a>
-                                                <a id='openPopUpExcluir' href='#'><i class='fa-solid fa-trash second'></i></a>
-                                                <a id='openPopUpInfo' href='#'><i class='fa-solid fa-circle-info third'></i></a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar"
+                                                    data-id="<?= $cliente['id']; ?>">
+                                                    <i class='fa-solid fa-pen-to-square first'></i>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                                    data-id="<?= $cliente['id']; ?>">
+                                                    <i class='fa-solid fa-trash second'></i>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                                    data-id="<?= $cliente['id']; ?>">
+                                                    <i class='fa-solid fa-circle-info third'></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -222,8 +231,12 @@ $id_empresa = buscarIdEmpresa($username);
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./modalCliente/CRUD/updateCliente.js"></script>
+    <script src="./modalCliente/CRUD/deleteCliente.js"></script>
+    <script src="./modalCliente/CRUD/infoCliente.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="../src/consultaCep.js"></script>
+    <script src="../src/consultaCel.js"></script>
     <script src="../src/consultaRG.js"></script>
     <script src="../src/consultaCPF.js"></script>
     <script src="../src/consultaCNPJ.js"></script>

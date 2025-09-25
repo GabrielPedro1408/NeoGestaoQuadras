@@ -10,34 +10,26 @@ $username = $_SESSION['username'];
 try {
     if (isset($_POST["cadastrar"])) {
 
-                /* passagem de parametros*/
-                $id_empresa = buscarIdEmpresa($username);
-                $id_cliente = $_POST["id_cliente"];
-                $id_quadra = $_POST["id_quadra"];
-                $dataAgend = $_POST["dataAgend"];
-                $horarioAgend = $_POST["horarioAgend"];
-                $horarioFimAgend = $_POST["horarioFimAgend"];
-                $valorAgend = $_POST["valorAgend"];
-                $estadoContaAgend = $_POST["estadoContaAgend"];
+        /* passagem de parametros*/
+        $id_empresa = buscarIdEmpresa($username);
+        $id_cliente = $_POST["id_cliente"];
+        $id_quadra = $_POST["id_quadra"];
+        $dataAgend = $_POST["dataAgend"];
+        $horarioAgend = $_POST["horarioAgend"];
+        $horarioFimAgend = $_POST["horarioFimAgend"];
+        $valorAgend = $_POST["valorAgend"];
+        $estadoContaAgend = $_POST["estadoContaAgend"];
 
-                if ($estadoContaAgend == '2'){
-                    $insertFluxoCaixa = $pdo->prepare("INSERT into fluxo_financeiro(id_empresa, descr, categoria, tipo ,dt, valor)
+        if ($estadoContaAgend == '2') {
+            $insertFluxoCaixa = $pdo->prepare("INSERT into fluxo_financeiro(id_empresa, descr, categoria, tipo ,dt, valor)
                     VALUES (:id_empresa, :descr, 2, 0 ,:dataAgend, :valorAgend)");
-                    $insertFluxoCaixa -> execute(array(
-                        ':id_empresa' => $id_empresa,
-                        ':descr' => 'Agendamento de quadra',
-                        ':dataAgend' => $dataAgend,
-                        ':valorAgend' => $valorAgend
-                    ));
-
-                }
-                
-                /* inserçaõ no b.d. */
-                $sql = "INSERT into agendamentos(id_empresa,id_cliente,id_quadra,dt,horario_agendado,tempo_alocado,valor,estado_conta)" .
-                "values (:id_empresa, :id_cliente, :id_quadra,:dataAgend,:horarioAgend,:horarioFimAgend,:valorAgend,:estadoContaAgend )";
-                
-                /*preparando o envio para o $pdo dentro de conexao.php */ 
-                $stmt = $pdo->prepare($sql);
+            $insertFluxoCaixa->execute(array(
+                ':id_empresa' => $id_empresa,
+                ':descr' => 'Agendamento de quadra',
+                ':dataAgend' => $dataAgend,
+                ':valorAgend' => $valorAgend
+            ));
+        }
 
         /* inserçaõ no b.d. */
         $sql = "INSERT into agendamentos(id_empresa,id_cliente,id_quadra,dt,horario_agendado,tempo_alocado,valor,estado_conta)" .
@@ -45,6 +37,7 @@ try {
 
         /*preparando o envio para o $pdo dentro de conexao.php */
         $stmt = $pdo->prepare($sql);
+
 
         /* mostrando qual valores vão ser passados dentro de stmt */
         $stmt->bindParam(':id_empresa', $id_empresa);

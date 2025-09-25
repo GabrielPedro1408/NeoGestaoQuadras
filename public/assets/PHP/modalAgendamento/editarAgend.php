@@ -1,6 +1,3 @@
-<?php
-$quadras = $pdo->query("SELECT id, descr FROM quadras")->fetchAll();
-?>
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -19,11 +16,18 @@ $quadras = $pdo->query("SELECT id, descr FROM quadras")->fetchAll();
                         </div>
                         <div class="col-md-6">
                             <label for="quadra_edit" class="form-label">Quadra Selecionada</label>
-                            <select name="quadra_edit" id="quadra_edit" class="form-select">
+                            <select name="quadra_edit" id="quadra_edit" class="form-select" disabled>
                                 <?php
                                 foreach ($quadras as $quadra):
                                     ?>
-                                    <option value="<?= $quadra['id'] ?>"><?= $quadra['descr'] ?></option>
+                                    <?php
+                                    $stmtQua = $pdo->prepare("SELECT id, descr FROM quadras WHERE id_empresa = :id_empresa");
+                                    $stmtQua->execute([':id_empresa' => $id_empresa]);
+                                    $quadras = $stmtQua->fetchAll();
+                                    foreach ($quadras as $quadra) {
+                                        echo "<option value='{$quadra['id']}'>{$quadra['descr']}</option>";
+                                    }
+                                    ?>
                                     <?php
                                 endforeach;
                                 ?>
@@ -32,21 +36,22 @@ $quadras = $pdo->query("SELECT id, descr FROM quadras")->fetchAll();
                         <div class="col-md-4">
                             <label for="data_agendamento_edit" class="form-label">Data do Agendamento</label>
                             <input type="date" class="form-control" id="data_agendamento_edit"
-                                name="data_agendamento_edit">
+                                name="data_agendamento_edit" disabled>
                         </div>
                         <div class="col-md-4">
                             <label for="horario_agend_edit" class="form-label">Horário Início</label>
-                            <input type="time" class="form-control" id="horario_agend_edit" name="horario_agend_edit">
+                            <input type="time" class="form-control" id="horario_agend_edit" name="horario_agend_edit"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label for="horario_fim_agend_edit" class="form-label">Horário Fim</label>
                             <input type="time" class="form-control" id="horario_fim_agend_edit"
-                                name="horario_fim_agend_edit">
+                                name="horario_fim_agend_edit" disabled>
                         </div>
                         <div class="col-md-6">
                             <label for="valor_agend_edit" class="form-label">Valor</label>
                             <input type="number" class="form-control" id="valor_agend_edit" name="valor_agend_edit"
-                                placeholder="R$ 00,00" step="0.01" min="0">
+                                placeholder="R$ 00,00" step="0.01" min="0" disabled>
                         </div>
                         <div class="col-md-6">
                             <label for="estado_cont_agend_edit" class="form-label">Estado da Conta</label>
