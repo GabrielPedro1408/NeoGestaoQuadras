@@ -1,22 +1,45 @@
-<div class="modal excluir" id="modalExcluir">
-            <div class="modal-inner">
-                <div class="top-pop-up-excluir">
-                    <h3>Deseja realmente excluir esse cadastro? </h3>
-                    <a href="#" id="closePopUpExcluir" ><i class="fa-solid fa-x"></i></a>
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form class="row g-3" action="modalQuadras/CRUD/processDelete.php" method="POST">
+                <input type="hidden" id="inputIdExcluir" name="id_quadra" value="">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exlusão da Quadra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
-            <form class="row g-3" action="Quadras.php" method="POST">
-                <div class="col-md-6">
-                    <label for="nomeQuadra" class="form-label">Nome</label>
-                    <input type="text" value="Quadra 1" class="form-control" id="nomeQuadra" name="nomeQuadra" disabled>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6>Deseja realmete excluir esta <span style="color: blue;">QUADRA</span>?</h6>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label for="descr_quadra_del" class="form-label">Quadra</label>
+                            <input type="text" name="descr_quadra_del" id="descr_quadra_del" class="form-control"
+                                disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="mod_quadra_del" class="form-label">Modalidade</label>
+                            <select class="form-select" id="mod_quadra_del" name="mod_quadra_del" disabled>
+                                <?php
+                                $stmtMod = $pdo->prepare("SELECT id, descr FROM modalidade_quadra");
+                                $stmtMod->execute();
+                                $modalidades = $stmtMod->fetchAll();
+                                foreach ($modalidades as $modalidade) {
+                                    echo "<option value='{$modalidade['id']}'>{$modalidade['descr']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="modalidadeQuadra" class="form-label">Modalidade</label>
-                    <input type="checkbox" class="form-control" id="modalidadeQuadra" name="modalidadeQuadra" disabled>
+                <div class="modal-footer">
+                    <div class="col-12">
+                        <button type="submit" name="exclusão" class="btn btn-primary">Excluir</button>
+                    </div>
                 </div>
-                <div class="buttons">
-                    <button type="submit" id="excluirQuadra" class="deletar">Excluir</button>
-                    <button id="closePopUpExcluir" class="bt-cancelar" >Cancelar</button>
-                </div>
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 <?php
 session_start();
 include_once __DIR__ . '../../src/buscarIdEmpresa.php';
-if(!isset($_SESSION['username'])){
+if (!isset($_SESSION['username'])) {
     header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
     exit;
 }
 include_once 'conexao.php';
-if($_SERVER ['REQUEST_METHOD'] === "POST"){
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     include_once './modalQuadras/CRUD/createQuadras.php';
 }
 $username = $_SESSION['username'];
@@ -14,6 +14,7 @@ $id_empresa = buscarIdEmpresa($username);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,66 +29,67 @@ $id_empresa = buscarIdEmpresa($username);
     <link rel="stylesheet" href="../CSS/all.css">
     <title>Quadras</title>
 </head>
+
 <body>
-<div class="full-content">
-    <?php include '../components/sidebar.php'; ?>
-    <div id="main-content">
-    <?php include '../components/header.php' ; ?>
+    <div class="full-content">
+        <?php include '../components/sidebar.php'; ?>
+        <div id="main-content">
+            <?php include '../components/header.php'; ?>
 
-    <!-- PopUps -->
-        <?php include_once "./modalQuadras/cadastroQuadra.php"; ?>
-            <!-- buscar cliente -->
-        <?php include_once "./modalQuadras/buscarQuadra.php"; ?>
-            <!-- editar cliente -->
-        <?php include_once "./modalQuadras/editarQuadra.php"; ?>
-            <!-- excluir cliente -->
-        <?php include_once "./modalQuadras/excluirQuadra.php"; ?>
-            <!-- iformação cliente -->
-        <?php include_once "./modalQuadras/infoQuadra.php"; ?>
-    <!-- PopUps -->
+            <!-- PopUps -->
+            <!-- cadastrar quadra -->
+            <?php include_once "./modalQuadras/cadastroQuadra.php"; ?>
+            <!-- editar quadra -->
+            <?php include_once "./modalQuadras/editarQuadra.php"; ?>
+            <!-- excluir quadra -->
+            <?php include_once "./modalQuadras/excluirQuadra.php"; ?>
+            <!-- iformação quadra -->
+            <?php include_once "./modalQuadras/infoQuadra.php"; ?>
+            <!-- PopUps -->
 
-        <main>
-             <?php
-            /* mensagem de sucesso */
+            <main>
+                <?php
+                /* mensagem de sucesso */
                 if (isset($_SESSION['message'])):
                     $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
-                ?>
+                    ?>
                     <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
                         <?= $_SESSION['message'] ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                <?php
+                    <?php
                     unset($_SESSION['message']);
                     unset($_SESSION['message_type']);
                 endif;
 
-            /* card total quadras */
-            $queryTotal = $pdo ->prepare(
-                "SELECT
+                /* card total quadras */
+                $queryTotal = $pdo->prepare(
+                    "SELECT
                 count(*) AS total_quadras
                 FROM
                 quadras
                 WHERE
                 id_empresa = :id_empresa"
-            );
-            $queryTotal -> bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
-            $queryTotal -> execute();
-            $resultQuadras = $queryTotal -> fetchAll(PDO::FETCH_ASSOC);
+                );
+                $queryTotal->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                $queryTotal->execute();
+                $resultQuadras = $queryTotal->fetchAll(PDO::FETCH_ASSOC);
 
-            $totalQuadras = [];
-            foreach($resultQuadras as $quadraCount){
-                $totalQuadras[] = $quadraCount['total_quadras'];
-            }
-            ?>
-            <div class="container">
-                <section class="top-area">
-                    <div class="titulo">
-                        <h3><strong>GERENCIAMENTO DE QUADRAS</strong></h3>
-                    </div>
-                    <div class="adicionar">
-                        <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro">+ Nova Quadra</button>
-                    </div>
-                </section>         
+                $totalQuadras = [];
+                foreach ($resultQuadras as $quadraCount) {
+                    $totalQuadras[] = $quadraCount['total_quadras'];
+                }
+                ?>
+                <div class="container">
+                    <section class="top-area">
+                        <div class="titulo">
+                            <h3><strong>GERENCIAMENTO DE QUADRAS</strong></h3>
+                        </div>
+                        <div class="adicionar">
+                            <button id='openPopUpCadastro' class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                data-bs-target="#modalCadastro">+ Nova Quadra</button>
+                        </div>
+                    </section>
                     <div class="mid-area">
                         <div class="pesquisar">
                             <h6>BUSCAR</h6>
@@ -246,24 +248,35 @@ $id_empresa = buscarIdEmpresa($username);
                         <div class="footer-table">
                             <div class='esquerda'>
                                 <h3>Listando</h3>
-                            <?php 
-                             /* foreach($pages as $page): */
-                            ?>
-                                <div class='labels'><label for='paginaAtual'>1</label> <p>/</p> <label for='totalPaginas'>7</label></div></div>
-                                <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a></div>
+                                <?php
+                                /* foreach($pages as $page): */
+                                ?>
+                                <div class='labels'><label for='paginaAtual'>1</label>
+                                    <p>/</p> <label for='totalPaginas'>7</label>
+                                </div>
+                            </div>
+                            <div class='direita'><a href='#'><i class='fa-solid fa-arrow-left'></i></a> <label
+                                    for='paginaAtual'>1</label> <a href='#'><i class='fa-solid fa-arrow-right'></i></a>
+                            </div>
 
                             <?php
-                             /* endforeach;  */
+                            /* endforeach;  */
                             ?>
                         </div>
-                    </div>     
+                    </div>
                 </div>
-            </div>
+        </div>
         </main>
     </div>
-</div>
+    </div>
+    <script src="./modalQuadras/CRUD/updateQuadra.js"></script>
+    <script src="./modalQuadras/CRUD/deleteQuadra.js"></script>
+    <script src="./modalQuadras/CRUD/infoQuadra.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../components/sidebar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

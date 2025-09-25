@@ -1,20 +1,21 @@
-<?php 
+<?php
 session_start();
 
 include_once __DIR__ . '../../src/buscarIdEmpresa.php';
 
 include_once 'conexao.php';
-if(!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'])) {
     header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
     exit();
 }
-if($_SERVER ['REQUEST_METHOD'] === "POST"){
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     include_once './modalCliente/CRUD/createCliente.php';
 }
 $username = $_SESSION['username'];
 $id_empresa = buscarIdEmpresa($username);
 ?><!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,41 +33,42 @@ $id_empresa = buscarIdEmpresa($username);
     <script type="module" src="../JS/PopUpInfo.js"></script>
     <title>Neo Gestão</title>
 </head>
+
 <body>
-<div class="full-content">
-    <?php require '../components/sidebar.php'; ?>
-    <div id="main-content">
-    <?php require '../components/header.php' ; ?>
-    <!-- PopUps -->
+    <div class="full-content">
+        <?php require '../components/sidebar.php'; ?>
+        <div id="main-content">
+            <?php require '../components/header.php'; ?>
+            <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
-        <?php include_once "./modalCliente/cadastroCli.php"; ?>
+            <?php include_once "./modalCliente/cadastroCli.php"; ?>
             <!-- buscar cliente -->
-        <?php include_once "./modalCliente/buscarCli.php"; ?>
+            <?php include_once "./modalCliente/buscarCli.php"; ?>
             <!-- editar cliente -->
-        <?php include_once "./modalCliente/editarCli.php"; ?>
+            <?php include_once "./modalCliente/editarCli.php"; ?>
             <!-- excluir cliente -->
-        <?php include_once "./modalCliente/excluirCli.php"; ?>
+            <?php include_once "./modalCliente/excluirCli.php"; ?>
             <!-- iformação cliente -->
-        <?php include_once "./modalCliente/infoCli.php"; ?>
+            <?php include_once "./modalCliente/infoCli.php"; ?>
 
-<!-- PopUps -->
+            <!-- PopUps -->
 
-        <main>
-            <?php
-            if (isset($_SESSION['message'])):
-                $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
-            ?>
-                <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
-                    <?= $_SESSION['message'] ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php
-                unset($_SESSION['message']);
-                unset($_SESSION['message_type']);
-            endif;
-            
-            $queryClientes = $pdo -> prepare(
-            "SELECT
+            <main>
+                <?php
+                if (isset($_SESSION['message'])):
+                    $type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : 'info';
+                    ?>
+                    <div class="alert alert-<?= $type ?> alert-dismissible fade show alert-top-fixed" role="alert">
+                        <?= $_SESSION['message'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                endif;
+
+                $queryClientes = $pdo->prepare(
+                    "SELECT
             count(*) AS total_clientes
             FROM
             clientes
@@ -212,7 +214,7 @@ $id_empresa = buscarIdEmpresa($username);
                     </div>
                     <?php endif; ?>
                 </div>
-            </div>
+        </div>
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -221,13 +223,16 @@ $id_empresa = buscarIdEmpresa($username);
     <script src="../src/consultaRG.js"></script>
     <script src="../src/consultaCPF.js"></script>
     <script src="../src/consultaCNPJ.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
     <script>
         $('#modalCadastro').on('shown.bs.modal', function () {
-        $('#nomeCli').focus();
+            $('#nomeCli').focus();
         });
     </script>
-    
-</div>
+
+    </div>
 </body>
+
 </html>

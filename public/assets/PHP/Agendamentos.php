@@ -28,8 +28,6 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
         <?php include '../components/sidebar.php'; ?>
         <div id="main-content">
             <header><?php require '../components/header.php'; ?> </header>
-
-            <!-- start main -->
             <!-- PopUps -->
             <!-- cadastrar cliente -->
             <?php include_once "./modalAgendamento/cadastroAgend.php"; ?>
@@ -40,6 +38,8 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
             <!-- iformação cliente -->
             <?php include_once "./modalAgendamento/infoAgend.php"; ?>
             <!-- PopUps -->
+
+            <!-- start main -->
             <main>
                 <?php
                 if (isset($_SESSION['message'])):
@@ -64,7 +64,6 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                 $query->bindParam(':id_empresa', $id_empresa);
                 $query->execute();
                 $resultAgendamentos = $query->fetchAll(PDO::FETCH_ASSOC);
-
                 $totalAgendamentos = [];
                 foreach ($resultAgendamentos as $resultAgendamento) {
                     $totalAgendamentos[] = $resultAgendamento['total_agendamentos'];
@@ -223,7 +222,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                     <tr class="text-center text-align-center">
                                         <td><label>
                                                 <?= empty($agendamento['nome_cliente']) ? '<span>Vazio</span>' :
-                                                    $agendamento['nome_cliente'] ?>
+                                                    $agendamento['nome_cliente'] . ' ' . $agendamento['sobrenome_cliente'] ?>
                                             </label></td>
 
                                         <td><label>
@@ -248,7 +247,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
 
                                         <td><label>
                                                 <?= empty($agendamento['valor']) ? '<span>Vazio</span>' :
-                                                    $agendamento['valor'] ?>
+                                                    'R$ ' . $agendamento['valor'] . ',00' ?>
                                             </label></td>
 
                                         <td><label>
@@ -304,34 +303,36 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             endif
                             ?>
                             <?php if (isset($_GET['editar'])): ?>
-                            <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                            var modal = document.getElementById('modalEditar');
-                            if (modal) {
-                                modal.addEventListener('hidden.bs.modal', function () {
-                                if (window.location.search.includes('editar=')) {
-                                    // Remove o parâmetro editar da URL sem recarregar a página
-                                    const url = new URL(window.location);
-                                    url.searchParams.delete('editar');
-                                    window.history.replaceState({}, document.title, url.pathname + url.search);
-                                }
-                                });
-                                // Abre o modal automaticamente
-                                var bsModal = new bootstrap.Modal(modal);
-                                bsModal.show();
-                            }
-                            });
-                            </script>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var modal = document.getElementById('modalEditar');
+                                        if (modal) {
+                                            modal.addEventListener('hidden.bs.modal', function () {
+                                                if (window.location.search.includes('editar=')) {
+                                                    // Remove o parâmetro editar da URL sem recarregar a página
+                                                    const url = new URL(window.location);
+                                                    url.searchParams.delete('editar');
+                                                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                                                }
+                                            });
+                                            // Abre o modal automaticamente
+                                            var bsModal = new bootstrap.Modal(modal);
+                                            bsModal.show();
+                                        }
+                                    });
+                                </script>
                             <?php endif; ?>
                         </div>
-                    </div>   
+                    </div>
                 </div>
             </div>
         </main>
     </div>
-</div>
-</div>
+    </div>
+    </div>
     <script src="./modalAgendamento/CRUD/updateAgendamento.js"></script>
+    <script src="./modalAgendamento/CRUD/deleteAgendamento.js"></script>
+    <script src="./modalAgendamento/CRUD/infoAgendamento.js"></script>
     <script src="../JS/bootstrap.bundle.min.js"></script>
     <script src="../components/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

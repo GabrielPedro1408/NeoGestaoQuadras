@@ -1,11 +1,11 @@
-<?php  
+<?php
 include_once __DIR__ . '/CRUD/createAgendamento.php';
 ?>
-    <div class="modal fade" id="modalCadastro" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalCadastro" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <form class="row g-3" action="" method="POST">
-                
+
                 <div class="modal-header">
                     <h5 class="modal-title">Informações do Agendamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
@@ -17,8 +17,10 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                             <select name="id_cliente" id="id_cliente" class="form-select">
                                 <option value="">Selecione um cliente</option>
                                 <?php
-                                $clientes = $pdo->query("SELECT id, nome FROM clientes")->fetchAll();
-                                foreach ($clientes as $cliente){
+                                $stmtCli = $pdo->prepare("SELECT id, nome FROM clientes WHERE id_empresa = :id_empresa");
+                                $stmtCli->execute([':id_empresa' => $id_empresa]);
+                                $clientes = $stmtCli->fetchAll();
+                                foreach ($clientes as $cliente) {
                                     echo "<option value='{$cliente['id']}'>{$cliente['nome']}</option>";
                                 }
                                 ?>
@@ -28,9 +30,11 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                             <label for="id_quadra" class="form-label">Quadra Agendada</label>
                             <select name="id_quadra" id="id_quadra" class="form-select">
                                 <option value="">Selecione uma quadra</option>
-                                <?php 
-                                $quadras = $pdo->query("SELECT id, descr FROM quadras")->fetchAll();
-                                foreach($quadras as $quadra){
+                                <?php
+                                $stmtQua = $pdo->prepare("SELECT id, descr FROM quadras WHERE id_empresa = :id_empresa");
+                                $stmtQua->execute([':id_empresa' => $id_empresa]);
+                                $quadras = $stmtQua->fetchAll();
+                                foreach ($quadras as $quadra) {
                                     echo "<option value='{$quadra['id']}'>{$quadra['descr']}</option>";
                                 }
                                 ?>
@@ -50,11 +54,13 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                         </div>
                         <div class="col-md-6">
                             <label for="valorAgend" class="form-label">Valor</label>
-                            <input type="number" class="form-control" id="valorAgend" name="valorAgend" placeholder="R$ 00,00" step="0.01" min="0">
+                            <input type="number" class="form-control" id="valorAgend" name="valorAgend"
+                                placeholder="R$ 00,00" step="0.01" min="0">
                         </div>
                         <div class="col-md-6">
                             <label for="estadoContaAgend" class="form-label">Estado da Conta</label>
-                            <select name="estadoContaAgend" aria-placeholder="selecione uma opção" class="form-select" id="bosta" required>
+                            <select name="estadoContaAgend" aria-placeholder="selecione uma opção" class="form-select"
+                                id="bosta" required>
                                 <option value="estado_conta_agendamento" selected disabled>Selecione uma Opção</option>
                                 <option value="1">Pendente</option>
                                 <option value="2">Pago</option>
@@ -62,7 +68,7 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                             </select>
                         </div>
                     </div>
-                </div>    
+                </div>
                 <div class="modal-footer">
                     <div class="col-12">
                         <button type="submit" name="cadastrar" class="btn btn-primary">Cadastrar Agendamento</button>
@@ -72,4 +78,3 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
         </div>
     </div>
 </div>
-        

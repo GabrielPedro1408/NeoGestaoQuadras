@@ -8,12 +8,12 @@ document.getElementById('modalEditar').addEventListener('show.bs.modal', functio
         .then(response => response.json())
         .then(data => {
             // Preenche os campos do modal com os dados recebidos
-            document.getElementById('cliente').value = data.nome_cliente || '';
-            document.getElementById('nome_quadra').textContent = data.nome_quadra || '';
-            document.getElementById('data_agendamento').value = data.dt || '';
-            document.getElementById('horario_agendamento').value = data.horario_agendado || '';
-            document.getElementById('horario_fim_agendamento').value = data.tempo_alocado || '';
-            document.getElementById('valor_agendamento').value = data.valor || '';
-            document.getElementById('estado_conta_agendamento').textContent = data.estado_conta || 'selecione uma opção';
+            document.getElementById('cliente_agend_edit').value = data.nome_cliente + ' ' + data.sobrenome_cliente || '';
+            document.getElementById('quadra_edit').value = String(data.id_quadra) || 'selecione uma opção';
+            document.getElementById('data_agendamento_edit').value = data.dt || '';
+            document.getElementById('horario_agend_edit').value = data.horario_agendado || '';
+            document.getElementById('horario_fim_agend_edit').value = data.tempo_alocado || '';
+            document.getElementById('valor_agend_edit').value = data.valor || '';
+            document.getElementById('estado_cont_agend_edit').value = data.estado_conta || 'selecione uma opção';
         });
 });
