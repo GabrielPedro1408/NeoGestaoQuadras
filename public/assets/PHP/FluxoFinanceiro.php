@@ -127,7 +127,23 @@
                             </form>
                         </div>
                         <?php
-                        if (isset($_GET['filtrarFluxo'])){
+                        $transacoes =[];
+                        try {
+                            $itensPorPagina = 10;
+                            $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                            if ($paginaAtual < 1) $paginaAtual = 1;
+                            $offset = ($paginaAtual - 1) * $itensPorPagina;
+
+                            $stmtTotal = $pdo->prepare(
+                            "SELECT COUNT(*) AS total
+                            FROM fluxo_financeiro
+                            WHERE id_empresa = :id_empresa
+                            ");
+                            $stmtTotal -> execute(array(":id_empresa" => $id_empresa));
+                            $totalRegistros = $stmtTotal -> fetch(PDO::FETCH_ASSOC)['total'];
+                            $totalPaginas = ceil($totalRegistros/$itensPorPagina);
+
+                            if (isset($_GET['filtrarFluxo'])){
                             $descricao = $_GET['descr'] ?? '';
                             $categoria = $_GET['categoria'] ?? '';
                             $tipo = $_GET['tipo'] ?? '';
@@ -155,16 +171,27 @@
                                 $stmt .= " AND DATE_FORMAT(data_vencimento, '%Y-%m-%d') = :dataFiltro";
                                 $params[':dataFiltro'] = $dataFiltro;
                             }
+                            $stmt .= ' ORDER BY nome ASC LIMIT :limit OFFSET :offset';
 
-                            $query= $pdo ->prepare($stmt);
+                            $query = $pdo->prepare($stmt);
+                            $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                            $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                             $query ->execute($params);
                             $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
                         }
                         else{
-                            $query= $pdo ->prepare("SELECT * FROM fluxo_financeiro WHERE id_empresa = :id_empresa ORDER BY dt ASC");
-                            $query ->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                            $query= $pdo ->prepare("SELECT * FROM fluxo_financeiro 
+                            WHERE id_empresa = :id_empresa 
+                            ORDER BY descr ASC LIMIT :limit OFFSET :offset
+                            ");
+                            $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
+                            $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                            $query->bindValue(':offset', $offset, PDO::PARAM_INT);
                             $query ->execute();
                             $transacoes  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                        }
+                        } catch ( PDOException $e) {
+                            echo 'Erro ao tentar buscar dados'. $e->getMessage() ;
                         }
                         if (count($transacoes) == 0):
                         ?>
@@ -217,20 +244,46 @@
                                         <td><?= date('d/m/Y', strtotime($transacao['dt']))?></td>
                                         <td>R$ <?= number_format($transacao['valor'], 2, ',', '.') ?></td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm">Editar</button>
-                                            <button class="btn btn-danger btn-sm">Excluir</button>
+                                            <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                                            data-id="<?= $transacao['id']; ?>"class="btn btn-primary btn-sm">
+                                            <i class='fa-solid fa-pen-to-square first'></i></button>
+
+                                            <!-- botão de Excluir -->
+                                            <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
+                                            data-id="<?= $transacao['id']; ?>" class="btn btn-danger btn-sm">
+                                            <i class='fa-solid fa-trash second'></i></button>
+
+                                            <!-- botão de Info -->
+                                            <button data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                            data-id="<?= $transacao['id']; ?>" class="btn btn-secondary btn-sm">
+                                            <i class='fa-solid fa-info-circle third'></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
                                 <?php endforeach;?>
                                 <tfoot>
                                     <tr class="ms-2">
-                                        <td colspan="8" class="fw-lighter fs-3"><strong>LISTANDO 1/6</strong></td>
+                                        <td colspan="12" class="">
+                                            <nav aria-label="Navegação de página">
+                                                <ul class="pagination d-flex justify-content-between">
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">Página:</span>
+                                                    </li>
+                                                    <div class="paginacao-info d-flex">
+                                                        <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                                                        <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                                            <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                                        </li>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                </ul>
+                                            </nav>  
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-                        <?php endif ?>
+                    <?php endif ?>
                     </div>
                 </div>
             </div>
