@@ -36,22 +36,22 @@
                         <div class="col-md-4">
                             <label for="data_agendamento_edit" class="form-label">Data do Agendamento</label>
                             <input type="date" class="form-control" id="data_agendamento_edit"
-                                name="data_agendamento_edit" disabled>
+                                name="data_agendamento_edit" readonly>
                         </div>
                         <div class="col-md-4">
                             <label for="horario_agend_edit" class="form-label">Horário Início</label>
                             <input type="time" class="form-control" id="horario_agend_edit" name="horario_agend_edit"
-                                disabled>
+                                readonly>
                         </div>
                         <div class="col-md-4">
                             <label for="horario_fim_agend_edit" class="form-label">Horário Fim</label>
                             <input type="time" class="form-control" id="horario_fim_agend_edit"
-                                name="horario_fim_agend_edit" disabled>
+                                name="horario_fim_agend_edit" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="valor_agend_edit" class="form-label">Valor</label>
                             <input type="number" class="form-control" id="valor_agend_edit" name="valor_agend_edit"
-                                placeholder="R$ 00,00" step="0.01" min="0" disabled>
+                                placeholder="R$ 00,00" step="0.01" min="0" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="estado_cont_agend_edit" class="form-label">Estado da Conta</label>

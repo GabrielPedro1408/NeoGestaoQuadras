@@ -200,8 +200,9 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             JOIN clientes cli ON ag.id_cliente = cli.id
                             JOIN quadras q ON ag.id_quadra = q.id
                             WHERE ag.id_empresa = :id_empresa
-                            ORDER BY q.descr ASC LIMIT :limit OFFSET :offset
-                            ");
+                            ORDER BY dt DESC LIMIT :limit OFFSET :offset
+                            "
+                            );
                             $queryTable->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                             $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
                             $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);

@@ -31,7 +31,7 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                             <select name="id_quadra" id="id_quadra" class="form-select">
                                 <option value="">Selecione uma quadra</option>
                                 <?php
-                                $stmtQua = $pdo->prepare("SELECT id, descr FROM quadras WHERE id_empresa = :id_empresa");
+                                $stmtQua = $pdo->prepare("SELECT id, descr FROM quadras WHERE id_empresa = :id_empresa AND disponibilidade > 0");
                                 $stmtQua->execute([':id_empresa' => $id_empresa]);
                                 $quadras = $stmtQua->fetchAll();
                                 foreach ($quadras as $quadra) {
@@ -55,7 +55,7 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                         <div class="col-md-6">
                             <label for="valorAgend" class="form-label">Valor</label>
                             <input type="number" class="form-control" id="valorAgend" name="valorAgend"
-                                placeholder="R$ 00,00" step="0.01" min="0">
+                                placeholder="R$ 00,00" step="10" min="0">
                         </div>
                         <div class="col-md-6">
                             <label for="estadoContaAgend" class="form-label">Estado da Conta</label>
