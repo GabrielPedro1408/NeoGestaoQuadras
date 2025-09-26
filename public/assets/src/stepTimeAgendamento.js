@@ -13,7 +13,9 @@ function ajustarMinutosParaMultiploDe5(input) {
 document.addEventListener('DOMContentLoaded', function () {
     const camposTime = [
         document.getElementById('horarioAgend'),
-        document.getElementById('horarioFimAgend')
+        document.getElementById('horarioFimAgend'),
+        document.getElementById('aberturaFuncio'),
+        document.getElementById('fechamentoFuncio')
     ];
     camposTime.forEach(function (campo) {
         if (campo) {
