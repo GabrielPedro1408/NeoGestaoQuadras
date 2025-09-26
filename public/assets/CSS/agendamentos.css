@@ -1,27 +1,31 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Cabin", sans-serif;
 }
+
 .full-content {
     display: flex;
     width: 100%;
     min-height: 100vh;
     flex-direction: column;
 }
-.container{
+
+.container {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
+
 .titulo h3 {
     max-width: 100%;
     width: 100%;
     font-size: 1.4rem;
 }
-.top-area{
+
+.top-area {
     display: flex;
     padding: 15px 0;
     align-items: center;
@@ -29,11 +33,13 @@
     width: 100%;
 
 }
-.top-area .adicionar{
+
+.top-area .adicionar {
     margin-left: 3px;
     max-width: 100%;
 }
-.top-area .adicionar button{
+
+.top-area .adicionar button {
     background-color: rgba(5, 62, 97, 1);
     color: white;
     height: 38px;
@@ -43,20 +49,22 @@
     box-shadow: 4px 4px 8px -5px rgba(0, 0, 0, 0.1);
     border: none;
 }
-.top-area .adicionar button:hover{
+
+.top-area .adicionar button:hover {
     cursor: pointer;
     box-shadow: 4px 4px 8px -3px #42545f8c;
     transition: all 0.1s ease-in-out;
 }
 
 /* buscar */
-.mid-area{
+.mid-area {
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: space-between;
 }
- .pesquisar{
+
+.pesquisar {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -68,37 +76,45 @@
     box-shadow: 2px 3px 10px -7px rgb(0, 0, 0);
     background-color: rgb(250, 250, 250);
 }
-.pesquisar h6{
+
+.pesquisar h6 {
     padding: 0px 0px 0px 10px;
 }
-.main-pesquisar{
+
+.main-pesquisar {
     padding: 8px 9px 6px 10px;
     width: 100%;
 }
-.main-pesquisar form{
+
+.main-pesquisar form {
     display: flex;
     justify-content: space-between;
 }
-.group{
+
+.group {
     display: flex;
     flex-direction: column;
     width: 48%;
 }
- input{
+
+input {
     width: 98%;
     outline: none;
     border: 0.1px solid rgba(185, 185, 185, 0.61);
     border-radius: 10px;
     padding: 7px 4px;
 }
-.group select{
+
+.group select {
     width: 98%;
 }
-.button{
+
+.button {
     display: flex;
 
 }
-.button button{
+
+.button button {
     padding: 5px 40px;
     width: 100%;
     background-color: rgba(15, 63, 105, 0.900);
@@ -107,14 +123,15 @@
     border-radius: 10px;
     cursor: pointer;
 }
-.button button:hover{
+
+.button button:hover {
     background-color: rgba(15, 74, 126, 0.9);
     color: white;
     box-shadow: 3px 3px 10px -7px rgb(0, 0, 0);
     transition: 0.6;
 }
 
-.total-agendamentos{
+.total-agendamentos {
     display: flex;
     width: 34%;
     height: 100%;
@@ -125,13 +142,16 @@
     background-color: rgb(250, 250, 250);
     position: relative;
 }
-.total-agendamentos h6{
+
+.total-agendamentos h6 {
     padding-left: 10px;
 }
-.main-total-agendamentos{
+
+.main-total-agendamentos {
     padding: 0px 0px 0px 10px;
 }
-.icone-total{
+
+.icone-total {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -147,15 +167,14 @@
     justify-content: center;
 }
 
-
-
-.buttons{
+.buttons {
     display: flex;
     align-items: center;
     margin-top: 20px;
     gap: 20px;
 }
-.buttons button{
+
+.buttons button {
     background-color: #042940e1;
     color: white;
     height: 38px;
@@ -165,16 +184,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: none;
 }
- .excluir{
+
+.excluir {
     margin-top: 150px;
 }
-.modal .excluir{
+
+.modal .excluir {
     height: calc(100% + 100px);
 }
-.table-clientes span{
+
+.table-clientes span {
     color: #7a7a7a;
 }
-.sem-agendamento{
+
+.sem-agendamento {
     min-width: 600px;
     min-height: 500px;
     border-radius: 6px;
@@ -187,7 +210,8 @@
     font-size: 1.2rem;
     margin-bottom: 15px;
 }
-.sem-agendamento i{
+
+.sem-agendamento i {
     color: rgba(0, 0, 0, 0.356);
     font-size: 5rem;
     margin-bottom: 40px;
