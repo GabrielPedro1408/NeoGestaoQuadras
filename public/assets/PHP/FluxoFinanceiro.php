@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
-    <title>Neo Gestão</title>
+    <title>Neo Gestão - Fluxo Financeiro</title>
 </head>
 <body>
     <div class="full-content">
@@ -51,7 +51,7 @@
             <?php  include_once './modalFinanceiro/fluxoFinanceiro/excluirFluxo.php';?>
             <?php  include_once './modalFinanceiro/fluxoFinanceiro/infoFluxo.php';?> 
             <div class="container">
-                <section class="top-area d-flex justify-content-between align-items-center">
+                <section class="top-area d-flex justify-content-between align-items-center p-1">
                         <div class="titulo">
                             <h3><strong>CONTROLE DE FLUXO FINANCEIRO</strong></h3>
                         </div>
@@ -59,6 +59,10 @@
                             <button id='openPopUpCadastroTransacao' type="button" data-bs-toggle="modal" data-bs-target="#modalCadastroTransacao">+Adicionar Transação</button>
                         </div>
                 </section>
+                <div class="linha"></div>
+                <div class="subtitle">
+                    <h6>Valores Diários:</h6>
+                </div>
                 <!-- Cards de resumo -->
                 <?php 
                 $queryFluxo = $pdo->prepare("SELECT 

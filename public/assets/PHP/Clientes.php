@@ -33,7 +33,7 @@ $id_empresa = buscarIdEmpresa($username);
     <script type="module" src="../JS/PopUpEditar.js"></script>
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
-    <title>Neo Gestão</title>
+    <title>Neo Gestão - Clientes</title>
 </head>
 
 <body>
@@ -232,7 +232,7 @@ $id_empresa = buscarIdEmpresa($username);
                                             <td><label><?= $cliente['email'] ?></label></td>
                                             <td><label><?= isset($cliente['cpf']) ? $cliente['cpf'] : '<span>CPF Vazio</span>' ?></label>
                                             </td>
-                                            <td><label><?= isset($cliente['rua']) ? $cliente['rua'] . ", Nº " . $cliente['nCasa'] : '<span>Endereço Vazio</span>' ?></label>
+                                            <td><label><?= isset($cliente['rua']) ? $cliente['rua'] . ", Nº " . $cliente['nCasa'] : ' <span>Endereço Vazio</span>' ?></label>
                                             </td>
                                             <td>
                                                 <button data-bs-toggle="modal" data-bs-target="#modalEditar"
