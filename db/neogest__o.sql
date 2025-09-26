@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 16/05/2025 às 18:59
+-- Tempo de geração: 26/09/2025 às 23:37
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -36,9 +36,9 @@ CREATE TABLE `agendamentos` (
   `id_quadra` int(11) NOT NULL,
   `dt` date NOT NULL,
   `horario_agendado` time NOT NULL,
-  `tempo_alocado` int(11) NOT NULL,
+  `tempo_alocado` time NOT NULL,
   `valor` float(10,2) NOT NULL,
-  `estado_conta` varchar(20) NOT NULL
+  `estado_conta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -55,15 +55,43 @@ CREATE TABLE `clientes` (
   `dt_nascimento` date DEFAULT NULL,
   `email` varchar(45) NOT NULL,
   `cpf` char(14) NOT NULL,
+  `cnpj` varchar(18) DEFAULT NULL,
   `rg` char(12) NOT NULL,
-  `celular` char(11) NOT NULL,
+  `celular` char(15) NOT NULL,
   `cep` char(9) NOT NULL,
   `uf` char(2) NOT NULL,
   `cidade` varchar(50) NOT NULL,
   `rua` varchar(50) NOT NULL,
   `nCasa` varchar(7) NOT NULL,
-  `complemento` varchar(50) DEFAULT NULL
+  `complemento` varchar(50) DEFAULT NULL,
+  `data_cadastro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `contas`
+--
+
+CREATE TABLE `contas` (
+  `id` int(11) NOT NULL,
+  `id_empresa` int(11) DEFAULT NULL,
+  `categoria` int(11) NOT NULL,
+  `descricao` varchar(100) NOT NULL,
+  `recorrencia` int(11) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `data_vencimento` date NOT NULL,
+  `tipo` int(11) NOT NULL,
+  `cpf_cnpj` int(18) DEFAULT NULL,
+  `observacao` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `contas`
+--
+
+INSERT INTO `contas` (`id`, `id_empresa`, `categoria`, `descricao`, `recorrencia`, `valor`, `data_vencimento`, `tipo`, `cpf_cnpj`, `observacao`) VALUES
+(67, 32, 0, 'Aluguel', 3, 5000, '2025-10-05', 4, 0, '');
 
 -- --------------------------------------------------------
 
@@ -81,7 +109,31 @@ CREATE TABLE `empresa` (
   `uf` char(2) DEFAULT NULL,
   `cidade` varchar(75) DEFAULT NULL,
   `rua` varchar(75) DEFAULT NULL,
-  `numero` varchar(10) DEFAULT NULL
+  `numero` varchar(10) DEFAULT NULL,
+  `complemento` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `empresa`
+--
+
+INSERT INTO `empresa` (`id`, `razão_social`, `email`, `telefone`, `cnpj`, `cep`, `uf`, `cidade`, `rua`, `numero`, `complemento`) VALUES
+(32, 'Locador de Quadras', 'locador@quadras.com', '(11) 00000-0', '39.940.158/0001-87', '13219-510', 'SP', 'Jundiaí', 'Rua José Artur Savietto', '101', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `fluxo_financeiro`
+--
+
+CREATE TABLE `fluxo_financeiro` (
+  `id` int(11) NOT NULL,
+  `id_empresa` int(11) DEFAULT NULL,
+  `descr` varchar(50) DEFAULT NULL,
+  `categoria` int(11) DEFAULT NULL,
+  `tipo` int(11) DEFAULT NULL,
+  `dt` date DEFAULT NULL,
+  `valor` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -93,10 +145,17 @@ CREATE TABLE `empresa` (
 CREATE TABLE `horarios` (
   `id` int(11) NOT NULL,
   `id_empresa` int(11) NOT NULL,
-  `h_abertura` int(11) NOT NULL,
-  `h_fechamento` int(11) NOT NULL,
+  `h_abertura` time NOT NULL,
+  `h_fechamento` time NOT NULL,
   `intervalo_tempo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `horarios`
+--
+
+INSERT INTO `horarios` (`id`, `id_empresa`, `h_abertura`, `h_fechamento`, `intervalo_tempo`) VALUES
+(2, 32, '10:00:00', '22:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -115,26 +174,23 @@ CREATE TABLE `modalidade_quadra` (
 --
 
 INSERT INTO `modalidade_quadra` (`id`, `modalidade`, `descr`) VALUES
-(1, 'Futebol Society', 'Quadra de grama sintética para futebol society, jogos de 7x7.'),
-(2, 'Futsal', 'Quadra coberta de piso liso para futsal, dimensões oficiais.'),
-(3, 'Vôlei de Praia', 'Quadra de areia para vôlei de praia, com rede ajustável.'),
-(4, 'Basquete', 'Quadra de piso rígido para basquete, com tabelas oficiais.'),
-(5, 'Tênis', 'Quadra de saibro para tênis, com rede e marcações oficiais.'),
-(6, 'Beach Tennis', 'Quadra de areia para beach tennis, com rede e dimensões adequadas.'),
-(7, 'Handebol', 'Quadra poliesportiva adaptada para jogos de handebol.'),
-(8, 'Padel', 'Quadra fechada de vidro e grama sintética para padel.'),
-(9, 'Peteca', 'Quadra de piso liso para prática de peteca, com marcações específicas.'),
-(10, 'Badminton', 'Quadra coberta para badminton, com rede e marcações oficiais.'),
-(11, 'Hóquei Indoor', 'Quadra coberta para hóquei indoor, piso liso e marcações.'),
-(12, 'Futebol de Areia', 'Quadra de areia para futebol, ideal para jogos recreativos.'),
-(13, 'Vôlei Indoor', 'Quadra coberta de piso liso para vôlei tradicional.'),
-(14, 'Basquete 3x3', 'Quadra reduzida para basquete 3x3, com uma tabela.'),
-(15, 'Squash', 'Quadra fechada para squash, paredes de rebote.'),
-(16, 'Futebol Infantil', 'Quadra menor, adaptada para futebol infantil.'),
-(17, 'Tênis de Mesa', 'Espaço coberto para prática de tênis de mesa.'),
-(18, 'Pickleball', 'Quadra adaptada para pickleball, esporte de raquete.'),
-(19, 'Futebol Americano Flag', 'Quadra adaptada para flag football, sem contato físico.'),
-(20, 'Rugby Touch', 'Quadra de grama sintética para rugby touch, sem contato físico.');
+(1, 'Futebol Society', 'Futebol Society'),
+(2, 'Futsal', 'Futsal'),
+(3, 'Vôlei de Praia', 'Vôlei de Praia'),
+(4, 'Basquete', 'Basquete'),
+(5, 'Tênis', 'Tênis'),
+(6, 'Beach Tennis', 'Beach Tennis'),
+(7, 'Handebol', 'Handebol'),
+(10, 'Badminton', 'Badminton'),
+(11, 'Hóquei Indoor', 'Hóquei Indoor'),
+(12, 'Futebol de Areia', 'Futebol de Areia'),
+(13, 'Vôlei Indoor', 'Vôlei Indoor'),
+(14, 'Basquete 3x3', 'Basquete 3x3'),
+(15, 'Squash', 'Squash'),
+(17, 'Tênis de Mesa', 'Tênis de Mesa'),
+(18, 'Pickleball', 'Pickleball'),
+(19, 'Futebol Americano Flag', 'Futebol Americano Flag'),
+(20, 'Rugby Touch', 'Rugby Touch');
 
 -- --------------------------------------------------------
 
@@ -147,7 +203,7 @@ CREATE TABLE `quadras` (
   `id_empresa` int(11) NOT NULL,
   `id_modalidade` int(11) NOT NULL,
   `descr` varchar(150) DEFAULT NULL,
-  `disponibilidade` int(11) NOT NULL,
+  `disponibilidade` tinyint(1) NOT NULL,
   `valor_hora` float(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -163,6 +219,13 @@ CREATE TABLE `usuario` (
   `username` varchar(50) NOT NULL,
   `senha` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `id_empresa`, `username`, `senha`) VALUES
+(24, 32, 'Locador', '$2y$10$utRJsUDZXuGC9enE/ekcIOZnk/FyJBtlOQkqLgHorr2QZ31fo9tf2');
 
 --
 -- Índices para tabelas despejadas
@@ -185,10 +248,24 @@ ALTER TABLE `clientes`
   ADD KEY `id_empresa` (`id_empresa`);
 
 --
+-- Índices de tabela `contas`
+--
+ALTER TABLE `contas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_empresa` (`id_empresa`) USING BTREE;
+
+--
 -- Índices de tabela `empresa`
 --
 ALTER TABLE `empresa`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `fluxo_financeiro`
+--
+ALTER TABLE `fluxo_financeiro`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_empresa` (`id_empresa`);
 
 --
 -- Índices de tabela `horarios`
@@ -226,25 +303,37 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 
 --
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT de tabela `contas`
+--
+ALTER TABLE `contas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT de tabela `fluxo_financeiro`
+--
+ALTER TABLE `fluxo_financeiro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de tabela `horarios`
 --
 ALTER TABLE `horarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `modalidade_quadra`
@@ -256,13 +345,13 @@ ALTER TABLE `modalidade_quadra`
 -- AUTO_INCREMENT de tabela `quadras`
 --
 ALTER TABLE `quadras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Restrições para tabelas despejadas
@@ -281,6 +370,18 @@ ALTER TABLE `agendamentos`
 --
 ALTER TABLE `clientes`
   ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`);
+
+--
+-- Restrições para tabelas `contas`
+--
+ALTER TABLE `contas`
+  ADD CONSTRAINT `fk_contas_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`);
+
+--
+-- Restrições para tabelas `fluxo_financeiro`
+--
+ALTER TABLE `fluxo_financeiro`
+  ADD CONSTRAINT `fluxo_financeiro_ibfk_1` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id`);
 
 --
 -- Restrições para tabelas `horarios`
