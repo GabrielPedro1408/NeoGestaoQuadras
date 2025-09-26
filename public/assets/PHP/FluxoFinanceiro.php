@@ -182,7 +182,8 @@
                         else{
                             $query= $pdo ->prepare("SELECT * FROM fluxo_financeiro 
                             WHERE id_empresa = :id_empresa 
-                            ORDER BY descr ASC LIMIT :limit OFFSET :offset
+                            AND dt = CURRENT_DATE()
+                            ORDER BY dt DESC LIMIT :limit OFFSET :offset
                             ");
                             $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                             $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);

@@ -140,17 +140,19 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                     try {
                         /* paginação */
                         $itensPorPagina = 10;
-                        $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-                        if ($paginaAtual < 1) $paginaAtual = 1;
+                        $paginaAtual = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
+                        if ($paginaAtual < 1)
+                            $paginaAtual = 1;
                         $offset = ($paginaAtual - 1) * $itensPorPagina;
                         /* total de registros */
                         $stmtTotal = $pdo->prepare(
-                        "SELECT COUNT(*) AS total
+                            "SELECT COUNT(*) AS total
                         FROM agendamentos
-                        WHERE id_empresa = :id_empresa");
-                        
+                        WHERE id_empresa = :id_empresa"
+                        );
+
                         $stmtTotal->execute(array(":id_empresa" => $id_empresa));
-                        $totalRegistros = $stmtTotal ->fetch(PDO::FETCH_ASSOC)['total'];
+                        $totalRegistros = $stmtTotal->fetch(PDO::FETCH_ASSOC)['total'];
                         $totalPaginas = ceil($totalRegistros / $itensPorPagina);
 
                         /* filtrar */
@@ -192,7 +194,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             $agendamentos = $queryTable->fetchAll(PDO::FETCH_ASSOC);
                         } else {
                             $queryTable = $pdo->prepare(
-                            "SELECT ag.*,
+                                "SELECT ag.*,
                             cli.nome AS nome_cliente,
                             cli.sobrenome AS sobrenome_cliente,
                             q.descr AS quadra_nome
@@ -290,19 +292,19 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                                 </label></td>
 
                                             <td>
-                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
-                                                data-id="<?= $agendamento['id']; ?>"class="btn btn-primary btn-sm">
-                                                <i class='fa-solid fa-pen-to-square first'></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar"
+                                                    data-id="<?= $agendamento['id']; ?>" class="btn btn-primary btn-sm">
+                                                    <i class='fa-solid fa-pen-to-square first'></i></button>
 
                                                 <!-- botão de Excluir -->
                                                 <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                data-id="<?= $agendamento['id']; ?>" class="btn btn-danger btn-sm">
-                                                <i class='fa-solid fa-trash second'></i></button>
+                                                    data-id="<?= $agendamento['id']; ?>" class="btn btn-danger btn-sm">
+                                                    <i class='fa-solid fa-trash second'></i></button>
 
                                                 <!-- botão de Info -->
                                                 <button data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                data-id="<?= $agendamento['id']; ?>" class="btn btn-secondary btn-sm">
-                                                <i class='fa-solid fa-info-circle third'></i></button>
+                                                    data-id="<?= $agendamento['id']; ?>" class="btn btn-secondary btn-sm">
+                                                    <i class='fa-solid fa-info-circle third'></i></button>
                                             </td>
                                         </tr>
                                         <?php
@@ -319,42 +321,43 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                                     </li>
                                                     <div class="paginacao-info d-flex">
                                                         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-                                                        <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
-                                                            <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
-                                                        </li>
+                                                            <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                                                <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                                            </li>
                                                         <?php endfor; ?>
                                                     </div>
                                                 </ul>
-                                            </nav>  
+                                            </nav>
                                         </td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-                        <?php endif;?>
-                        <?php if (isset($_GET['editar'])): ?>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    var modal = document.getElementById('modalEditar');
-                                    if (modal) {
-                                        modal.addEventListener('hidden.bs.modal', function () {
-                                            if (window.location.search.includes('editar=')) {
-                                                // Remove o parâmetro editar da URL sem recarregar a página
-                                                const url = new URL(window.location);
-                                                url.searchParams.delete('editar');
-                                                window.history.replaceState({}, document.title, url.pathname + url.search);
-                                            }
-                                        });
-                                        // Abre o modal automaticamente
-                                        var bsModal = new bootstrap.Modal(modal);
-                                        bsModal.show();
-                                    }});
-                            </script>
-                        <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
+                    <?php if (isset($_GET['editar'])): ?>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var modal = document.getElementById('modalEditar');
+                                if (modal) {
+                                    modal.addEventListener('hidden.bs.modal', function () {
+                                        if (window.location.search.includes('editar=')) {
+                                            // Remove o parâmetro editar da URL sem recarregar a página
+                                            const url = new URL(window.location);
+                                            url.searchParams.delete('editar');
+                                            window.history.replaceState({}, document.title, url.pathname + url.search);
+                                        }
+                                    });
+                                    // Abre o modal automaticamente
+                                    var bsModal = new bootstrap.Modal(modal);
+                                    bsModal.show();
+                                }
+                            });
+                        </script>
+                    <?php endif; ?>
                 </div>
-            </div>
-        </main>
+        </div>
+    </div>
+    </main>
     </div>
     </div>
     </div>
