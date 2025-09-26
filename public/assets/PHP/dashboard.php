@@ -85,8 +85,8 @@ if (!isset($_SESSION['username'])) {
 
     try {
         $queryContas = $pdo->prepare("SELECT 
-                SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS  total_contas_receber,
-                SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS total_contas_pagar
+                SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS  total_contas_receber,
+                SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS total_contas_pagar
                 FROM contas
                 WHERE id_empresa = :id_empresa
                 AND data_vencimento = CURDATE()");
@@ -207,7 +207,7 @@ if (!isset($_SESSION['username'])) {
             <div class="container">
 
                 <div class="title">
-                    <h2>Bem-Vindo, <label for="nomeEmpresa">Neo Gestão</label></h2>
+                    <h2>Bem-Vindo, <label for="user"><?= $_SESSION['username'] ?></label></h2>
                 </div>
 
                 <div class="divisao"></div>
@@ -228,7 +228,7 @@ if (!isset($_SESSION['username'])) {
                             <h4><label for="quadrasFuncionando"><?= $total_quadras[0]; ?> </label></h4>
                         </div>
                         <div class="bottom-card">
-                            <a href="#">
+                            <a href="Quadras.php">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -245,7 +245,7 @@ if (!isset($_SESSION['username'])) {
                         </div>
 
                         <div class="bottom-card">
-                            <a href="#">
+                            <a href="Agendamentos.php">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -264,7 +264,7 @@ if (!isset($_SESSION['username'])) {
                         </div>
 
                         <div class="bottom-card">
-                            <a href="#">
+                            <a href="ListagemContas.php">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -282,7 +282,7 @@ if (!isset($_SESSION['username'])) {
                         </div>
 
                         <div class="bottom-card">
-                            <a href="#">
+                            <a href="ListagemContas.php">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -304,7 +304,7 @@ if (!isset($_SESSION['username'])) {
                 $queryAgendamentos = $pdo->prepare(
                     "SELECT * 
             FROM agendamentos 
-            WHERE estado_conta = '1'
+            WHERE estado_conta != '3'
             AND dt = CURRENT_DATE()
             AND horario_agendado >= CURRENT_TIME()
             AND id_empresa = :id_empresa"
@@ -323,7 +323,7 @@ if (!isset($_SESSION['username'])) {
                                         class="fa-solid fa-arrow-right fa-2xs"></i></small></a>
                         </div>
                     </div>
-                <?php
+                    <?php
                 else:
                     ?>
                     <div class="agenda">
@@ -359,7 +359,7 @@ if (!isset($_SESSION['username'])) {
                                     class="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
-                <?php
+                    <?php
                 endif;
                 ?>
             </div>

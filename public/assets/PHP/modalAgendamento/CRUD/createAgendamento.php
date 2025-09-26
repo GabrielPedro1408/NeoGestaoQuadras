@@ -20,8 +20,24 @@ try {
         $valorAgend = $_POST["valorAgend"];
         $estadoContaAgend = $_POST["estadoContaAgend"];
 
+        $queryValorQuadra = $pdo->prepare("SELECT
+        valor_hora
+        FROM
+        quadras
+        WHERE
+        id = :id_quadra
+        ");
+        $queryValorQuadra->execute(array(
+            ':id_quadra' => $id_quadra
+        ));
+        $valorQuadra = $queryValorQuadra->fetch(PDO::FETCH_ASSOC);
+
+        /* Soma dos valores da quadra e agendamento */
+        $valorFinalAgendamento = $valorAgend + $valorQuadra['valor_hora'];
+
         /*  teste para verificar se algum agendamento coincide com oq vai ser inserido */
-        $queryDoTeste = $pdo->prepare("SELECT id 
+        $queryDoTeste = $pdo->prepare("SELECT
+        id 
         FROM agendamentos
         WHERE id_empresa = :id_empresa 
         AND dt = :dataAgend
@@ -34,7 +50,7 @@ try {
             ':id_quadra' => $id_quadra,
             ':dataAgend' => $dataAgend,
             ':horarioAgend' => $horarioAgend,
-            ':horarioFimAgend' => $horarioFimAgend,
+            ':horarioFimAgend' => $horarioFimAgend
         ));
         //Se esse teste gerar o 0 ele executa a inserção
         if ($queryDoTeste->rowCount() == 0) { //sem comflito
@@ -50,8 +66,8 @@ try {
                 ':dataAgend' => $dataAgend,
                 ':horarioAgend' => $horarioAgend,
                 ':horarioFimAgend' => $horarioFimAgend,
-                ':valorAgend' => $valorAgend,
-                ':estadoContaAgend' => $estadoContaAgend,
+                ':valorAgend' => $valorFinalAgendamento,
+                ':estadoContaAgend' => $estadoContaAgend
             ));
             if ($resultAgendamento) {
                 if ($estadoContaAgend == '2') {
@@ -61,7 +77,7 @@ try {
                         ':id_empresa' => $id_empresa,
                         ':descr' => 'Agendamento de quadra',
                         ':dataAgend' => $dataAgend,
-                        ':valorAgend' => $valorAgend
+                        ':valorAgend' => $valorFinalAgendamento
                     ));
                     $_SESSION['message'] = 'Dados inseridos com sucesso!';
                     $_SESSION['message_type'] = 'success'; // Bootstrap: verde
