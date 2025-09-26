@@ -29,7 +29,7 @@ $id_empresa = buscarIdEmpresa($username);
     <link rel="stylesheet" href="../CSS/PopUpExcluir.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
-    <title>Quadras</title>
+    <title>Neo Gestão - Quadras</title>
 </head>
 
 <body>

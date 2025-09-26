@@ -7,7 +7,7 @@
     }
 
     
-    if (isset($_POST['cadastrarCliente'])) {
+    if (isset($_POST['create_cliente'])) {
         // Guardar em variaveis os dados do formulário
         $nomeCli = $_POST['nomeCli'];
         $sobrenomeCli = $_POST['sobrenomeCli'];

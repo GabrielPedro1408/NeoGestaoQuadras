@@ -42,7 +42,7 @@ $intervaloTempo = isset($resultFuncionamento[0]['intervalo_tempo']) ? $resultFun
     <link rel="stylesheet" href="../CSS/PopUp.css">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/fontawesome.min.css">
-    <title>NPL Quadras</title>
+    <title>Neo Gestão - Funcionamento</title>
 
 </head>
 

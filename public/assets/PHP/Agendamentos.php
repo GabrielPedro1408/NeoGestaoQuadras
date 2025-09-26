@@ -22,7 +22,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
 
-    <title>Neo Gestão</title>
+    <title>Neo Gestão - Agendamentos</title>
 </head>
 
 <body>

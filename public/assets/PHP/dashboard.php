@@ -21,9 +21,9 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="../components/sidebar.css">
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/fontawesome.min.css">
+    <link rel="stylesheet" href="../CSS/all.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>NPL Quadras</title>
+    <title>Neo Gestão</title>
 </head>
 
 <body>
@@ -55,12 +55,10 @@ if (!isset($_SESSION['username'])) {
         echo 'erro' . $e;
     }
 
-
-
     /* card agendamentos */
     try {
         $agendamentos = $pdo->prepare(
-            "SELECT
+        "SELECT
         COUNT(*) AS total_agendamentos
         FROM 
         agendamentos
@@ -83,13 +81,14 @@ if (!isset($_SESSION['username'])) {
         echo 'error' . $e;
     }
 
+     /* contas a pagar e receber */
     try {
         $queryContas = $pdo->prepare("SELECT 
-                SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS  total_contas_receber,
-                SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS total_contas_pagar
-                FROM contas
-                WHERE id_empresa = :id_empresa
-                AND data_vencimento = CURDATE()");
+        SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS  total_contas_receber,
+        SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS total_contas_pagar
+        FROM contas
+        WHERE id_empresa = :id_empresa
+        AND data_vencimento = CURDATE()");
         $queryContas->execute(['id_empresa' => $id_empresa]);
         $resultContas = $queryContas->fetch(PDO::FETCH_ASSOC);
     } catch (\Throwable $e) {
@@ -136,7 +135,7 @@ if (!isset($_SESSION['username'])) {
     try {
         $clientes = $pdo->prepare(
 
-            "SELECT 
+        "SELECT 
         DATE_FORMAT(data_cadastro, '%m - %Y') AS mes_ano,
         COUNT(*) AS total_clientes
 
@@ -176,15 +175,15 @@ if (!isset($_SESSION['username'])) {
     /* gráfico de faturamento */
     try {
         $faturamento = $pdo->prepare(
-            "SELECT 
-                DATE_FORMAT(dt, '%m - %Y') AS mes_ano,
-                SUM(valor) AS total_faturamento
-                FROM fluxo_financeiro
-                WHERE tipo = 0
-                AND dt BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND NOW()
-                AND id_empresa = :id_empresa
-                GROUP BY mes_ano
-                ORDER BY mes_ano ASC"
+        "SELECT 
+        DATE_FORMAT(dt, '%m - %Y') AS mes_ano,
+        SUM(valor) AS total_faturamento
+        FROM fluxo_financeiro
+        WHERE tipo = 0
+        AND dt BETWEEN DATE_SUB(NOW(), INTERVAL 12 MONTH) AND NOW()
+        AND id_empresa = :id_empresa
+        GROUP BY mes_ano
+        ORDER BY mes_ano ASC"
         );
         $faturamento->bindParam(':id_empresa', $id_empresa);
         $faturamento->execute();
@@ -207,7 +206,11 @@ if (!isset($_SESSION['username'])) {
             <div class="container">
 
                 <div class="title">
-                    <h2>Bem-Vindo, <label for="nomeEmpresa">Neo Gestão</label></h2>
+                    <h2>Bem-Vindo, <label for="nomeEmpresa"><?=$_SESSION['username']; ?></label></h2>
+                    <div class="data">
+                        <i class="fa-solid fa-calendar"></i>
+                        <h4><?= date('d/m/Y') ?></h4>
+                    </div>
                 </div>
 
                 <div class="divisao"></div>
@@ -258,8 +261,7 @@ if (!isset($_SESSION['username'])) {
 
                         <div class="text">
                             <h5>Contas a Receber</h5>
-                            <h4><label for="contasReceber"> R$
-                                    <?= number_format($resultContas['total_contas_receber'], 2, ',', '.') ?></label>
+                            <h4><label> R$<?= number_format($resultContas['total_contas_receber'], 2, ',', '.') ?></label>
                             </h4>
                         </div>
 
@@ -277,8 +279,7 @@ if (!isset($_SESSION['username'])) {
 
                         <div class="text">
                             <h5>Contas a Pagar</h5>
-                            <h4><label for="contasPagar"> R$
-                                    <?= number_format($resultContas['total_contas_pagar'], 2, ',', '.') ?></label></h4>
+                            <h4><label>R$<?= number_format($resultContas['total_contas_pagar'], 2, ',', '.') ?></label></h4>
                         </div>
 
                         <div class="bottom-card">
@@ -302,12 +303,12 @@ if (!isset($_SESSION['username'])) {
                 <!-- relatorios -->
                 <?php
                 $queryAgendamentos = $pdo->prepare(
-                    "SELECT * 
-            FROM agendamentos 
-            WHERE estado_conta = '1'
-            AND dt = CURRENT_DATE()
-            AND horario_agendado >= CURRENT_TIME()
-            AND id_empresa = :id_empresa"
+                "SELECT * 
+                FROM agendamentos 
+                WHERE estado_conta != '3'
+                AND dt = CURRENT_DATE()
+                AND horario_agendado >= CURRENT_TIME()
+                AND id_empresa = :id_empresa"
                 );
 
                 $queryAgendamentos->execute(array(':id_empresa' => $id_empresa));
