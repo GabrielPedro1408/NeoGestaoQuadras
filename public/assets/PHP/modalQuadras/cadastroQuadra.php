@@ -1,10 +1,3 @@
-<?php
-include_once __DIR__ . '/../conexao.php';
-include_once __DIR__ . '/CRUD/createQuadras.php';
-
-?>
-<!-- cadastro cli -->
-
 <div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -48,7 +41,7 @@ include_once __DIR__ . '/CRUD/createQuadras.php';
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" name="cadastrar" class="btn btn-primary">Adicionar Quadra</button>
+          <button type="submit" name="create_quadra" class="btn btn-primary">Adicionar Quadra</button>
         </div>
       </form>
     </div>

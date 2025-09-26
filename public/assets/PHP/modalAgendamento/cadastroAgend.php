@@ -71,7 +71,7 @@ include_once __DIR__ . '/CRUD/createAgendamento.php';
                 </div>
                 <div class="modal-footer">
                     <div class="col-12">
-                        <button type="submit" name="cadastrar" class="btn btn-primary">Cadastrar Agendamento</button>
+                        <button type="submit" name="create_agendamento" class="btn btn-primary">Cadastrar Agendamento</button>
                     </div>
                 </div>
             </form>

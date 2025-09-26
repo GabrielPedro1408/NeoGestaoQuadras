@@ -1,7 +1,7 @@
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form class="row g-3" action="modalAgendamento/CRUD/processUpdate.php" method="POST">
+            <form class="row g-3" action="" method="POST">
                 <input type="hidden" id="inputIdEditar" name="id_agendamento" value="">
                 <div class="modal-header">
                     <h5 class="modal-title">Alterações do Agendamento</h5>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12">
-                        <button type="submit" name="alteracoes" class="btn btn-primary">Salvar Alterações</button>
+                        <button type="submit" name="edit_agendamento" class="btn btn-primary">Salvar Alterações</button>
                     </div>
                 </div>
             </form>

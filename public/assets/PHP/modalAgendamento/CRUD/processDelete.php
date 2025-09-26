@@ -1,8 +1,9 @@
 <?php
 include_once __DIR__ . '/../../conexao.php';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_agendamento = $_POST['id_agendamento'];
 
+if (isset($_POST['delete_agendamento'])) {
+    
+    $id_agendamento = $_POST['id_agendamento'];
     try {
         //Prepara a query MySQL para excluir os registros no banco
         $excluiAgend = $pdo->prepare('DELETE FROM agendamentos WHERE id = :id_agendamento');
@@ -13,13 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Testa se o update foi bem sucedido
         if ($result) {
             $_SESSION['message'] = 'Agendamento excluído com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header("Location: ../../Agendamentos.php");
+            $_SESSION['message_type'] = 'warning';
+            header("Location: ../PHP/Agendamentos.php");
             exit;
         } else {
             $_SESSION['message'] = 'Erro ao excluir o agendamento!';
-            $_SESSION['message_type'] = 'success';
-            header("Location: ../../Agendamentos.php");
+            $_SESSION['message_type'] = 'danger';
+            header("Location: ../PHP/Agendamentos.php");
             exit;
         }
 

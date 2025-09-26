@@ -83,7 +83,7 @@ include_once __DIR__ . '/CRUD/createCliente.php';
             </div>
             <div class="modal-footer">
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Adicionar Cliente</button>
+                    <button type="submit" name="create_cliente" class="btn btn-primary">Adicionar Cliente</button>
                 </div>
             </div>
             </form>

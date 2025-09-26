@@ -1,7 +1,7 @@
 <div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form class="row g-3" action="modalCliente/CRUD/proccesDelete.php" method="POST">
+            <form class="row g-3" action="" method="POST">
                 <input type="hidden" id="inputIdExcluir" name="id_cliente" value="">
                 <div class="modal-header">
                     <h5 class="modal-title">Exlusão do Cliente</h5>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12">
-                        <button type="submit" name="exclusão" class="btn btn-primary">Excluir</button>
+                        <button type="submit" name="delete_cliente" class="btn btn-primary">Excluir</button>
                     </div>
                 </div>
             </form>

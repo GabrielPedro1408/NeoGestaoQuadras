@@ -62,7 +62,7 @@
                     </div>   
                         <div class="modal-footer">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary ">Adicionar Conta</button>
+                                <button type="submit" name="create_conta" class="btn btn-primary ">Adicionar Conta</button>
                             </div>
                         </div>
                     </form>

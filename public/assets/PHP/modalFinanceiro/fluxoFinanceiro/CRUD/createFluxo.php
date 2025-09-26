@@ -6,7 +6,7 @@
     include_once __DIR__ . '/../../../conexao.php';
     include_once __DIR__ . '/../../../../src/buscarIdEmpresa.php';
         
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (isset($_POST['adicionar_fluxo'])) {
         
         $username = $_SESSION['username'];
         $descr = $_POST['descr'];

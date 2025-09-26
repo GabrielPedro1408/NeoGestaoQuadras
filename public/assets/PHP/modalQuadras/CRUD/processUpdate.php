@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../../conexao.php';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['edit_quadra'])) {
     $id_quadra = $_POST['id_quadra'];
 
     //Pegar novos dados do form
@@ -31,13 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Testa se o update foi bem sucedido
         if ($result) {
             $_SESSION['message'] = 'Dados alterados com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header("Location: ../../Quadras.php");
+            $_SESSION['message_type'] = 'warning';
+            header("Location: ../PHP/Quadras.php");
             exit;
         } else {
             $_SESSION['message'] = 'Não foi possivel alterar os dados!';
             $_SESSION['message_type'] = 'danger';
-            header("Location: ../../Quadras.php");
+            header("Location: ../PHP/Quadras.php");
             exit;
         }
     } catch (Exception $e) {
