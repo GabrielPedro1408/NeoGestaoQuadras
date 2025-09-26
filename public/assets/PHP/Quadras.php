@@ -102,7 +102,7 @@ $id_empresa = buscarIdEmpresa($username);
                                     <div class="group">
                                         <select class="form-select" aria-label="Default select example"
                                             name="modalidadeQuadraFiltro">
-                                            <option value="" selected disabled>Selecione uma opção</option>
+                                            <option value="" selected disabled>Opções</option>
                                             <?php
                                             $stmtMod = $pdo->prepare("SELECT id, descr FROM modalidade_quadra");
                                             $stmtMod->execute();
@@ -188,9 +188,13 @@ $id_empresa = buscarIdEmpresa($username);
                         $stmt .= ' ORDER BY q.descr ASC LIMIT :limit OFFSET :offset';
 
                         $queryTable = $pdo->prepare($stmt);
+                        unset($params[':limit'], $params[':offset']);
+                        foreach ($params as $key => $value) {
+                            $queryTable->bindValue($key, $value);
+                        }
                         $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
                         $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);
-                        $queryTable->execute($params);
+                        $queryTable->execute();
                         $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
                         /* caso não seje aplicado o filtro */
                     } else {
