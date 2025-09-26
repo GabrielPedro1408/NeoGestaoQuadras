@@ -45,6 +45,9 @@
             endif;
             ?>
             <?php  include_once './modalFinanceiro/fluxoFinanceiro/cadastroFluxo.php';?>
+            <?php  include_once './modalFinanceiro/fluxoFinanceiro/editarFluxo.php';?>
+            <?php  include_once './modalFinanceiro/fluxoFinanceiro/excluirFluxo.php';?>
+            <?php  include_once './modalFinanceiro/fluxoFinanceiro/infoFluxo.php';?> 
             <div class="container">
                 <section class="top-area d-flex justify-content-between align-items-center">
                         <div class="titulo">
@@ -103,22 +106,22 @@
                 </div>
                 <div class="filters-section">
                     <h2><i class="fas fa-filter"></i> Filtros</h2>
-                            <form action="" method="POST">
+                            <form action="" method="get">
                                 <div class="filters mt-3">   
-                                    <input type="text" name="descr" id="descr" placeholder="Buscar por Descrição">
-                                    <select name="categoria" id="categoria">
+                                    <input type="text" name="descrFiltro" id="descrfiltro" placeholder="Buscar por Descrição">
+                                    <select name="categoriaFiltro" id="categoriaFiltro">
                                         <option disabled selected>Categoria</option>
                                         <option value="0">Entrada</option>
                                         <option value="1">Saída</option>
                                     </select>
-                                    <select name="tipo" id="tipo">
+                                    <select name="tipoFiltro" id="tipoFiltro">
                                         <option aria-readonly="" value="" selected>Selecione a Categoria</option>
                                         <option value="1">Venda</option>
                                         <option value="2">Serviço</option>
                                         <option value="3">Troca</option>
                                         <option value="4">Outros</option>
                                     </select>
-                                    <input type="date" name="data" id="data" placeholder="Data"> 
+                                    <input type="date" name="dataFiltro" id="dataFiltro" placeholder="Data">
                                     <div class="buttons">
                                         <a href="fluxoFinanceiro.php"><button type="button" class="btn">Limpar</button></a>
                                         <button type="submit" name="filtrarFluxo" class="btn">Buscar</button>
@@ -129,6 +132,7 @@
                         <?php
                         $transacoes =[];
                         try {
+                            /* paginação */
                             $itensPorPagina = 10;
                             $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
                             if ($paginaAtual < 1) $paginaAtual = 1;
@@ -142,48 +146,52 @@
                             $stmtTotal -> execute(array(":id_empresa" => $id_empresa));
                             $totalRegistros = $stmtTotal -> fetch(PDO::FETCH_ASSOC)['total'];
                             $totalPaginas = ceil($totalRegistros/$itensPorPagina);
-
+                            
+                            /* filtragem */
                             if (isset($_GET['filtrarFluxo'])){
-                            $descricao = $_GET['descr'] ?? '';
-                            $categoria = $_GET['categoria'] ?? '';
-                            $tipo = $_GET['tipo'] ?? '';
-                            $data = $_GET['data'] ?? '';
+                            $descricaoFiltro = $_GET['descrFiltro'] ?? '';
+                            $categoriaFiltro = $_GET['categoriaFiltro'] ?? '';
+                            $tipoFiltro = $_GET['tipoFiltro'] ?? '';
+                            $dataFiltro = $_GET['dataFiltro'] ?? '';
 
                             $stmt = "SELECT * FROM fluxo_financeiro WHERE id_empresa = :id_empresa";
                             $params = [':id_empresa' => $id_empresa];
 
-                            if (!empty($descricao)) {
-                                $stmt .= " AND descricao LIKE :descricao COLLATE utf8mb4_general_ci";
-                                $params[':descricao'] = "%$descricao%";
+                            if (!empty($descricaoFiltro)) {
+                                $stmt .= " AND descr LIKE :descricao COLLATE utf8mb4_general_ci";
+                                $params[':descricao'] = "%$descricaoFiltro%";
                             }
 
-                            if (!empty($categoria)) {
+                            if (!empty($categoriaFiltro)) {
                                 $stmt .= " AND categoria = :categoria";
-                                $params[':categoria'] = $categoria;
+                                $params[':categoria'] = $categoriaFiltro;
                             }
 
-                            if (!empty($tipo)) {
+                            if (!empty($tipoFiltro)) {
                                 $stmt .= " AND tipo = :tipo";
-                                $params[':tipo'] = $tipo;
+                                $params[':tipo'] = $tipoFiltro;
                             }
 
                             if (!empty($dataFiltro)) {
-                                $stmt .= " AND DATE_FORMAT(data_vencimento, '%Y-%m-%d') = :dataFiltro";
+                                $stmt .= " AND DATE_FORMAT(dt, '%Y-%m-%d') = :dataFiltro";
                                 $params[':dataFiltro'] = $dataFiltro;
                             }
-                            $stmt .= ' ORDER BY nome ASC LIMIT :limit OFFSET :offset';
+                            $stmt .= ' ORDER BY dt ASC LIMIT :limit OFFSET :offset';
 
                             $query = $pdo->prepare($stmt);
+                            unset($params[':limit'], $params[':offset']);
+                            foreach ($params as $key => $value) {
+                                $query->bindValue($key, $value);
+                            }
                             $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
                             $query->bindValue(':offset', $offset, PDO::PARAM_INT);
-                            $query ->execute($params);
-                            $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
+                            $query->execute();
+                            $transacoes = $query ->fetchAll(PDO::FETCH_ASSOC);
                         }
                         else{
                             $query= $pdo ->prepare("SELECT * FROM fluxo_financeiro 
                             WHERE id_empresa = :id_empresa 
-                            AND dt = CURRENT_DATE()
-                            ORDER BY dt DESC LIMIT :limit OFFSET :offset
+                            ORDER BY dt ASC LIMIT :limit OFFSET :offset
                             ");
                             $query->bindParam(':id_empresa', $id_empresa, PDO::PARAM_INT);
                             $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
@@ -288,8 +296,11 @@
                     </div>
                 </div>
             </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../components/sidebar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+        <script src="modalFinanceiro/fluxoFinanceiro/CRUD/updateFluxo.js"></script>
+        <script src="modalFinanceiro/fluxoFinanceiro/CRUD/deleteFluxo.js"></script>
+        <script src="modalFinanceiro/fluxoFinanceiro/CRUD/infoFluxo.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="../components/sidebar.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

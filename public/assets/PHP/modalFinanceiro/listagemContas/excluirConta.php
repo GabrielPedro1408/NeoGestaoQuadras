@@ -4,7 +4,7 @@
             <form class="row g-3" action="modalFinanceiro/listagemContas/CRUD/proccesDelete.php" method="POST">
                 <input type="hidden" id="inputIdExcluir" name="id_conta" value="">
                 <div class="modal-header">
-                    <h5 class="modal-title">Exlusão do Cliente</h5>
+                    <h5 class="modal-title">Exlusão de Conta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body p-3">

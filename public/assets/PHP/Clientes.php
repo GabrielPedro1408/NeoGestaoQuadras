@@ -175,9 +175,13 @@ $id_empresa = buscarIdEmpresa($username);
                         $stmt .= ' ORDER BY nome ASC LIMIT :limit OFFSET :offset';
 
                         $query = $pdo->prepare($stmt);
+                        unset($params[':limit'], $params[':offset']);
+                        foreach ($params as $key => $value) {
+                            $query->bindValue($key, $value);
+                        }
                         $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
                         $query->bindValue(':offset', $offset, PDO::PARAM_INT);
-                        $query->execute($params);
+                        $query->execute();
                         $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
 
                     } else {
@@ -220,14 +224,12 @@ $id_empresa = buscarIdEmpresa($username);
                                     <?php foreach ($clientes as $cliente): ?>
                                         <tr class="text-center text-align-center">
                                             <input type='hidden' id='idCliente' value=<?= $cliente['id'] ?> />
-                                            <td scope='row'><label
-                                                    for='nomeCli'><?= $cliente['nome'] . " " . $cliente['sobrenome'] ?></label>
+                                            <td><label><?= $cliente['nome'] . " " . $cliente['sobrenome'] ?></label>
                                             </td>
-                                            <td><label for='contatoCli'><?= $cliente['celular'] ?></label></td>
-                                            <td><label for='emailCli'><?= $cliente['email'] ?></label></td>
-                                            <td><label for='cpfCli'><?= $cliente['cpf'] ?></label></td>
-                                            <td><label
-                                                    for='enderecoCli'><?= $cliente['rua'] . ", Nº " . $cliente['nCasa'] ?></label>
+                                            <td><label><?= $cliente['celular'] ?></label></td>
+                                            <td><label><?= $cliente['email'] ?></label></td>
+                                            <td><label><?= isset($cliente['cpf']) ?  '<span>CPF Vazio</span>' : $cliente['cpf'] ?></label></td>
+                                            <td><label><?= isset($cliente['rua']) ? ' <span>Endereço Vazio</span>' : $cliente['rua'] . ", Nº " . $cliente['nCasa'] ?></label>
                                             </td>
                                             <td>
                                                 <button data-bs-toggle="modal" data-bs-target="#modalEditar" 

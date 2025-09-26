@@ -91,7 +91,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                     </div>
                                     <div class="group">
                                         <select class="form-select" name="quadraFiltro" aria-placeholder="estadoConta">
-                                            <option value="" selected disabled>Selecione a Quadra</option>
+                                            <option value="" selected disabled>Quadra</option>
                                             <?php
                                             try {
                                                 $query = $pdo->prepare("SELECT id, descr  FROM quadras WHERE id_empresa = :id_empresa");
@@ -111,7 +111,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                     <div class="group">
                                         <select class="form-select" name="estadoContaFiltro"
                                             aria-placeholder="estadoConta">
-                                            <option value="" selected disabled>Selecione o estado da Conta</option>
+                                            <option value="" selected disabled>Estado da Conta</option>
                                             <option value="1">Pendente</option>
                                             <option value="2">Pago</option>
                                             <option value="3">Cancelado</option>
@@ -188,9 +188,13 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                             $stmt .= ' ORDER BY q.descr ASC LIMIT :limit OFFSET :offset';
 
                             $queryTable = $pdo->prepare($stmt);
+                            unset($params[':limit'], $params[':offset']);
+                            foreach ($params as $key => $value) {
+                                $queryTable->bindValue($key, $value);
+                            }
                             $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
                             $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);
-                            $queryTable->execute($params);
+                            $queryTable->execute();
                             $agendamentos = $queryTable->fetchAll(PDO::FETCH_ASSOC);
                         } else {
                             $queryTable = $pdo->prepare(
@@ -277,20 +281,16 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
                                                     <?= empty($agendamento['valor']) ? '<span>Vazio</span>' :
                                                         'R$ ' . $agendamento['valor'] . ',00' ?>
                                                 </label></td>
-
-                                            <td><label>
-                                                    <?php
-                                                    if ($agendamento['estado_conta'] == 1) {
-                                                        echo 'Pendente';
-                                                    } elseif ($agendamento['estado_conta'] == 2) {
-                                                        echo 'Pago';
-                                                    } else if ($agendamento['estado_conta'] == 3) {
-                                                        echo 'Cancelado';
-                                                    } else {
-                                                        echo 'Vazio';
-                                                    } ?>
-                                                </label></td>
-
+                                            <?php
+                                            if ($agendamento['estado_conta'] == 1): ?>
+                                                <td class="text-warning">Pendente</td>
+                                            <?php elseif ($agendamento['estado_conta'] == 2): ?>
+                                                <td class="text-success">Pago</td>
+                                            <?php elseif ($agendamento['estado_conta'] == 3): ?>
+                                                <td class="text-danger">Cancelado</td>
+                                            <?php else: ?>
+                                                <td class="text-muted">Vazio</td>
+                                            <?php endif; ?>
                                             <td>
                                                 <button data-bs-toggle="modal" data-bs-target="#modalEditar"
                                                     data-id="<?= $agendamento['id']; ?>" class="btn btn-primary btn-sm">
