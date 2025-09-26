@@ -163,6 +163,7 @@
                     </form>
                 </div>
                 <?php
+                $contas = [];
                 try {
                     /* paginação */
                     $itensPorPagina = 10;
@@ -212,9 +213,13 @@
                     $stmt .= ' ORDER BY data_vencimento ASC LIMIT :limit OFFSET :offset';
 
                     $query = $pdo->prepare($stmt);
+                    unset($params[':limit'], $params[':offset']);
+                    foreach ($params as $key => $value) {
+                        $query->bindValue($key, $value);
+                    }
                     $query->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
                     $query->bindValue(':offset', $offset, PDO::PARAM_INT);
-                    $query ->execute($params);
+                    $query->execute();
                     $contas  = $query ->fetchAll(PDO::FETCH_ASSOC);
                 }
                 else{

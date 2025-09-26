@@ -150,6 +150,9 @@
 }
 
 /* table */
+.table span{
+    color: #7a7a7a;
+}
 .buttons{
     display: flex;
     align-items: center;
