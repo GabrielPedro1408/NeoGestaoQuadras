@@ -10,6 +10,8 @@ if (!isset($_SESSION['username'])) {
 }
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     include_once './modalCliente/CRUD/createCliente.php';
+    include_once './modalCliente/CRUD/proccesDelete.php';
+    include_once './modalCliente/CRUD/proccesUpdate.php';
 }
 $username = $_SESSION['username'];
 $id_empresa = buscarIdEmpresa($username);
@@ -42,8 +44,6 @@ $id_empresa = buscarIdEmpresa($username);
             <!-- PopUps -->
             <!-- cadastrar cli/modalClienteente -->
             <?php include_once "./modalCliente/cadastroCli.php"; ?>
-            <!-- buscar cliente -->
-            <?php include_once "./modalCliente/buscarCli.php"; ?>
             <!-- editar cliente -->
             <?php include_once "./modalCliente/editarCli.php"; ?>
             <!-- excluir cliente -->

@@ -272,13 +272,13 @@ html, body {
     gap: 12px;
 }
 .bottom-horario a span{
-    color: rgb(243, 219, 0);
+    color: rgb(255, 255, 255);
 }
 .bottom-horario i{
     margin-bottom: 0;
     margin-left: 0;  
     font-size: 1.2em; 
-    color: rgb(243, 219, 0);
+    color: rgb(255, 255, 255);
 }
 .sem-agendamento{
     margin-top: 20px;
@@ -310,4 +310,14 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.lista-horarios{
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    box-shadow: 2px 3px 10px -7px rgb(0, 0, 0);
+    background-color: rgb(250, 250, 250);
+    padding: 5px;
+    position: relative ;
+    z-index: 2;
 }

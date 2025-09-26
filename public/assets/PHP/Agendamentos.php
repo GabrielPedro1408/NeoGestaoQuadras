@@ -3,6 +3,8 @@ session_start();
 include_once __DIR__ . '../../src/buscarIdEmpresa.php';
 include_once 'conexao.php';
 include_once './modalAgendamento/CRUD/createAgendamento.php';
+include_once './modalAgendamento/CRUD/processDelete.php';
+include_once './modalAgendamento/CRUD/processUpdate.php';
 
 $id_empresa = buscarIdEmpresa($_SESSION['username']);
 ?><!DOCTYPE html>
@@ -28,7 +30,9 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
         <?php include '../components/sidebar.php'; ?>
         <div id="main-content">
             <header><?php require '../components/header.php'; ?> </header>
+            
             <!-- PopUps -->
+
             <!-- cadastrar cliente -->
             <?php include_once "./modalAgendamento/cadastroAgend.php"; ?>
             <!-- editar cliente -->

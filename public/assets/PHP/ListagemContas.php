@@ -3,6 +3,8 @@
     include_once '../src/buscarIdEmpresa.php';
     session_start();
     include_once './modalFinanceiro/listagemContas/CRUD/createContas.php';
+    include_once './modalFinanceiro/listagemContas/CRUD/proccesDelete.php';
+    include_once './modalFinanceiro/listagemContas/CRUD/proccesUpdate.php';
     $id_empresa = buscarIdEmpresa($_SESSION['username']);
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){

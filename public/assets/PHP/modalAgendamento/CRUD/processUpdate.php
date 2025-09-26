@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
 if (!isset($_SESSION['username'])) {
     header('Location: login.php?error=Você precisa fazer login para acessar esta página.');
@@ -9,7 +8,7 @@ $username = $_SESSION['username'];
 
 include_once __DIR__ . '/../../conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['edit_agendamento'])) {
     $id_empresa = buscarIdEmpresa($username);
     $id_agendamento = $_POST['id_agendamento'];
     $dataAgend = $_POST['data_agendamento_edit'];
@@ -42,15 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ));
             }
             $_SESSION['message'] = 'Dados alterados com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header('Location: ../../Agendamentos.php');
-            session_abort();
+            $_SESSION['message_type'] = 'warning';
+            header('Location: ../PHP/Agendamentos.php');
             exit();
         } else {
             $_SESSION['message'] = 'Não foi possivel alterar os dados!';
             $_SESSION['message_type'] = 'danger';
-            header('Location: ../../Agendamentos.php');
-            session_abort();
+            header('Location: ../PHP/Agendamentos.php');
             exit();
         }
     } catch (Exception $e) {

@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../../../conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['delete_fluxo'])) {
 
     $id_fluxo = $_POST['id_fluxo'];
     try {
@@ -9,13 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->execute(array(':id_fluxo' => $id_fluxo));
         if ($result) {
             $_SESSION['message'] = 'Dados excluídos com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header("Location: ../../../fluxoFinanceiro.php");
+            $_SESSION['message_type'] = 'warning';
+            header("Location: ../PHP/fluxoFinanceiro.php");
             exit;
         } else {
             $_SESSION['message'] = 'Não foi possivel excluir os dados!';
             $_SESSION['message_type'] = 'danger';
-            header("Location: ../../../fluxoFinanceiro.php");
+            header("Location: ../PHP/fluxoFinanceiro.php");
             exit;
         }
     } catch (PDOException $e) {

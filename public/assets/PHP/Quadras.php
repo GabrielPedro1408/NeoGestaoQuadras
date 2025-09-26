@@ -8,6 +8,8 @@ if (!isset($_SESSION['username'])) {
 include_once 'conexao.php';
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     include_once './modalQuadras/CRUD/createQuadras.php';
+    include_once './modalQuadras/CRUD/processUpdate.php';
+    include_once './modalQuadras/CRUD/processDelete.php';
 }
 $username = $_SESSION['username'];
 $id_empresa = buscarIdEmpresa($username);
@@ -251,17 +253,17 @@ $id_empresa = buscarIdEmpresa($username);
                                             <td><label for='valoragendQuadra'>R$ <?= $quadra['valor_hora'] ?></label></td>
                                             <td>
                                                 <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
-                                                data-id="<?= $cliente['id']; ?>"class="btn btn-primary btn-sm">
+                                                data-id="<?= $quadra['id']; ?>"class="btn btn-primary btn-sm">
                                                 <i class='fa-solid fa-pen-to-square first'></i></button>
 
                                                 <!-- botão de Excluir -->
                                                 <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                data-id="<?= $cliente['id']; ?>" class="btn btn-danger btn-sm">
+                                                data-id="<?= $quadra['id']; ?>" class="btn btn-danger btn-sm">
                                                 <i class='fa-solid fa-trash second'></i></button>
 
                                                 <!-- botão de Info -->
                                                 <button data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                data-id="<?= $cliente['id']; ?>" class="btn btn-secondary btn-sm">
+                                                data-id="<?= $quadra['id']; ?>" class="btn btn-secondary btn-sm">
                                                 <i class='fa-solid fa-info-circle third'></i></button>
                                             </td>
                                         </tr>

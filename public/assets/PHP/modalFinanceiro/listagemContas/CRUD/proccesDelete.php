@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../../../conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['delete_conta'])) {
 
     $id_conta = $_POST['id_conta'];
     try {
@@ -9,13 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->execute(array(':id_conta' => $id_conta));
         if ($result) {
             $_SESSION['message'] = 'Dados excluídos com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header("Location: ../../../ListagemContas.php");
+            $_SESSION['message_type'] = 'warning';
+            header("Location: ../PHP/ListagemContas.php");
             exit;
         } else {
             $_SESSION['message'] = 'Não foi possivel excluir os dados!';
             $_SESSION['message_type'] = 'danger';
-            header("Location: ../../../ListagemContas.php");
+            header("Location: ../PHP/ListagemContas.php");
             exit;
         }
     } catch (PDOException $e) {

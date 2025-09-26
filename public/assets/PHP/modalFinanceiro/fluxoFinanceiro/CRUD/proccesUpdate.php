@@ -1,6 +1,6 @@
 <?php 
 include_once __DIR__ . '/../../../conexao.php';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['editar_fluxo'])) {
     $id_fluxo = $_POST['id_fluxo'];
     //Pegar novos dados do form
     $descr = $_POST['descr_edit'];
@@ -33,19 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Testa se o update foi bem sucedido
         if ($result) {
             $_SESSION['message'] = 'Dados alterados com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header('Location: ../../../fluxoFinanceiro.php');
+            $_SESSION['message_type'] = 'warning';
+            header('Location: ../PHP/fluxoFinanceiro.php');
             exit();
         } else {
             $_SESSION['message'] = 'Erro ao alterar os dados.';
             $_SESSION['message_type'] = 'danger';
-            header('Location: ../../../fluxoFinanceiro.php');
+            header('Location: ../PHP/fluxoFinanceiro.php');
             exit();
         }
     } catch (PDOException $e) {
         $_SESSION['message'] = 'Erro ao alterar os dados: ' . $e->getMessage();
         $_SESSION['message_type'] = 'danger';
-        header('Location: ../../../fluxoFinanceiro.php');
+        header('Location: ../PHP/fluxoFinanceiro.php');
         exit();
     }
 }

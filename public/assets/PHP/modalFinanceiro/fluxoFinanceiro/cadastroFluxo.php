@@ -42,7 +42,7 @@
             </div>   
                 <div class="modal-footer">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Adicionar Transação</button>
+                        <button type="submit" name="adicionar_fluxo" class="btn btn-primary">Adicionar Transação</button>
                     </div>
                 </div>
             </form>

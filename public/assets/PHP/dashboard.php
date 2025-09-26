@@ -83,11 +83,10 @@ if (!isset($_SESSION['username'])) {
         echo 'error' . $e;
     }
 
-    /* query de contas */
     try {
         $queryContas = $pdo->prepare("SELECT 
-                SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS  total_contas_pagar,
-                SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS total_contas_receber
+                SUM(CASE WHEN categoria = 0 THEN valor ELSE 0 END) AS  total_contas_receber,
+                SUM(CASE WHEN categoria = 1 THEN valor ELSE 0 END) AS total_contas_pagar
                 FROM contas
                 WHERE id_empresa = :id_empresa
                 AND data_vencimento = CURDATE()");
@@ -96,9 +95,9 @@ if (!isset($_SESSION['username'])) {
     } catch (\Throwable $e) {
         echo 'erro' . $e;
     }
+
     /* card proximos horarios */
     try {
-
         $horarios = $pdo->prepare(
             "SELECT
         q.descr AS nome_quadra,
@@ -122,12 +121,12 @@ if (!isset($_SESSION['username'])) {
         ASC
         "
         );
-        $horarios->bindParam(':id_empresa', $id_empresa);
-        $horarios->execute();
+
+        $horarios->execute(array(':id_empresa' => $id_empresa));
 
         $result_horarios = $horarios->fetchAll(PDO::FETCH_ASSOC);
     } catch (\Throwable $e) {
-        echo 'erro' . $e;
+        die('erro' . $e);
     }
 
 
@@ -172,6 +171,34 @@ if (!isset($_SESSION['username'])) {
         $mes_ano[] = $row['mes_ano'];
         $total_clientes[] = $row['total_clientes'];
     }
+
+
+    /* gráfico de faturamento */
+    try {
+        $faturamento = $pdo->prepare(
+            "SELECT 
+                DATE_FORMAT(dt, '%m - %Y') AS mes_ano,
+                SUM(valor) AS total_faturamento
+                FROM fluxo_financeiro
+                WHERE tipo = 0
+                AND dt BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND NOW()
+                AND id_empresa = :id_empresa
+                GROUP BY mes_ano
+                ORDER BY mes_ano ASC"
+        );
+        $faturamento->bindParam(':id_empresa', $id_empresa);
+        $faturamento->execute();
+        $result_faturamento = $faturamento->fetchAll(PDO::FETCH_ASSOC);
+
+        $mes_ano_faturamento = [];
+        $total_faturamento = [];
+        foreach ($result_faturamento as $row) {
+            $mes_ano_faturamento[] = $row['mes_ano'];
+            $total_faturamento[] = $row['total_faturamento'];
+        }
+    } catch (PDOException $e) {
+        echo 'erro' . $e;
+    }
     ?>
     <div class="full-content">
         <?php require '../components/sidebar.php'; ?>
@@ -180,7 +207,7 @@ if (!isset($_SESSION['username'])) {
             <div class="container">
 
                 <div class="title">
-                    <h2>Bem-Vindo, <label for="user"><?= $_SESSION['username'] ?></label></h2>
+                    <h2>Bem-Vindo, <label for="nomeEmpresa">Neo Gestão</label></h2>
                 </div>
 
                 <div class="divisao"></div>
@@ -201,7 +228,7 @@ if (!isset($_SESSION['username'])) {
                             <h4><label for="quadrasFuncionando"><?= $total_quadras[0]; ?> </label></h4>
                         </div>
                         <div class="bottom-card">
-                            <a href="Quadras.php">
+                            <a href="#">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -218,7 +245,7 @@ if (!isset($_SESSION['username'])) {
                         </div>
 
                         <div class="bottom-card">
-                            <a href="Agendamentos.php">
+                            <a href="#">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -237,7 +264,7 @@ if (!isset($_SESSION['username'])) {
                         </div>
 
                         <div class="bottom-card">
-                            <a href="ListagemContas.php">
+                            <a href="#">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -255,7 +282,7 @@ if (!isset($_SESSION['username'])) {
                         </div>
 
                         <div class="bottom-card">
-                            <a href="ListagemContas.php">
+                            <a href="#">
                                 <p>VER POR COMPLETO</p><i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -274,8 +301,18 @@ if (!isset($_SESSION['username'])) {
 
                 <!-- relatorios -->
                 <?php
-                $queryAgendamentos = $pdo->query("SELECT * FROM agendamentos WHERE estado_conta = '1' AND dt >= NOW()");
+                $queryAgendamentos = $pdo->prepare(
+                    "SELECT * 
+            FROM agendamentos 
+            WHERE estado_conta = '1'
+            AND dt = CURRENT_DATE()
+            AND horario_agendado >= CURRENT_TIME()
+            AND id_empresa = :id_empresa"
+                );
+
+                $queryAgendamentos->execute(array(':id_empresa' => $id_empresa));
                 $queryTodosAgendamentos = $queryAgendamentos->fetchAll(PDO::FETCH_ASSOC);
+
                 if (count($queryTodosAgendamentos) == 0):
                     ?>
                     <div class="sem-agendamento">
@@ -286,7 +323,7 @@ if (!isset($_SESSION['username'])) {
                                         class="fa-solid fa-arrow-right fa-2xs"></i></small></a>
                         </div>
                     </div>
-                    <?php
+                <?php
                 else:
                     ?>
                     <div class="agenda">
@@ -298,19 +335,17 @@ if (!isset($_SESSION['username'])) {
                                 </div>
 
                                 <?php
-                                $limit = 6;
+                                $limit = 4;
                                 $contador = 0;
                                 foreach ($result_horarios as $horario):
                                     if ($contador >= $limit) {
                                         break;
                                     }
                                     ?>
-
                                     <div class="horarios">
-                                        <h5><label for="Quadra1"><?= $horario['nome_quadra'] ?></label></h5>
                                         <div class="lista-horarios">
-                                            <span><label
-                                                    for="horarioAgendado"><?= $horario['horario_agendado'] ?></label></span>
+                                            <h5><label>Quadra: <?= $horario['nome_quadra'] ?></label></h5>
+                                            <span><label>Horário: <?= $horario['horario_agendado'] ?>h</label></span>
                                         </div>
                                     </div>
                                     <?php
@@ -324,7 +359,7 @@ if (!isset($_SESSION['username'])) {
                                     class="fa-solid fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <?php
+                <?php
                 endif;
                 ?>
             </div>
@@ -387,21 +422,19 @@ if (!isset($_SESSION['username'])) {
                 }
             });
 
+            const mes_ano_faturamento = <?php echo json_encode($mes_ano_faturamento); ?>;
+            const total_faturamento = <?php echo json_encode($total_faturamento); ?>;
             /* grafico contas a receber */
             const ctx2 = document.getElementById('grafico-contas-a-receber').getContext('2d');
             const grafico2 = new Chart(ctx2, {
                 type: 'bar',
                 data: {
-                    labels: seisMeses(),
+                    labels: mes_ano_faturamento,
                     datasets: [{
-                        label: 'Faturamento (mil)',
-                        data: [80.000, 91.000, 73.000, 59.000, 80.000, 72.000],
+                        label: 'Faturamento (R$)',
+                        data: total_faturamento,
                         backgroundColor: [
                             'rgba(221, 187, 33, 0.56)',
-                            'rgba(221, 187, 33, 0.51)',
-                            'rgba(221, 187, 33, 0.53)',
-                            'rgba(221, 187, 33, 0.49)',
-
                         ],
                         borderWidth: 1
                     }]

@@ -165,22 +165,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: none;
 }
- .excluir{
-    margin-top: 150px;
-}
-.modal .excluir{
-    height: calc(100% + 100px);
-}
-.alert-top-fixed {
-    position: fixed;
-    top: 80px; 
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2000;
-    min-width: 320px;
-    max-width: 90vw;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
 .sem-quadra{
     min-width: 600px;
     min-height: 500px;

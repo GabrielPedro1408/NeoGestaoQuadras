@@ -1,6 +1,6 @@
 <?php 
 include_once __DIR__ . '/../../../conexao.php';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['update_conta'])) {
     $id_conta = $_POST['id_conta'];
 
     $descrConta = $_POST['descr_conta'];
@@ -46,13 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Testa se o update foi bem sucedido
         if ($result) {
             $_SESSION['message'] = 'Dados alterados com sucesso!';
-            $_SESSION['message_type'] = 'success';
-            header("Location: ../../../ListagemContas.php");
+            $_SESSION['message_type'] = 'warning';
+            header("Location: ../PHP/ListagemContas.php");
             exit();
         } else {
             $_SESSION['message'] = 'Erro ao alterar os dados!';
             $_SESSION['message_type'] = 'danger';
-            header("Location: ../../../ListagemContas.php");
+            header("Location: ../PHP/ListagemContas.php");
             exit();
         }
     } catch (PDOException $e) {

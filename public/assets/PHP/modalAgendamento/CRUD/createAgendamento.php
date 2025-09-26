@@ -8,7 +8,7 @@ include_once __DIR__ . '/../../conexao.php';
 
 $username = $_SESSION['username'];
 try {
-    if (isset($_POST["cadastrar"])) {
+    if (isset($_POST["create_agendamento"])) {
 
         /* passagem de parametros*/
         $id_empresa = buscarIdEmpresa($username);

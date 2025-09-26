@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../../conexao.php';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['edit_cliente'])) {
     $id_cliente = $_POST['id_cliente'];
 
     //Pegar novos dados do form
@@ -59,12 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             $_SESSION['message'] = 'Dados alterados com sucesso!';
             $_SESSION['message_type'] = 'success';
-            header("Location: ../../Clientes.php");
+            header("Location: ../PHP/Clientes.php");
             exit;
         } else {
             $_SESSION['message'] = 'Não foi possivel alterar os dados!';
             $_SESSION['message_type'] = 'danger';
-            header("Location: ../../Clientes.php");
+            header("Location: ../PHP/Clientes.php");
             exit;
         }
     } catch (Exception $e) {

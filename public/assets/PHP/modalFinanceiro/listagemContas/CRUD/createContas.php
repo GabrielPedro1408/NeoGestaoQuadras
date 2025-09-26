@@ -6,7 +6,7 @@
     include_once __DIR__ . '/../../../conexao.php';
     include_once __DIR__ . '/../../../../src/buscarIdEmpresa.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == 'POST'){
+    if (isset($_POST['create_conta'])) {
 
         $descrConta = $_POST['descrConta'];
         $categoria = $_POST['categoria'];
@@ -31,7 +31,7 @@
             $countDescricao = $queryDescricao->fetchColumn();
             if($countDescricao > 0) {
                 $_SESSION['message'] = 'Já existe uma conta com essa descrição!';
-                $_SESSION['message_type'] = 'danger';
+                $_SESSION['message_type'] = 'warning';
                 header("Location: ../PHP/ListagemContas.php");
                 exit;
             }

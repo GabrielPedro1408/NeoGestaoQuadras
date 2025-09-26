@@ -2,11 +2,13 @@
     include_once 'conexao.php';
     include_once '../src/buscarIdEmpresa.php';
     session_start();
-     include_once './modalFinanceiro/fluxoFinanceiro/CRUD/createFluxo.php';
+    include_once './modalFinanceiro/fluxoFinanceiro/CRUD/createFluxo.php';
+    include_once './modalFinanceiro/fluxoFinanceiro/CRUD/proccesDelete.php';
+    include_once './modalFinanceiro/fluxoFinanceiro/CRUD/proccesUpdate.php';
+
     $id_empresa = buscarIdEmpresa($_SESSION['username']);
     // Verifica se foi efetuado o login
     if(!isset($_SESSION['username'])){
-        
         header("Location: login.php?error=Você precisa fazer login para acessar esta página.");
         exit;
     }
@@ -109,13 +111,13 @@
                             <form action="" method="get">
                                 <div class="filters mt-3">   
                                     <input type="text" name="descrFiltro" id="descrfiltro" placeholder="Buscar por Descrição">
-                                    <select name="categoriaFiltro" id="categoriaFiltro">
-                                        <option disabled selected>Categoria</option>
+                                    <select name="tipoFiltro" id="tipoFiltro">
+                                        <option disabled selected>Tipo</option>
                                         <option value="0">Entrada</option>
                                         <option value="1">Saída</option>
                                     </select>
-                                    <select name="tipoFiltro" id="tipoFiltro">
-                                        <option aria-readonly="" value="" selected>Selecione a Categoria</option>
+                                    <select name="categoriaFiltro" id="categoriaFiltro">
+                                        <option aria-readonly="" value="" selected>Categoria</option>
                                         <option value="1">Venda</option>
                                         <option value="2">Serviço</option>
                                         <option value="3">Troca</option>
@@ -151,7 +153,7 @@
                             if (isset($_GET['filtrarFluxo'])){
                             $descricaoFiltro = $_GET['descrFiltro'] ?? '';
                             $categoriaFiltro = $_GET['categoriaFiltro'] ?? '';
-                            $tipoFiltro = $_GET['tipoFiltro'] ?? '';
+                            $tipoFiltro = $_GET['tipoFiltro'];
                             $dataFiltro = $_GET['dataFiltro'] ?? '';
 
                             $stmt = "SELECT * FROM fluxo_financeiro WHERE id_empresa = :id_empresa";

@@ -7,7 +7,7 @@
     include_once __DIR__ . '/../../../src/buscarIdEmpresa.php';
 
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['create_quadra'])) {
 
         $username = $_SESSION['username'];
         $id_empresa = buscarIdEmpresa($username);

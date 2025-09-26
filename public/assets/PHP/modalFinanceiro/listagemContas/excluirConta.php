@@ -1,7 +1,7 @@
 <div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content p-2">
-            <form class="row g-3" action="modalFinanceiro/listagemContas/CRUD/proccesDelete.php" method="POST">
+            <form class="row g-3" action="" method="POST">
                 <input type="hidden" id="inputIdExcluir" name="id_conta" value="">
                 <div class="modal-header">
                     <h5 class="modal-title">Exlusão de Conta</h5>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12">
-                        <button type="submit" name="exclusão" class="btn btn-primary">Excluir</button>
+                        <button type="submit" name="delete_conta" class="btn btn-primary">Excluir</button>
                     </div>
                 </div>
             </form>
