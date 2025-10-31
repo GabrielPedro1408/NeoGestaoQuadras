@@ -30,7 +30,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
         <?php include '../components/sidebar.php'; ?>
         <div id="main-content">
             <header><?php require '../components/header.php'; ?> </header>
-            
+
             <!-- PopUps -->
 
             <!-- cadastrar cliente -->
@@ -268,7 +268,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
 
                                             <td><label>
                                                     <?= empty($agendamento['dt']) ? '<span>Vazio</span>' :
-                                                        $agendamento['dt'] ?>
+                                                        date('d/m/y', strtotime($agendamento['dt'])) ?>
                                                 </label></td>
 
                                             <td><label>
@@ -283,7 +283,7 @@ $id_empresa = buscarIdEmpresa($_SESSION['username']);
 
                                             <td><label>
                                                     <?= empty($agendamento['valor']) ? '<span>Vazio</span>' :
-                                                        'R$ ' . $agendamento['valor'] . ',00' ?>
+                                                        'R$ ' . number_format($agendamento['valor'], 2, ',', '.') ?>
                                                 </label></td>
                                             <?php
                                             if ($agendamento['estado_conta'] == 1): ?>

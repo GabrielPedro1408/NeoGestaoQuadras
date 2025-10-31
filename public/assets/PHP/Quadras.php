@@ -145,75 +145,77 @@ $id_empresa = buscarIdEmpresa($username);
                     try {
                         /* paginação */
                         $itensPorPagina = 10;
-                        $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-                        if ($paginaAtual < 1) $paginaAtual = 1;
+                        $paginaAtual = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
+                        if ($paginaAtual < 1)
+                            $paginaAtual = 1;
                         $offset = ($paginaAtual - 1) * $itensPorPagina;
                         /* total de registros */
                         $stmtTotal = $pdo->prepare(
-                        "SELECT COUNT(*) AS total
+                            "SELECT COUNT(*) AS total
                         FROM quadras
-                        WHERE id_empresa = :id_empresa");
-                        
+                        WHERE id_empresa = :id_empresa"
+                        );
+
                         $stmtTotal->execute(array(":id_empresa" => $id_empresa));
-                        $totalRegistros = $stmtTotal ->fetch(PDO::FETCH_ASSOC)['total'];
+                        $totalRegistros = $stmtTotal->fetch(PDO::FETCH_ASSOC)['total'];
                         $totalPaginas = ceil($totalRegistros / $itensPorPagina);
 
                         /* filtrar */
                         if (isset($_GET['filtrar'])) {
-                        $nomeQuadraFiltro = $_GET['nomeQuadraFiltro'] ?? '';
-                        $modalidadeQuadraFiltro = $_GET['modalidadeQuadraFiltro'] ?? '';
-                        $disponibilidadeFiltro = $_GET['disponibilidadeFiltro'] ?? '';
+                            $nomeQuadraFiltro = $_GET['nomeQuadraFiltro'] ?? '';
+                            $modalidadeQuadraFiltro = $_GET['modalidadeQuadraFiltro'] ?? '';
+                            $disponibilidadeFiltro = $_GET['disponibilidadeFiltro'] ?? '';
 
-                        $stmt = "SELECT q.*, 
+                            $stmt = "SELECT q.*, 
                         modalidade_quadra.descr AS modalidade_descr
 
                         FROM quadras q
                         JOIN modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
 
                         WHERE q.id_empresa = :id_empresa";
-                        $params = [':id_empresa' => $id_empresa];
+                            $params = [':id_empresa' => $id_empresa];
 
-                        if (!empty($nomeQuadraFiltro)) {
-                            $stmt .= " AND q.descr LIKE :nomeQuadraFiltro COLLATE utf8mb4_general_ci";
-                            $params[':nomeQuadraFiltro'] = "%$nomeQuadraFiltro%";
-                        }
+                            if (!empty($nomeQuadraFiltro)) {
+                                $stmt .= " AND q.descr LIKE :nomeQuadraFiltro COLLATE utf8mb4_general_ci";
+                                $params[':nomeQuadraFiltro'] = "%$nomeQuadraFiltro%";
+                            }
 
-                        if (!empty($modalidadeQuadraFiltro)) {
-                            $stmt .= " AND modalidade_quadra.descr = :modalidadeQuadraFiltro";
-                            $params[':modalidadeQuadraFiltro'] = $modalidadeQuadraFiltro;
-                        }
+                            if (!empty($modalidadeQuadraFiltro)) {
+                                $stmt .= " AND modalidade_quadra.descr = :modalidadeQuadraFiltro";
+                                $params[':modalidadeQuadraFiltro'] = $modalidadeQuadraFiltro;
+                            }
 
-                        if (!empty($disponibilidadeFiltro)) {
-                            $stmt .= " AND q.disponibilidade = :disponibilidadeFiltro";
-                            $params[':disponibilidadeFiltro'] = $disponibilidadeFiltro;
-                        }
-                        $stmt .= ' ORDER BY q.descr ASC LIMIT :limit OFFSET :offset';
+                            if (!empty($disponibilidadeFiltro)) {
+                                $stmt .= " AND q.disponibilidade = :disponibilidadeFiltro";
+                                $params[':disponibilidadeFiltro'] = $disponibilidadeFiltro;
+                            }
+                            $stmt .= ' ORDER BY q.descr ASC LIMIT :limit OFFSET :offset';
 
-                        $queryTable = $pdo->prepare($stmt);
-                        unset($params[':limit'], $params[':offset']);
-                        foreach ($params as $key => $value) {
-                            $queryTable->bindValue($key, $value);
-                        }
-                        $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
-                        $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);
-                        $queryTable->execute();
-                        $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
-                        /* caso não seje aplicado o filtro */
-                    } else {
-                        $queryTable = $pdo->prepare(
-                        "SELECT q.*, 
+                            $queryTable = $pdo->prepare($stmt);
+                            unset($params[':limit'], $params[':offset']);
+                            foreach ($params as $key => $value) {
+                                $queryTable->bindValue($key, $value);
+                            }
+                            $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                            $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);
+                            $queryTable->execute();
+                            $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
+                            /* caso não seje aplicado o filtro */
+                        } else {
+                            $queryTable = $pdo->prepare(
+                                "SELECT q.*, 
                         modalidade_quadra.descr AS modalidade_descr
                         FROM quadras q
                         JOIN modalidade_quadra ON q.id_modalidade = modalidade_quadra.id
                         WHERE q.id_empresa = :id_empresa
                         ORDER BY q.descr ASC LIMIT :limit OFFSET :offset"
-                        );
-                        $queryTable->bindParam(':id_empresa', $id_empresa);
-                        $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
-                        $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);
-                        $queryTable->execute();
-                        $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
-                    }
+                            );
+                            $queryTable->bindParam(':id_empresa', $id_empresa);
+                            $queryTable->bindValue(':limit', $itensPorPagina, PDO::PARAM_INT);
+                            $queryTable->bindValue(':offset', $offset, PDO::PARAM_INT);
+                            $queryTable->execute();
+                            $quadras = $queryTable->fetchAll(PDO::FETCH_ASSOC);
+                        }
                     } catch (PDOException $e) {
                         echo 'erro ' . $e->getMessage();
                     }
@@ -232,7 +234,7 @@ $id_empresa = buscarIdEmpresa($username);
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr class="text-align-center text-center">
-                                        <th scope="col">Nome</th>
+                                        <th scope="col">Quadra</th>
                                         <th scope="col">Modalidade</th>
                                         <th scope="col">Disponibilidade</th>
                                         <th scope="col">Valor</th>
@@ -250,21 +252,22 @@ $id_empresa = buscarIdEmpresa($username);
                                                 echo "Indisponível";
                                             }
                                             ?></label></td>
-                                            <td><label for='valoragendQuadra'>R$ <?= $quadra['valor_hora'] ?></label></td>
+                                            <td><label for='valoragendQuadra'>R$
+                                                    <?= number_format($quadra['valor_hora'], 2, ',', '.') ?></label></td>
                                             <td>
-                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar" 
-                                                data-id="<?= $quadra['id']; ?>"class="btn btn-primary btn-sm">
-                                                <i class='fa-solid fa-pen-to-square first'></i></button>
+                                                <button data-bs-toggle="modal" data-bs-target="#modalEditar"
+                                                    data-id="<?= $quadra['id']; ?>" class="btn btn-primary btn-sm">
+                                                    <i class='fa-solid fa-pen-to-square first'></i></button>
 
                                                 <!-- botão de Excluir -->
                                                 <button data-bs-toggle="modal" data-bs-target="#modalExcluir"
-                                                data-id="<?= $quadra['id']; ?>" class="btn btn-danger btn-sm">
-                                                <i class='fa-solid fa-trash second'></i></button>
+                                                    data-id="<?= $quadra['id']; ?>" class="btn btn-danger btn-sm">
+                                                    <i class='fa-solid fa-trash second'></i></button>
 
                                                 <!-- botão de Info -->
                                                 <button data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                                data-id="<?= $quadra['id']; ?>" class="btn btn-secondary btn-sm">
-                                                <i class='fa-solid fa-info-circle third'></i></button>
+                                                    data-id="<?= $quadra['id']; ?>" class="btn btn-secondary btn-sm">
+                                                    <i class='fa-solid fa-info-circle third'></i></button>
                                             </td>
                                         </tr>
                                         <?php
@@ -281,13 +284,13 @@ $id_empresa = buscarIdEmpresa($username);
                                                     </li>
                                                     <div class="paginacao-info d-flex">
                                                         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-                                                        <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
-                                                            <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
-                                                        </li>
+                                                            <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                                                <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                                            </li>
                                                         <?php endfor; ?>
                                                     </div>
                                                 </ul>
-                                            </nav>  
+                                            </nav>
                                         </td>
                                     </tr>
                                 </tfoot>
