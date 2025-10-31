@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../images/financeiro.png" type="image/x-icon">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
-    <title>Neo Gestão</title>
+    <title>Neo Gestão - Listagem Contas</title>
 </head>
 <body>
     <div class="full-content">

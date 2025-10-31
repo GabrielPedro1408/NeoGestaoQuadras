@@ -33,7 +33,7 @@ $id_empresa = buscarIdEmpresa($username);
     <script type="module" src="../JS/PopUpEditar.js"></script>
     <script type="module" src="../JS/PopUpExcluir.js"></script>
     <script type="module" src="../JS/PopUpInfo.js"></script>
-    <title>Neo Gestão</title>
+    <title>Neo Gestão - Clientes</title>
 </head>
 
 <body>

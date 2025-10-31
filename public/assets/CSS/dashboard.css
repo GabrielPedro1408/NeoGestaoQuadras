@@ -20,10 +20,24 @@ html, body {
     display: flex;
     flex-direction: column;
 }
-
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
 .title label{
     color: rgba(5, 62, 97, 1);
     text-shadow: 3px 4px 17px rgba(0,0,0,0.15);
+}
+.data{
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+.data i{
+    margin-top: 7px;
+    color: rgba(5, 62, 97, 1);
 }
 .divisao{
     display: flex;
